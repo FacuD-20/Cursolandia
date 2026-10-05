@@ -1,0 +1,11 @@
+#Archivos de la BDD y subidos por el usuario
+/Persistencia/*
+/Subidos/*
+
+# Archivos del editor y del sistema operativo
+.DS_Store
+.VSCode/
+.vscode/
+
+# Logs
+*.log
