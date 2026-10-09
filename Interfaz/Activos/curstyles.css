@@ -1,0 +1,28 @@
+body {
+    background-color: #E9E6E7;
+    font-family: 'Inter', sans-serif;
+}
+.mi-bg-navbar {
+    background-color: #6B7C98;
+}
+.mi-bg-ir {
+    background-color: #a7afc2;
+}
+.mi-btn-i {
+    color: #6B7C98;
+    border-color: #6B7C98;
+    background-color: #fff;
+}
+.mi-btn-r {
+    color: #E9E6E7;
+    background-color: #6B7C98;
+}
+.mi-btn-i:hover {
+    background-color: #e9e7e7;
+    color: #6B7C98;
+    border-color: #6B7C98;
+}
+.mi-btn-r:hover {
+    color: #f0eced;
+    background-color: #73829b;
+}
