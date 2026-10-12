@@ -23,7 +23,7 @@
         <!-- Archivo CSS -->
         <link rel = "stylesheet" href = "Interfaz/Activos/curstyles.css">
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         <header>
             <!--navbar-->
             <nav class="navbar navbar-expand-lg navbar-dark mi-bg-navbar">

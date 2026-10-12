@@ -57,3 +57,42 @@ body {
 .mi-color-text {
     color: #5E5653;
 }
+.mis-btnes-sinbg {
+    background-color: transparent !important;
+    border: 1px solid #7B7F8A !important;
+    color: #000000 !important;
+}
+.mis-btnes-sinbg:hover {
+    background-color: #AB978C !important;
+    border-color: #AB978C !important;
+    color: #FFFFFF !important;
+}
+.mi-color-icono:hover {
+    color: #5E5653;
+}
+.mi-color-icono:hover {
+    color: white;
+}
+.mi-border-color-pro {
+    border: 3px solid #6B7C98 !important;
+}
+.mis-bgs-btns-pro {
+    background-color: #6B7C98;
+    border-color: #4c586b;
+    color: #E9E6E7;
+}
+.mis-bgs-btns-pro:hover {
+    background-color: #798cac;
+    border-color: #4c586b;
+    color: #E9E6E7;
+}
+.mis-bgs-btns-G {
+    background-color: #AB978C;
+    border-color: #5E5653;
+    color: #E9E6E7;
+}
+.mis-bgs-btns-G:hover {
+    background-color: #c0a89b;
+    border-color: #5E5653;
+    color: #E9E6E7;
+}
