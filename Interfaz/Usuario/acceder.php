@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es" data-bs-theme="light">
     <head>
-        <title>Iniciar Sesion</title>
+        <title>Iniciar Sesión</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- font: Open Sans -->
@@ -28,22 +28,23 @@
             <div class="row h-100 g-0">
                 <!-- Imagen PC-->
                 <div class="col-lg-6 d-none d-lg-flex mi-bg-grisazulado flex-column justify-content-start align-items-center">
-                    <div class="px-5">
-                        <img src="../Activos/Logo 2.png" alt="" style="max-height: 130px;">
+                    <div class="mt-5 mb-4 justify-content-center align-items-center">
+                        <img src="../Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
+                        <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
                     </div>
-                    <div class="w-75">
+                    <div class="w-75 mt-3">
                         <h1 class="text-white fw-bold">¡Bienvenido de nuevo a Cursolandia!</h1>
                         <p class="text-white-50 fs-5 mt-3">Aprende y crea sin límites, en cualquier lugar y/o momento</p>
                     </div>
                     <div class="text-center w-100">
-                        <img src="../Activos/fondo chiquito.png" alt="" class="img-fluid" style="max-height: 250px;">
+                        <img src="../Activos/img inicio sesion.png" alt="" class="img-fluid" style="max-height: 250px;">
                     </div>
                 </div>
                 <!-- Formulario -->
                 <div class="col-12 col-lg-6 mi-bg-grisclaro d-flex align-items-center justify-content-center position-relative">
                     <!-- header para celular -->
                     <div class="d-lg-none position-absolute top-0 start-0 w-100 p-3 mi-bg-grisazulado shadow-sm d-flex align-items-center">
-                        <!-- Acordate de chequear que la ruta de tu logo sea la correcta -->
+                        <img src="../Activos/Logo 1 (Sin Palabra).png" alt="Logo" style="max-height: 40px;">
                         <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
                     </div>
                     <div class="w-100 px-3" style="max-width: 400px;">
