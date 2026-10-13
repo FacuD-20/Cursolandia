@@ -2,10 +2,13 @@ body {
     background-color: #E9E6E7;
     font-family: 'Inter', sans-serif;
 }
-/*Header*/
-.mi-bg-navbar{
+.mi-bg-grisazulado {
     background-color: #6B7C98;
 }
+.mi-bg-grisclaro {
+    background-color: #E9E6E7;
+}
+/*Header*/
 .mi-bg-ir {
     background-color: #a7afc2;
 }
@@ -27,11 +30,7 @@ body {
     color: #f0eced;
     background-color: #AB978C;
 }
-/*Footer*/
-.mi-bg-footer{
-    background-color: #6B7C98;
-}
-/*Main*/
+/*Main Pag Principal*/
 .mi-bg-banner{
     background-color: #5c6b86;
 }
@@ -96,3 +95,4 @@ body {
     border-color: #5E5653;
     color: #E9E6E7;
 }
+/*Main Inicio de Sesion*/

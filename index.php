@@ -29,8 +29,10 @@
         <div class="text-dark my-4 text-center">
             <h2 class="mi-color-text">¿Por Qué Elegirnos?</h2>
         </div>
+        <!-- Carrusel de Propuestas Telefono -->
         <div id="carouselPropuestas" class="carousel slide carousel-dark d-lg-none"  data-bs-ride="carousel">
             <div class="carousel-inner container rounded">
+                <!-- Primeros par de Items -->
                 <div class="carousel-item active">
                     <div class="row">
                         <div class="col-6 col-lg-3 bg-light p-4">
@@ -49,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Segundo par de Items -->
                 <div class="carousel-item">
                     <div class="row">
                         <div class="col-6 col-lg-3 bg-light p-4">
@@ -77,6 +80,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        <!-- Fila de Propuestas PC -->
         <div class="d-none d-lg-block container">
             <div class="row gx-4">
                 <!-- Primera Propuesta -->

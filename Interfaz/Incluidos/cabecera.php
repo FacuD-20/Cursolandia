@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es" data-bs-theme="light">
     <head>
-        <title>Title</title>
+        <title>Cursolandia</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- font: Open Sans -->
@@ -26,7 +26,7 @@
     <body class="d-flex flex-column min-vh-100">
         <header>
             <!--navbar-->
-            <nav class="navbar navbar-expand-lg navbar-dark mi-bg-navbar">
+            <nav class="navbar navbar-expand-lg navbar-dark mi-bg-grisazulado">
                 <div class="container-fluid">
                     <!-- Logo/Nombre -->
                     <a class="navbar-brand" href="#">Cursolandia</a>

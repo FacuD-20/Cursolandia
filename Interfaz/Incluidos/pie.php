@@ -1,4 +1,4 @@
-    <footer class="mi-bg-footer text-light">
+    <footer class="mi-bg-grisazulado text-light">
         <div class="container-fluid pt-2">
             <div class="row">
                 <div class="col-12 col-lg-3 mb-3">
