@@ -2,11 +2,21 @@ body {
     background-color: #E9E6E7;
     font-family: 'Inter', sans-serif;
 }
+/*background de secciones*/
 .mi-bg-grisazulado {
     background-color: #6B7C98;
 }
 .mi-bg-grisclaro {
     background-color: #E9E6E7;
+}
+/*Background de botones*/
+.mis-bgs-btns {
+    background-color: #5E5653;
+    border-color: #4c586b;
+    color: #E9E6E7;
+}
+.mis-bgs-btns:hover {
+    background-color: #AB978C;
 }
 /*Header*/
 .mi-bg-ir {
@@ -33,14 +43,6 @@ body {
 /*Main Pag Principal*/
 .mi-bg-banner{
     background-color: #5c6b86;
-}
-.mis-bgs-btns-banner {
-    background-color: #5E5653;
-    border-color: #4c586b;
-    color: #E9E6E7;
-}
-.mis-bgs-btns-banner:hover {
-    background-color: #AB978C;
 }
 .mi-border-color {
     border-color: #AB978C !important;
