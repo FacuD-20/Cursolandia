@@ -6,6 +6,9 @@ body {
 .mi-bg-grisazulado {
     background-color: #6B7C98;
 }
+.mi-border-grisazulado {
+    border-color: #6B7C98 !important;
+}
 .mi-bg-grisclaro {
     background-color: #E9E6E7;
 }
