@@ -1,4 +1,8 @@
-<?php include 'Interfaz/Incluidos/cabecera.php';?>
+<?php 
+require_once __DIR__ . '/carga.php';
+include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
+?>
+
 <main class="flex-grow-1">
     <!-- Banner para pantalla mobile y computadora-->
     <section class="mb-4">
@@ -9,12 +13,12 @@
                     <h5 class ="my-3">Aprende de los mejores profesionales — y conviértete en uno tú mismo.</h5>
                     <!-- Botones en Celular -->
                     <div class="d-lg-none d-flex flex-column flex-lg-row gap-2 mt-4" style ="width: 35%">
-                        <a href="" class="d-flex btn mis-bgs-btns-banner w-auto p-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
+                        <a href="" class="d-flex btn mis-bgs-btns w-auto p-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
                         <a href="" class="d-flex btn btn-outline-light w-auto p-3">CREAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
                     </div>
                     <!-- Botones en computadora -->
                     <div class="d-none d-lg-flex flex-column flex-lg-row gap-3 mt-4 w-75">
-                        <a href="" class="btn mis-bgs-btns-banner w-100 py-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short"></i></a>
+                        <a href="" class="btn mis-bgs-btns w-100 py-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short"></i></a>
                         <a href="" class="btn btn-outline-light w-100 py-3">CREAR CURSOS <i class="bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
@@ -295,4 +299,5 @@
         </div>
     </section>
 </main>
-<?php include 'Interfaz/Incluidos/pie.php';?>
+
+<?php include RUTA_BASE . '/Interfaz/Incluidos/pie.php';?>

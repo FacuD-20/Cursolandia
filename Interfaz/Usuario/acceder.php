@@ -29,7 +29,7 @@
                 <!-- Imagen PC-->
                 <div class="col-lg-6 d-none d-lg-flex mi-bg-grisazulado flex-column justify-content-start align-items-center">
                     <div class="mt-5 mb-4 justify-content-center align-items-center">
-                        <img src="../Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
+                        <img src="../Activos/logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
                         <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
                     </div>
                     <div class="w-75 mt-3">
@@ -44,7 +44,7 @@
                 <div class="col-12 col-lg-6 mi-bg-grisclaro d-flex align-items-center justify-content-center position-relative">
                     <!-- header para celular -->
                     <div class="d-lg-none position-absolute top-0 start-0 w-100 p-3 mi-bg-grisazulado shadow-sm d-flex align-items-center">
-                        <img src="../Activos/Logo 1 (Sin Palabra).png" alt="Logo" style="max-height: 40px;">
+                        <img src="../Activos/logo cursolandia.png" alt="Logo" style="max-height: 40px;">
                         <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
                     </div>
                     <div class="w-100 px-3" style="max-width: 400px;">

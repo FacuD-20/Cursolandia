@@ -6,7 +6,7 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
 <main>
     <section class="container-fluid">
         <div class="row">
-            <!-- Apartado del Menu de filtros -->
+            <!-- Apartado del Menu de filtros en PC -->
             <div class="d-none d-lg-block col-lg-3 bg-light py-5">
                 <div class="card bg-white rounded-4 border-0 shadow-sm p-4">
                     <form action="" method="POST" name="fpcfiltros">
@@ -35,13 +35,15 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
             <!-- Apartado del Catalogo -->
             <div class="col-12 col-lg-9 py-5 px-4">
                 <h2 class="mi-color-text fw-bold mb-4">Catalogo de Cursos</h2>
-                <!-- offcanvas para menu de filtros en celular -->
+                <!-- Boton que lanza el offcanvas para menu de filtros en celular -->
                 <button type="button" class="btn mis-btnes-sinbg w-100 mb-4 d-lg-none fw-bold" data-bs-toggle="offcanvas" data-bs-target="#filtrosdelcelular"><i class="bi bi-filter"></i>Filtros</button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="filtrosdelcelular">
+                    <!-- Cabecera del offcanvas -->
                     <div class="offcanvas-header border-bottom">
                         <h4 class="onffcanvas-title fw-bold mi-color-text">Filtros</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
                     </div>
+                    <!-- Formulario de Filtros -->
                     <div class="p-3">
                         <form action="" method="POST" name="fcelularfiltros">
                             <h5 class="mi-color-text fw-bold border-bottom border-secondary-subtle pb-2 mb-3">Etiquetas</h5>
@@ -66,6 +68,7 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                         </form>
                     </div>
                 </div>
+                <!-- Fila de Cursos -->
                 <div class="row g-4">
                     <!-- Primera Tarjeta de curso -->
                     <div class="col-12 col-md-6 col-lg-4">

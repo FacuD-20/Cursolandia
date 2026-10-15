@@ -21,7 +21,7 @@
         />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         <!-- Archivo CSS -->
-        <link rel = "stylesheet" href = "Interfaz/Activos/curstyles.css">
+        <link rel = "stylesheet" href = "<?php echo URL_BASE;?>/Interfaz/Activos/curstyles.css">
     </head>
     <body class="d-flex flex-column min-vh-100">
         <header>
