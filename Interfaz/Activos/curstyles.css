@@ -15,6 +15,22 @@ body {
 .mi-bg-bronce {
     background-color: #AB978C;
 }
+.mis-btns-bg-bronce {
+    background-color: #AB978C;
+}
+.mis-btns-bg-bronce:hover {
+    background-color: #8f7e75
+}
+.mis-btnes-sinbg-bronce {
+    background-color: transparent !important;
+    border: 1px solid #AB978C !important;
+    color: #AB978C !important;
+}
+.mis-btnes-sinbg-bronce:hover {
+    background-color: #5E5653 !important;
+    border: 1px solid #AB978C !important;
+    color: #E9E6E7 !important;
+}
 /*Background de botones*/
 .mis-bgs-btns {
     background-color: #5E5653;

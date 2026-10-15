@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../../carga.php';
+?>
+
 <!doctype html>
 <html lang="es" data-bs-theme="light">
     <head>
