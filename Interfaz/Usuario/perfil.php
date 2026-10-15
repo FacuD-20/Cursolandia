@@ -105,7 +105,23 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                             </div>
                         </div>
                     </form>
-                </div>                
+                </div>
+                <!-- Seccion "Mis Cursos" -->
+                <div class="card border-top shadow-sm rounded-4 p-4 mb-4">
+                    <h4 class="fw-bold mi-color-text mb-4">Mis Cursos</h4>
+                    <div class="row g-3">
+                        <div class="col-12 col-lg-6">
+                            <div class="card h-100 shadow-sm border-0 rounded-4">
+                                <img src="" alt="" class="card-img-top rounded-top-4" style="height: 180px; object-fit: cover;">
+                                <div class="card-body d-flex flex-column p-4">
+                                    <h5 class="card-title fw-bold mi-color-text mb-2">Nombre Curso</h5>
+                                    <p class="text-muted small mb-3"><i class="bi bi-clock me-1"> 2 Semanas</i></p>
+                                    <a href="" class="btn mis-btnes-sinbg rounded-pill w-100 mt-auto fw-bold">Contenido del Curso<i class="bi bi-arrow-right-short"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
