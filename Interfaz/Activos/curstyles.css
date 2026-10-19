@@ -119,4 +119,9 @@ body {
     border-color: #5E5653;
     color: #E9E6E7;
 }
-/*Main Inicio de Sesion*/
+/*Intereses*/
+.btn-check:checked + .mis-btnes-sinbg {
+    background-color: #AB978C !important;
+    border-color: #AB978C !important;
+    color: #FFFFFF !important;
+}

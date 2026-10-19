@@ -142,62 +142,23 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
             <div class="col-6 col-md-6 col-lg-3">
                 <div class="card h-100 shadow-sm border-0 rounded-4">
                     <img src="" alt="" class="card-img-top rounded-4">
-                    <div class="card-body d-flex flex-column">
+                    <div class="card-body d-flex flex-column p-3">
                         <!-- Etiqueta -->
-                        <span class="badge text-bg-light border mb-2 text-start text-muted" style="width: fit-content;">Desarrollo Web</span>
-                        <h5 class="card-title fw-bold mi-color-text"> X </h5>
-                        <p class="text-muted small mb-3"> Autor </p>
-                        <div class="mt-auto d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-sm mis-btnes-sinbg rounded-pill p-2">Detalles del Curso<i class="bi bi-arrow-right-short"></i></a>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge text-bg-light border text-muted">Desarrollo Web</span>
+                            <span class="fw-bold small mi-color-text">Gratis</span>
+                        </div>
+                        <h5 class="card-title fw-bold mi-color-text mb-1">Nombre del curso</h5>
+                        <p class="text-muted small mb-2">Por: Nombre Autor </p>
+                        <p class="text-muted small mb-3"><i class="bi bi-calendar-event me-1"></i>xx/xx/xx al xx/xx/xx</p>
+                        <div class="mt-auto">
+                            <a href="<?php echo URL_BASE; ?>/Interfaz/Cursos/detalles_c.php" class="btn btn-sm mis-btnes-sinbg rounded-pill w-100 py-2 fw-bold">
+                                Detalles del Curso <i class="bi bi-arrow-right-short"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Segunda Tarjeta -->
-            <div class="col-6 col-md-6 col-lg-3">
-                <div class="card h-100 shadow-sm border-0 rounded-4">
-                    <img src="" alt="" class="card-img-top rounded-4">
-                    <div class="card-body d-flex flex-column">
-                        <!-- Etiqueta -->
-                        <span class="badge text-bg-light border mb-2 text-start text-muted" style="width: fit-content;">Desarrollo Web</span>
-                        <h5 class="card-title fw-bold mi-color-text"> X </h5>
-                        <p class="text-muted small mb-3"> Autor </p>
-                        <div class="mt-auto d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-sm mis-btnes-sinbg rounded-pill p-2">Detalles del Curso<i class="bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Tercera Tarjeta -->
-            <div class="col-6 col-md-6 col-lg-3">
-                <div class="card h-100 shadow-sm border-0 rounded-4">
-                    <img src="" alt="" class="card-img-top rounded-4">
-                    <div class="card-body d-flex flex-column">
-                        <!-- Etiqueta -->
-                        <span class="badge text-bg-light border mb-2 text-start text-muted" style="width: fit-content;">Desarrollo Web</span>
-                        <h5 class="card-title fw-bold mi-color-text"> X </h5>
-                        <p class="text-muted small mb-3"> Autor </p>
-                        <div class="mt-auto d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-sm mis-btnes-sinbg rounded-pill p-2">Detalles del Curso<i class="bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Cuarta Tarjeta -->
-            <div class="col-6 col-md-6 col-lg-3">
-                <div class="card h-100 shadow-sm border-0 rounded-4">
-                    <img src="" alt="" class="card-img-top rounded-4">
-                    <div class="card-body d-flex flex-column">
-                        <!-- Etiqueta -->
-                        <span class="badge text-bg-light border mb-2 text-start text-muted" style="width: fit-content;">Desarrollo Web</span>
-                        <h5 class="card-title fw-bold mi-color-text"> X </h5>
-                        <p class="text-muted small mb-3"> Autor </p>
-                        <div class="mt-auto d-flex justify-content-between align-items-center">                            
-                            <a href="#" class="btn btn-sm mis-btnes-sinbg rounded-pill p-2">Detalles del Curso<i class="bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>            
         </div>
     </section>
     <!-- Etiquetas -->

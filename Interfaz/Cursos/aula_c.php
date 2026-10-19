@@ -27,7 +27,6 @@ require_once __DIR__ . '/../../carga.php';
         <!-- Archivo CSS -->
         <link rel = "stylesheet" href = "<?php echo URL_BASE;?>/Interfaz/Activos/curstyles.css">
     </head>
-
     <body>
         <header class="mi-bg-grisazulado text-white py-3 px-4 shadow-sm">
             <div class="container-fluid d-flex justify-content-between align-items-center">
@@ -43,63 +42,42 @@ require_once __DIR__ . '/../../carga.php';
             </div>
         </header>
         <main>
-            <section class="container-fluid px-lg-4">
-                <div class="row py-4">                    
-                    <!-- Indice de clases en PC -->
-                    <div class="col-12 col-lg-3 d-none d-lg-block mb-4">
-                        <div class="card border-0 shadow-sm rounded-4 p-3">
+            <section class="container-fluid px-lg-4 py-4">
+                <!-- Card de Mini Encabezado con info varia -->
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                        <div>
+                            <div class="mb-2">
+                                <span class="badge rounded-pill mi-bg-bronce">Curso Activo</span>
+                            </div>
+                            <h2 class="fw-bold mi-color-text mb-1">Nombre del Curso</h2>
+                            <p class="text-muted small mb-0">
+                                <i class="bi bi-person-workspace me-1"></i>Docente: Nombre del Creador |
+                                <i class="bi bi-calendar-range ms-2 me-1"></i>Activo: xx/xx/xx al xx/xx/xx
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-4">           
+                    <!-- Card de Materiales adjuntos del curso -->
+                    <div class="col-12 col-lg-3 d-none d-lg-block">
+                        <div class="card border-0 shadow-sm rounded-4 p-4">
                             <!-- Encabezado -->
-                            <h4 class="fw-bold mi-color-text mb-3">Indice del Curso</h4>
-                            <!-- Acordeon para listar los modulos -->
-                            <div class="accordion" id="accordionIndicedelCurso">
-                                <!-- Item 1 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Accordion Item #1
-                                    </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionIndicedelCurso">
-                                        <div class="accordion-body p-2">
-                                            <div class="list-group list-group-flush">
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2 py-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2 py-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                            </div>
-                                        </div>
+                            <h5 class="fw-bold mi-color-text mb-3 border-bottom pb-2">
+                                <i class="bi bi-folder2-open me-2"></i>Material del Curso
+                            </h5>
+                            <!-- Lista de Archivos -->
+                            <div class="list-group list-group-flush">
+                                <!-- Primer Item -->
+                                <a href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
+                                    <div class="text-truncate me-2">
+                                        <i class="bi bi-file-earmark-pdf text-danger me-2"></i>
+                                        <span class="small fw-semibold">Archivo.x</span>
                                     </div>
-                                </div>
-                                <!-- Item 2 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Accordion Item #2
-                                    </button>
-                                    </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionIndicedelCurso">
-                                        <div class="accordion-body p-2">
-                                            <div class="list-group list-group-flush">
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Item 3 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Accordion Item #3
-                                    </button>
-                                    </h2>
-                                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionIndicedelCurso">
-                                        <div class="accordion-body p-2">
-                                            <div class="list-group list-group-flush">
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <span class="badge bg-light text-muted border">
+                                        Tamaño de Descarga<i class="bi bi-download ms-1"></i>
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -107,105 +85,104 @@ require_once __DIR__ . '/../../carga.php';
                     <div class="col-12 col-lg-9 mb-4">
                         <!-- Offcanvas para el indice del curso en Telefono -->
                         <button class="btn mis-bgs-btns w-100 p-3 rounded-4 shadow-sm d-lg-none mb-4 fw-bold text-light border" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-                            <i class="bi bi-list-ul me-2"></i> Ver Índice del Curso
+                            <i class="bi bi-list-ul me-2"></i> Ver Materiales del Curso
                         </button>
                         <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-                            <div class="offcanvas-header">
-                                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Indice del Curso</h5>
+                            <div class="offcanvas-header border-bottom">
+                                <h5 class="offcanvas-title fw-bold mi-color-text" id="offcanvasWithBothOptionsLabel">
+                                    <i class="bi bi-folder2-open me-2"></i> Material del Curso                                        
+                                </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
-                                <!-- Acordeon de modulos -->
-                                <div class="accordion" id="accordionIndiceCelular">
-                                <!-- Item 1 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneCelular" aria-expanded="true" aria-controls="collapseOneCelular">
-                                        Accordion Item #1
-                                    </button>
-                                    </h2>
-                                    <div id="collapseOneCelular" class="accordion-collapse collapse" data-bs-parent="#accordionIndiceCelular">
-                                        <div class="accordion-body p-2">
-                                            <div class="list-group list-group-flush">
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2 py-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2 py-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
+                                <!-- Lista de Archivos -->
+                                <div class="list-group list-group-flush">
+                                    <p class="text-muted small mb-3">Archivos disponibles para descargar:</p>
+                                    <div class="list-group list-group-flush">
+                                        <!--Item -->
+                                        <a href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0 py-2">
+                                            <div class="text-truncate me-2">
+                                                <i class="bi bi-file-earmark-pdf text-danger me-2"></i>
+                                                <span class="small fw-semibold">Archivo.x</span>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Item 2 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoCelular" aria-expanded="false" aria-controls="collapseTwoCelular">
-                                        Accordion Item #2
-                                    </button>
-                                    </h2>
-                                    <div id="collapseTwoCelular" class="accordion-collapse collapse" data-bs-parent="#accordionIndiceCelular">
-                                        <div class="accordion-body p-2">
-                                            <div class="list-group list-group-flush">
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Item 3 -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeCelular" aria-expanded="false" aria-controls="collapseThreeCelular">
-                                        Accordion Item #3
-                                    </button>
-                                    </h2>
-                                    <div id="collapseThreeCelular" class="accordion-collapse collapse" data-bs-parent="#accordionIndiceCelular">
-                                        <div class="accordion-body p-2">
-                                            <div class="list-group list-group-flush">
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                                <a href="" class="list-group-item list-group-item-action border-0 rounded-2"><i class="bi bi-play-circle me-2"></i>Nombre de la clase</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!--Visualizador -->
-                        <div class="ratio ratio-16x9 mb-3 rounded-4 overflow-hidden shadow-sm bg-dark">
-                            <video controls poster="">
-                                <source src="" type="video/mp4">
-                            </video>
-                        </div>
-                        <!-- Titulo y botonoes -->
-                        <div>
-                            <h3 class="fw-bold mi-color-text my-2">Clase x: Tema</h3>
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <a href="" class="btn mis-btnes-sinbg-bronce px-3"><i class="bi bi-arrow-left me-1"></i> Clase Anterior</a>
-                                <a href="" class="btn mis-btns-bg-bronce text-light px-3">Clase Siguiente <i class="bi bi-arrow-right ms-1"></i> </a>
-                            </div>                            
-                        </div>
-                        <!-- Descripción y Recursos -->
-                        <div class="card border-0 shadow-sm rounded-4 p-4">
-                            <ul class="nav nav-tabs mb-3" id="aulaTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active fw-bold mi-color-text" id="desc-tab" data-bs-toggle="tab" data-bs-target="#descripcion" type="button" role="tab">Descripción</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link fw-bold text-muted" id="rec-tab" data-bs-toggle="tab" data-bs-target="#recursos" type="button" role="tab">Recursos</button>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="aulaTabsContent">
-                                <!-- Descripción -->
-                                <div class="tab-pane fade show active text-muted" id="descripcion" role="tabpanel">
-                                    <p class="mb-0">Resumen de la clase</p>
-                                </div>
-                                <!-- Recursos -->
-                                <div class="tab-pane fade" id="recursos" role="tabpanel">
-                                    <div class="list-group">
-                                        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
-                                            Material de la clase.
+                                            <span class="badge bg-light text-muted border">
+                                                Tamaño de Descarga<i class="bi bi-download ms-1"></i>
+                                            </span>
                                         </a>
+                                    </div>                                
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Publicar Pregunta -->
+                        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                            <h5 class="fw-bold mi-color-text mb-3">
+                                <i class="bi bi-chat-left-dots me-2"></i> Foro de Preguntas
+                            </h5>
+                            <form action="" method="POST" name="fpreguntas" class="needs-validation" novalidate>
+                                <div class="mb-2">
+                                    <input type="text" name="titulo_pregunta" class="form-control" placeholder="Título o asunto de tu duda..." required>
+                                    <div class="invalid-feedback">Ingresá un título para tu consulta.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea name="atexto_pregunta" id="atexto_pregunta" rows="2"  class="form-control" placeholder="Escribe tu consulta para el docente y tus compañeros..." required></textarea>
+                                    <div class="invalid-feedback">Escribe los detalle de tu pregunta.</div>
+                                </div>
+                                <button type="submit" class="btn mis-bgs-btns text-light px-4 fw-bold">
+                                    Publicar Pregunta
+                                </button>
+                            </form>
+                        </div>
+                        <!-- Lista de Preguntas -->
+                        <div class="card border-0 shadow-sm rounded-4 p-4 mb-3">
+                            <!-- Primera Pregunta -->                            
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <!-- header de la pregunta -->
+                                <div class="d-flex align-items-center">
+                                    <img src="" alt="Avatar" class="rounded-circle me-2 border" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <div>
+                                        <h6 class="fw-bold mi-color-text mb-0">Título de la pregunta del alumno</h6>
+                                        <small class="text-muted">Por: Nombre Alumno | Fecha: xx/xx/xxxx</small>
+                                    </div>
+                                </div>
+                                <!-- Estado de la pregunta -->
+                                <div class="d-flex gap-1">
+                                    <span class="badge mi-bg-bronce"><i class="bi bi-pin-angle-fill me-1"></i>Destacada</span>
+                                    <span class="badge bg-secondary"><i class="bi bi-lock-fill me-1"></i>Cerrada</span>
+                                </div>
+                            </div>
+                            <!-- Consulta -->
+                            <p class="text-muted small mb-3">
+                                Duda planteada por el estudiante.
+                            </p>
+                            <!-- Bloque de Respuestas -->
+                            <div class="ps-3 border-start ms-2 mb-3">                                
+                                <!-- Ejemplo de x respuesta -->
+                                <div class="bg-light border-start border-4 border-success p-3 rounded-3 mb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="fw-bold small mi-color-text">Nombre Compañero / Docente</span>
+                                        <span class="badge bg-success"><i class="bi bi-check2-all me-1"></i>Respuesta Aceptada</span>
+                                    </div>
+                                    <p class="small text-muted mb-2">
+                                        Esta es la respuesta que soluciona la consulta y cierra el tema.
+                                    </p>
+                                    <!-- Acciones del Alumno (Marcar como aceptada si es el autor de la pregunta, o editar su última respuesta) -->
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-sm btn-outline-success py-0" style="font-size: 0.75rem;">
+                                            Marcar como Aceptada
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary py-0" style="font-size: 0.75rem;">
+                                            <i class="bi bi-pencil me-1"></i>Editar mi respuesta
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Formulario para responder una consulta -->
+                            <form action="" method="POST" name="frespuesta" class="needs-validation" novalidate>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" name="respuesta" class="form-control" placeholder="Escribir una respuesta..." required>
+                                    <button class="btn mis-btns-bg-bronce text-light fw-bold px-3" type="submit">Responder</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -217,5 +194,6 @@ require_once __DIR__ . '/../../carga.php';
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"
         ></script>
+        <script src="<?php echo URL_BASE;?>/Interfaz/Activos/validaciones.js"></script>
     </body>
 </html>

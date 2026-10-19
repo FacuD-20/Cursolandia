@@ -75,9 +75,20 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                         <div class="card h-100 shadow-sm border-0 rounded-4">
                             <img src="" alt="" class="card-img-top rounded-top-4" style="height: 180px; object-fit: cover;">
                             <div class="card-body d-flex flex-column p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge text-bg-light border text-muted">Etiqueta</span>
+                                    <span class="badge mi-bg-bronce">Gratis</span>
+                                </div>
                                 <h5 class="card-title fw-bold mi-color-text mb-2">Nombre Curso</h5>
-                                <p class="text-muted small mb-3"><i class="bi bi-clock me-1"> 2 Semanas</i></p>
-                                <a href="" class="btn mis-btnes-sinbg rounded-pill w-100 mt-auto fw-bold">Detalles del Curso<i class="bi bi-arrow-right-short"></i></a>
+                                <p class="text-muted small mb-1">
+                                    <i class="bi bi-calendar-event me-1"></i> Inicio: xx/xx/xxxx
+                                </p>
+                                <p class="text-muted small mb-3">
+                                    <i class="bi bi-calendar-check me-1"></i> Fin: xx/xx/xxxx
+                                </p>
+                                <a href="<?php echo URL_BASE; ?>/Interfaz/Cursos/detalles_c.php" class="btn mis-btnes-sinbg rounded-pill w-100 mt-auto fw-bold">
+                                    Detalles del Curso <i class="bi bi-arrow-right-short"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

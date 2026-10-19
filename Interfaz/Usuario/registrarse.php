@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../../carga.php';
+?>
 <!doctype html>
 <html lang="es" data-bs-theme="light">
     <head>
@@ -51,6 +54,7 @@
                         <h3 class="fw-bold text-center mi-color-text">Crear Cuenta</h3>
                         <p class="text-center mb-4 small">Completa tus datos para empezar</p>
                         <form action="" method="POST" name="finiciodesesion" class="needs-validation" novalidate>
+                            <!-- Nombre Completo y Apellido -->
                             <div class="row g-2">
                                 <!-- Nombre Completo -->
                                 <div class="col-12 col-md-6">
@@ -72,7 +76,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
+                            <!-- Fecha de Nacimiento y Documento -->
                             <div class="row g-2">
                                 <!-- Fecha de Nacimiento -->
                                 <div class="col-12 col-md-6">
@@ -111,6 +116,7 @@
                                     Minimo 8 caracteres.
                                 </div>
                             </div>
+                            <!-- Terminos y Condiciones -->
                             <div class="form-check text-start">
                                 <input type="checkbox" class="form-check-input" value="aceptartyc" id="tyc" name="tyc" required>
                                 <label for="tyc" class="form-check-label text-muted small">Terminos y Condiciones</label>
@@ -118,7 +124,7 @@
                                     Acepte los terminos y condiciones.
                                 </div>
                             </div>
-                            <button class="btn mis-bgs-btns-banner my-3 w-100 h-50 text-light">REGISTRARSE<i class="bi bi-arrow-right-short"></i></button>
+                            <button class="btn mis-bgs-btns my-3 w-100 h-50 text-light">REGISTRARSE<i class="bi bi-arrow-right-short"></i></button>
                         </form>
                         <p class="text-center small">¿Ya tenés una cuenta?<a href="" class="text-decoration-none fw-bold"style="color: #AB978C;"> Inicia Sesión</a></p>
                     </div>                    
@@ -131,6 +137,6 @@
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"
         ></script>
-        <script src="../Activos/validaciones.js"></script>
+        <script src="<?php echo URL_BASE; ?>/Interfaz/Activos/validaciones.js"></script>
     </body>
 </html>

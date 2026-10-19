@@ -29,10 +29,10 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                 <div class="col-6 col-md-3">
                     <div class="card border-0 shadow-sm p-3 h-100 rounded-3 text-center text-md-start">
                         <div class="d-flex flex-column flex-md-row align-items-center">
-                            <i class="bi bi-laptop fs-3 text-muted mb-2 me-md-2 mb-md-0"></i>
+                            <i class="bi bi-people fs-3 text-muted mb-2 me-md-2 mb-md-0"></i>
                             <div>
-                                <p class="fw-bold small mb-0">Modalidad</p>
-                                <span class="text-muted small">A distancia ágil</span>
+                                <p class="fw-bold small mb-0">Cupos</p>
+                                <span class="text-muted small">x lugares</span>
                             </div>
                         </div>
                     </div>
@@ -41,9 +41,9 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                 <div class="col-6 col-md-3">
                     <div class="card border-0 shadow-sm p-3 h-100 rounded-3 text-center text-md-start">
                         <div class="d-flex flex-column flex-md-row align-items-center">
-                            <i class="bi bi-clock fs-3 text-muted mb-2 me-md-2 mb-md-0"></i>                            
+                            <i class="bi bi-calendar-event fs-3 text-muted mb-2 me-md-2 mb-md-0"></i>                            
                             <div>
-                                <p class="fw-bold small mb-0">Apertura de aula</p>
+                                <p class="fw-bold small mb-0">Apertura de Aula</p>
                                 <span class="text-muted small">Fecha de Inicio</span>
                             </div>
                         </div>
@@ -53,10 +53,10 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                 <div class="col-6 col-md-3">
                     <div class="card border-0 shadow-sm p-3 h-100 rounded-3 text-center text-md-start">
                         <div class="d-flex flex-column flex-md-row align-items-center">
-                            <i class="bi bi-calendar fs-3 text-muted mb-2 me-md-2 mb-md-0"></i>                            
+                            <i class="bi bi-calendar-check fs-3 text-muted mb-2 me-md-2 mb-md-0"></i>                            
                             <div>
-                                <p class="fw-bold small mb-0">Cursada</p>
-                                <span class="text-muted small">Dias y horarios (Pais)</span>                        
+                                <p class="fw-bold small mb-0">Cierre de Aula</p>
+                                <span class="text-muted small">Fecha de Fin</span>                        
                             </div>
                         </div>
                     </div>
@@ -91,12 +91,12 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                                 <span class="text-muted">xx/xx/xx</span>
                             </p>
                             <p class="border-bottom pb-2 mb-2 d-flex justify-content-between">
-                                <span class="fw-bold mi-color-text">Horario</span>
-                                <span class="text muted">xh a xh</span>
+                                <span class="fw-bold mi-color-text">Cierre</span>
+                                <span class="text muted">xx/xx/xx</span>
                             </p>
                             <p class="border-bottom pb-2 d-flex justify-content-between">
-                                <span class="fw-bold mi-color-text">Duracion</span>
-                                <span class="text-muted">x semanas</span>
+                                <span class="fw-bold mi-color-text">Vacantes</span>
+                                <span class="text-muted">x lugares</span>
                             </p>
                         </div>
                         <a href="" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</a>                        
@@ -110,57 +110,6 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                         <p class="text-muted mb-0">
                             Introduccion al curso
                         </p>
-                    </div>
-                    <!-- Temario -->
-                    <div class="border-0 bg-white shadow-sm rounded-4 p-4 p-md-5 mb-4">
-                        <h5 class="fw-bold mi-color-text mb-3">Temario</h5>
-                        <div class="accordion" id="accordionPanelsStayOpenTemario">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                                    Accordion Item #1
-                                </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <strong>This is the first item’s accordion body.</strong> 
-                                        It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the 
-                                        <code>.accordion-body</code>
-                                        , though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                    Accordion Item #2
-                                </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <strong>This is the second item’s accordion body.</strong> 
-                                        It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the 
-                                        <code>.accordion-body</code>
-                                        , though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                    Accordion Item #3
-                                </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <strong>This is the third item’s accordion body.</strong> 
-                                        It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the 
-                                        <code>.accordion-body</code>
-                                        , though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <!-- Equipo Docente -->
                     <div class="border-0 bg-white shadow-sm rounded-4 p-4 p-md-5 mb-4">
