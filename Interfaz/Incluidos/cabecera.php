@@ -33,7 +33,10 @@ require_once __DIR__ . '/../../carga.php';
             <nav class="navbar navbar-expand-lg navbar-dark mi-bg-grisazulado">
                 <div class="container-fluid">
                     <!-- Logo/Nombre -->
-                    <a class="navbar-brand" href="#">Cursolandia</a>
+                    <a class="navbar-brand" href="<?php echo URL_BASE;?>/index.php">
+                        <img src="<?php echo URL_BASE; ?>/Interfaz/Activos/logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
+                        <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
+                    </a>
                     <!-- Pantalla para celular -->
                     <!-- Buscador -->
                     <form class="d-lg-none d-flex flex-grow-1 mx-2" role="search">
@@ -57,20 +60,17 @@ require_once __DIR__ . '/../../carga.php';
                             <p class="small">Inicie Sesion o Cree una cuenta para ingresar.</p>
                             <div class="d-flex gap-2">
                                 <!-- Botones de Inicion de Sesion y Registro -->
-                                <a href="" class="btn mi-btn-i w-50">Iniciar Sesion</a>
-                                <a href="" class="btn mi-btn-r w-50">Registrarse</a>
+                                <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="btn mi-btn-i w-50">Iniciar Sesion</a>
+                                <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/registrarse.php" class="btn mi-btn-r w-50">Registrarse</a>
                             </div>
                         </div>
                         <!-- Opciones Varias -->
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-house me-2"></i>Inicio</a>
+                                <a class="nav-link active" aria-current="page" href="<?php echo URL_BASE;?>/index.php"><i class="bi bi-house me-2"></i>Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="bi bi-book me-2"></i>Cursos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="bi bi-patch-plus me-2"></i></i>Crear Curso</a>
+                                <a class="nav-link" href="<?php echo URL_BASE;?>/Interfaz/Cursos/catalogo.php"><i class="bi bi-book me-2"></i>Cursos</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -91,8 +91,8 @@ require_once __DIR__ . '/../../carga.php';
                         </form>
                         <!-- Btnes de Inicio y Registro para Pantallas >= lg -->
                         <div class="d-none d-lg-flex ms-auto gap-2">
-                            <a href="" class="btn mi-btn-i">Iniciar Sesion</a>
-                            <a href="" class="btn mi-btn-r">Registrarse</a>
+                            <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="btn mi-btn-i">Iniciar Sesion</a>
+                            <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/registrarse.php" class="btn mi-btn-r">Registrarse</a>
                         </div>
                     </div>
                 </div>

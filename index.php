@@ -13,17 +13,17 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                     <h5 class ="my-3">Aprende de los mejores profesionales — y conviértete en uno tú mismo.</h5>
                     <!-- Botones en Celular -->
                     <div class="d-lg-none d-flex flex-column flex-lg-row gap-2 mt-4" style ="width: 35%">
-                        <a href="" class="d-flex btn mis-bgs-btns w-auto p-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
-                        <a href="" class="d-flex btn btn-outline-light w-auto p-3">CREAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
+                        <a href="<?php echo URL_BASE;?>/Interfaz/Cursos/catalogo.php" class="d-flex btn mis-bgs-btns w-auto p-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
+                        <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="d-flex btn btn-outline-light w-auto p-3">CREAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
                     </div>
                     <!-- Botones en computadora -->
                     <div class="d-none d-lg-flex flex-column flex-lg-row gap-3 mt-4 w-75">
-                        <a href="" class="btn mis-bgs-btns w-100 py-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short"></i></a>
-                        <a href="" class="btn btn-outline-light w-100 py-3">CREAR CURSOS <i class="bi bi-arrow-right-short"></i></a>
+                        <a href="<?php echo URL_BASE;?>/Interfaz/Cursos/catalogo.php" class="btn mis-bgs-btns w-100 py-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short"></i></a>
+                        <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="btn btn-outline-light w-100 py-3">CREAR CURSOS<i class="bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
                 <div class="d-none d-lg-block col-6">
-                    <img src="Interfaz/Activos/img-banner main section.webp" alt="" class="img-fluid rounded-4">
+                    <img src="<?php echo URL_BASE;?>/Interfaz/Activos/img-banner main section.webp" alt="" class="img-fluid rounded-4">
                 </div>
             </div>
         </div>
@@ -240,7 +240,7 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                             <li class="mb-4"><i class="bi bi-check-circle-fill text-success"></i> Maximo de 5MB de tamaños de archivos.</li>
                         </ul>                        
                     </div>
-                    <a href="#" class="btn mis-bgs-btns-G mt-auto">Registrarse Gratis</a>
+                    <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/registrarse.php" class="btn mis-bgs-btns-G mt-auto">Registrarse Gratis</a>
                 </div>
             </div>
             <div class="col-12 col-lg-4">

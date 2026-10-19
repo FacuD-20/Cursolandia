@@ -24,31 +24,38 @@ require_once __DIR__ . '/../../carga.php';
         />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         <!-- Archivo CSS -->
-        <link rel = "stylesheet" href = "../Activos/curstyles.css">
+        <link rel = "stylesheet" href = "<?php echo URL_BASE;?>/Interfaz/Activos/curstyles.css">
     </head>
     <body>
         <div class="vh-100">
             <div class="row h-100 g-0">
                 <!-- Imagen PC-->
                 <div class="col-lg-6 d-none d-lg-flex mi-bg-grisazulado flex-column justify-content-start align-items-center">
-                    <div class="w-100 px-5 mt-4 mb-5 text-start">
-                        <img src="../Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
-                        <span class="text-white fw-bold ms-2 fs-4 align-middle">Cursolandia</span>
+                    <!-- Logo -->
+                    <div class="w-100 px-5 mt-4 mb-5 text-start">                        
+                        <a href="<?php echo URL_BASE;?>/index.php" class="navbar-brand">
+                            <img src="<?php echo URL_BASE;?>/Interfaz/Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
+                            <span class="text-white fw-bold ms-2 fs-4 align-middle">Cursolandia</span>
+                        </a>
                     </div>
+                    <!-- Titulo -->
                     <div class="w-75 mt-3 text-center">
                         <h1 class="text-white fw-bold">¡Unite a Cursolandia!</h1>
                         <p class="text-white-50 fs-5 mt-3">Empeza a aprender y crear hoy</p>
                     </div>
+                    <!-- Img -->
                     <div class="text-center w-100 mt-4">
-                        <img src="../Activos/img registrarse.png" alt="" class="img-fluid" style="max-height: 250px;">
+                        <img src="<?php echo URL_BASE;?>/Interfaz/Activos/img registrarse.png" alt="" class="img-fluid" style="max-height: 250px;">
                     </div>
                 </div>
                 <!-- Formulario -->
                 <div class="col-12 col-lg-6 mi-bg-grisclaro d-flex align-items-center justify-content-center position-relative">
                     <!-- header para celular -->
                     <div class="d-lg-none position-absolute top-0 start-0 w-100 p-3 mi-bg-grisazulado shadow-sm d-flex align-items-center">
-                        <img src="../Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
-                        <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
+                        <a href="<?php echo URL_BASE;?>/index.php" class="navbar-brand">
+                            <img src="<?php echo URL_BASE;?>/Interfaz/Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
+                            <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
+                        </a>
                     </div>                    
                     <div class="w-100 px-3" style="max-width: 400px;">
                         <h3 class="fw-bold text-center mi-color-text">Crear Cuenta</h3>
@@ -126,7 +133,7 @@ require_once __DIR__ . '/../../carga.php';
                             </div>
                             <button class="btn mis-bgs-btns my-3 w-100 h-50 text-light">REGISTRARSE<i class="bi bi-arrow-right-short"></i></button>
                         </form>
-                        <p class="text-center small">¿Ya tenés una cuenta?<a href="" class="text-decoration-none fw-bold"style="color: #AB978C;"> Inicia Sesión</a></p>
+                        <p class="text-center small">¿Ya tenés una cuenta?<a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="text-decoration-none fw-bold"style="color: #AB978C;"> Inicia Sesión</a></p>
                     </div>                    
                 </div>
             </div>

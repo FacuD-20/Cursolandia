@@ -47,7 +47,7 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                             Mis Cursos
                         </a>
                         <a href="#intereses_antecedentes" class="list-group-item list-group-item-action text-start border-0 rounded-3 mb-1">
-                            <i class="bi bi-book me-2"></i>
+                            <i class="bi bi-bookmark-plus me-2"></i>
                             Antecedentes e Intereses
                         </a>
                         <a href="#plan_pro" class="list-group-item list-group-item-action text-start border-0 rounded-3 mb-1">
