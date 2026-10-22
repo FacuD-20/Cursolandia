@@ -32,7 +32,7 @@ require_once __DIR__ . '/../../carga.php';
                 <!-- Imagen PC-->
                 <div class="col-lg-6 d-none d-lg-flex mi-bg-grisazulado flex-column justify-content-start align-items-center">
                     <!-- Logo -->
-                    <div class="w-100 px-5 mt-4 mb-5 text-start">                        
+                    <div class="w-100 px-5 mt-4 mb-5 text-start">
                         <a href="<?php echo URL_BASE;?>/index.php" class="navbar-brand">
                             <img src="<?php echo URL_BASE;?>/Interfaz/Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
                             <span class="text-white fw-bold ms-2 fs-4 align-middle">Cursolandia</span>
@@ -131,7 +131,7 @@ require_once __DIR__ . '/../../carga.php';
                                     Acepte los terminos y condiciones.
                                 </div>
                             </div>
-                            <button class="btn mis-bgs-btns my-3 w-100 h-50 text-light">REGISTRARSE<i class="bi bi-arrow-right-short"></i></button>
+                            <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/intereses.php" class="btn mis-bgs-btns my-3 w-100 h-50 text-light">REGISTRARSE<i class="bi bi-arrow-right-short"></i></a>
                         </form>
                         <p class="text-center small">¿Ya tenés una cuenta?<a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="text-decoration-none fw-bold"style="color: #AB978C;"> Inicia Sesión</a></p>
                     </div>                    
