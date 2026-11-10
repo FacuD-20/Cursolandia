@@ -28,22 +28,22 @@ CREATE INDEX idx_U_Plan ON Usuarios(U_Plan);
 -- Tabla de Solicitudes Pros --
 CREATE TABLE Solicitudes_Pros (
     SP_ID INT AUTO_INCREMENT NOT NULL,
-    SP_U_ID_Solicita INT NOT NULL,
-    SP_U_ID_Administra INT DEFAULT NULL,
+    U_ID_Solicita INT NOT NULL,
+    U_ID_Administra INT DEFAULT NULL,
     SP_Texto VARCHAR(255) NOT NULL,
     SP_Comprobante VARCHAR(255) NOT NULL,
     SP_FDEmision DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     SP_FDVencimiento DATE DEFAULT NULL,
     SP_Estado ENUM('pendiente','aprobada','rechazada') NOT NULL DEFAULT 'pendiente',
     PRIMARY KEY (SP_ID),
-    CONSTRAINT FK_SP_U_ID_Solicita FOREIGN KEY (SP_U_ID_Solicita) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
-    CONSTRAINT FK_SP_U_ID_Administra FOREIGN KEY (SP_U_ID_Administra) REFERENCES Usuarios(U_ID) ON DELETE SET NULL
+    CONSTRAINT FK_U_ID_Solicita FOREIGN KEY (U_ID_Solicita) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_U_ID_Administra FOREIGN KEY (U_ID_Administra) REFERENCES Usuarios(U_ID) ON DELETE SET NULL
 );
 
 -- Tabla de Cursos -- 
 CREATE TABLE Cursos (
     C_ID INT AUTO_INCREMENT NOT NULL,
-    C_U_ID_Crea INT NOT NULL,
+    U_ID_Crea INT NOT NULL,
     C_Titulo VARCHAR (150) NOT NULL,
     C_Descripcion TEXT NOT NULL,
     C_Costo DECIMAL(10, 2) DEFAULT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE Cursos (
     C_Img VARCHAR(255) DEFAULT 'imgcurso_pordefecto.png',
     C_Acceso ENUM('publico','privado') NOT NULL DEFAULT 'publico',
     PRIMARY KEY (C_ID),
-    CONSTRAINT FK_C_U_ID_Crea FOREIGN KEY (C_U_ID_Crea) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_U_ID_Crea FOREIGN KEY (U_ID_Crea) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
     CONSTRAINT chk_C_Costo CHECK (C_Costo IS NULL OR C_Costo >= 0),
     CONSTRAINT chk_C_Cupos CHECK (C_Cupos IS NULL OR C_Cupos >= 0),
     CONSTRAINT chk_C_Fechas CHECK (C_FDInicio <= C_FDFin)
@@ -101,59 +101,66 @@ CREATE TABLE Intereses (
 -- Tabla de Materiales -- 
 CREATE TABLE Materiales (
     M_ID INT AUTO_INCREMENT NOT NULL,
-    M_C_ID_Adjunta INT NOT NULL,
+    C_ID_Adjunta INT NOT NULL,
     M_Nombre VARCHAR(255) NOT NULL,
     M_Ruta VARCHAR(255) NOT NULL,
     M_Tipo VARCHAR(100) NOT NULL,
     M_Tamano INT NOT NULL,
     M_FDSubida DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (M_ID),
-    CONSTRAINT FK_M_C_ID_Adjunta FOREIGN KEY (M_C_ID_Adjunta) REFERENCES Cursos(C_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_C_ID_Adjunta FOREIGN KEY (C_ID_Adjunta) REFERENCES Cursos(C_ID) ON DELETE CASCADE,
     CONSTRAINT chk_M_Tamano CHECK (M_Tamano > 0)
 );
 
 -- Tabla de Preguntas --
 CREATE TABLE Preguntas (
     P_ID INT AUTO_INCREMENT NOT NULL,
-    P_C_ID_Contiene INT NOT NULL,
-    P_U_ID_Inicia INT NOT NULL,
+    C_ID_Contiene INT NOT NULL,
+    U_ID_Inicia INT NOT NULL,
     P_Titulo VARCHAR(150) NOT NULL,
     P_Texto TEXT NOT NULL,
     P_Destacada TINYINT(1) NOT NULL DEFAULT 0,
     P_Cerrada TINYINT(1) NOT NULL DEFAULT 0,
     P_FDCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (P_ID),
-    CONSTRAINT FK_P_C_ID_Contiene FOREIGN KEY (P_C_ID_Contiene) REFERENCES Cursos(C_ID) ON DELETE CASCADE,
-    CONSTRAINT FK_P_U_ID_Inicia FOREIGN KEY (P_U_ID_Inicia) REFERENCES Usuarios(U_ID) ON DELETE CASCADE
+    CONSTRAINT FK_C_ID_Contiene FOREIGN KEY (C_ID_Contiene) REFERENCES Cursos(C_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_U_ID_Inicia FOREIGN KEY (U_ID_Inicia) REFERENCES Usuarios(U_ID) ON DELETE CASCADE
 );
 
 -- Tabla de Respuestas --
 CREATE TABLE Respuestas (
     R_ID INT AUTO_INCREMENT NOT NULL,
-    R_U_ID_Realiza INT NOT NULL,
-    R_P_ID_Pertenece INT NOT NULL,
+    U_ID_Realiza INT NOT NULL,
+    P_ID_Pertenece INT NOT NULL,
     R_Texto TEXT NOT NULL,
     R_Aceptada TINYINT(1) NOT NULL DEFAULT 0,
     R_FDCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     R_FDEdicion DATETIME DEFAULT NULL,
     PRIMARY KEY (R_ID),
-    CONSTRAINT FK_R_U_ID_Realiza FOREIGN KEY (R_U_ID_Realiza) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
-    CONSTRAINT FK_R_P_ID_Pertenece FOREIGN KEY (R_P_ID_Pertenece) REFERENCES Preguntas(P_ID) ON DELETE CASCADE
+    CONSTRAINT FK_U_ID_Realiza FOREIGN KEY (U_ID_Realiza) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_P_ID_Pertenece FOREIGN KEY (P_ID_Pertenece) REFERENCES Preguntas(P_ID) ON DELETE CASCADE
 );
 
--- Tabla de Notificaciones (Relacion entre usuario, pregunta y respuesta) --
+-- Tabla de Notificaciones --
 CREATE TABLE Notificaciones (
     N_ID INT AUTO_INCREMENT NOT NULL,
-    U_ID_Notifica INT NOT NULL,
-    P_ID_Notifica INT DEFAULT NULL,
-    R_ID_Notifica INT DEFAULT NULL,
+    P_ID_Crea INT DEFAULT NULL,
+    R_ID_Crea INT DEFAULT NULL,
     N_Texto TEXT NOT NULL,
     N_Fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    N_Leida TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (N_ID),
-    CONSTRAINT FK_U_ID_Notifica FOREIGN KEY (U_ID_Notifica) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
-    CONSTRAINT FK_P_ID_Notifica FOREIGN KEY (P_ID_Notifica) REFERENCES Preguntas(P_ID) ON DELETE SET NULL,
-    CONSTRAINT FK_R_ID_Notifica FOREIGN KEY (R_ID_Notifica) REFERENCES Respuestas(R_ID) ON DELETE SET NULL
+    CONSTRAINT FK_P_ID_Notifica FOREIGN KEY (P_ID_Crea) REFERENCES Preguntas(P_ID) ON DELETE SET NULL,
+    CONSTRAINT FK_R_ID_Notifica FOREIGN KEY (R_ID_Crea) REFERENCES Respuestas(R_ID) ON DELETE SET NULL
+);
+
+-- Tabla de Notifica (Relacion entre Usuario y Notificacion) --
+CREATE TABLE Notifica (
+    N_ID_Notifica INT NOT NULL,
+    U_ID_Notifica INT NOT NULL,
+    Leida_Notifica TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (N_ID_Notifica,U_ID_Notifica),
+    CONSTRAINT FK_N_ID_Notifica FOREIGN KEY (N_ID_Notifica) REFERENCES Notificaciones (N_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_U_ID_Notifica FOREIGN KEY (U_ID_Notifica) REFERENCES Usuarios (U_ID) ON DELETE CASCADE
 );
 
 -- Inserts de prueba -- 
