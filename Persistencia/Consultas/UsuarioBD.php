@@ -50,5 +50,11 @@
 
             return $fila[0];
         }
+        public function insertar_antecedentes ($id_u,$ant) {
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $qry = "UPDATE Usuarios SET U_Ant = '$ant' WHERE U_ID = '$id_u'";
+            $result = mysqli_query($conexion,$qry);
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+        }
     }
 ?>
