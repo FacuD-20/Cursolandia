@@ -1,5 +1,26 @@
 <?php
-require_once __DIR__ . '/../../carga.php';
+    require_once __DIR__ . '/../../carga.php';
+    require_once RUTA_BASE . "/Logica/Usuario.php";
+    require_once RUTA_BASE . "/Persistencia/Consultas/UsuarioBD.php";
+
+    session_start();
+    extract($_POST);
+
+    $mensaje_error = "";
+    
+    if (isset($registrarse) && $registrarse == 1) {
+        $usuario = new Usuario(trim($nombrecompleto),trim($apellido),trim($documento),
+        trim($fdn),trim($emailr),trim($contrar));
+        $ubdd = new UsuarioBD();
+        try {
+            $id = $ubdd -> registrar_usuario($usuario);
+            $_SESSION["id_usuario_r"] = $id;
+            header ("Location: intereses.php");
+            exit;
+        } catch (Exception $e) {
+            $mensaje_error = $e -> getMessage();
+        }
+    }
 ?>
 <!doctype html>
 <html lang="es" data-bs-theme="light">
@@ -60,6 +81,7 @@ require_once __DIR__ . '/../../carga.php';
                     <div class="w-100 px-3" style="max-width: 400px;">
                         <h3 class="fw-bold text-center mi-color-text">Crear Cuenta</h3>
                         <p class="text-center mb-4 small">Completa tus datos para empezar</p>
+                        <?php if ($mensaje_error != "") { echo "<p class='text-start text-danger mb-4 small'>" . $mensaje_error. "</p>"; }?>
                         <form action="" method="POST" name="finiciodesesion" class="needs-validation" novalidate>
                             <!-- Nombre Completo y Apellido -->
                             <div class="row g-2">
@@ -117,8 +139,8 @@ require_once __DIR__ . '/../../carga.php';
                             </div>
                             <!-- Contraseña -->
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="contraseñaregistrarse" name="contraseñaregistrarse" placeholder="" required minlength="8"> 
-                                <label for="contraseñainicio">Contraseña</label>
+                                <input type="password" class="form-control" id="contrar" name="contrar" placeholder="" required minlength="8"> 
+                                <label for="contrar">Contraseña</label>
                                 <div class="invalid-feedback">
                                     Minimo 8 caracteres.
                                 </div>
@@ -131,7 +153,7 @@ require_once __DIR__ . '/../../carga.php';
                                     Acepte los terminos y condiciones.
                                 </div>
                             </div>
-                            <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/intereses.php" class="btn mis-bgs-btns my-3 w-100 h-50 text-light">REGISTRARSE<i class="bi bi-arrow-right-short"></i></a>
+                            <button type="submit" name="registrarse" value = "1" class="btn mis-bgs-btns my-3 w-100 h-50 text-light">REGISTRARSE<i class="bi bi-arrow-right-short"></i></button>
                         </form>
                         <p class="text-center small">¿Ya tenés una cuenta?<a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="text-decoration-none fw-bold"style="color: #AB978C;"> Inicia Sesión</a></p>
                     </div>                    
