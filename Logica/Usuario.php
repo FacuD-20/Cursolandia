@@ -16,7 +16,8 @@
         //C
         public function __construct (
             $nombre, $apellido, $dni, $fdn, $email, $contra,
-            $plan = "gratuito", $rol = "usuario", $antec = null, $fotoperfil = "avatar_pordefecto.png", $id = null
+            $plan = "gratuito", $rol = "usuario", $antec = null, 
+            $fotoperfil = "avatar_pordefecto.png", $id = null
             ) {
             $this -> id = $id;
             $this -> nombre = $nombre;

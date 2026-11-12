@@ -56,5 +56,26 @@
             $result = mysqli_query($conexion,$qry);
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
         }
+        public function iniciar_sesion ($email,$contra) {
+
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $qry = "SELECT * FROM Usuarios WHERE U_Email = '$email' AND 
+            U_Contrasena = '$contra'";
+            $result = mysqli_query($conexion,$qry);
+            
+            if (mysqli_num_rows($result) == 0) {
+                include RUTA_BASE . "/Persistencia/cerrar_c.php";
+                throw new Exception ("Los datos no coinciden.");
+            } else {
+                $fila = mysqli_fetch_array($result);
+                include RUTA_BASE . "/Persistencia/cerrar_c.php";
+
+                $nu = new Usuario ($fila['U_Nom'],$fila['U_Ape'],$fila['U_DNI'],$fila['U_FDN'],$fila['U_Email'],
+                $fila['U_Contrasena'],$fila['U_Plan'],$fila['U_Rol'],$fila['U_Ant'],
+                $fila['U_FotoDePerfil'],$fila['U_ID']);
+
+                return $nu;
+            }
+        }
     }
 ?>

@@ -1,5 +1,23 @@
 <?php
-require_once __DIR__ . '/../../carga.php';
+    require_once __DIR__ . '/../../carga.php';
+    require_once RUTA_BASE . "/Persistencia/Consultas/UsuarioBD.php";
+
+    session_start();
+    extract($_POST);
+    $ubdd = new UsuarioBD();
+
+    $mensaje_error = "";
+
+    if (isset($iniciar_sesion) && $iniciar_sesion == 1) {
+        try {
+            $usuario = $ubdd -> iniciar_sesion($emailinicio,$contrainicio);
+            $_SESSION["id_usuario"] = $usuario -> id;
+            header("Location:" . URL_BASE . "/index.php");
+            exit;
+        } catch (Exception $e) {
+            $mensaje_error = $e -> getMessage();
+        }
+    }
 ?>
 
 <!doctype html>
@@ -62,19 +80,27 @@ require_once __DIR__ . '/../../carga.php';
                     <div class="w-100 px-3" style="max-width: 400px;">
                         <h3 class="fw-bold text-center mi-color-text">Iniciar Sesión</h3>
                         <p class="text-center mb-4 small">Ingresa tus datos para acceder</p>
+                        <?php if ($mensaje_error != "") { echo "<p class='text-start text-danger mb-4 small'>" . $mensaje_error . "</p>"; }?>
                         <form action="" method="POST" name="finiciodesesion">
+                            <!-- Email -->
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="emailinicio" name ="emailinicio" placeholder="">
+                                <input type="email" class="form-control" id="emailinicio" name ="emailinicio" 
+                                placeholder="">
                                 <label for="emailinicio" class="text-dark">Email</label>
                             </div>
+                            <!-- Contrasena -->
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="contraseñainicio" name="contraseñainicio" placeholder="">
-                                <label for="contraseñainicio">Contraseña</label>
+                                <input type="password" class="form-control" id="contrainicio" name="contrainicio" placeholder="">
+                                <label for="contrainicio" class="text-dark">Contraseña</label>
                             </div>
+                            <!-- Olvidaste tu contraseña? -->
                             <div class="text-end">
                                 <a href="" class="mi-color-text small">¿Olvidaste tu contraseña?</a>
                             </div>
-                            <button class="btn mis-bgs-btns my-3 w-100 h-50 text-light">INICIAR SESION<i class="bi bi-arrow-right-short"></i></button>
+                            <button type="submit" name="iniciar_sesion" value="1" 
+                            class="btn mis-bgs-btns my-3 w-100 h-50 text-light">
+                                INICIAR SESION<i class="bi bi-arrow-right-short"></i>
+                            </button>
                         </form>
                         <p class="text-center small">¿No tienes cuenta?<a href="<?php echo URL_BASE;?>/Interfaz/Usuario/registrarse.php" class="text-decoration-none fw-bold"style="color: #AB978C;"> Registrate gratis</a></p>
                     </div>                    
