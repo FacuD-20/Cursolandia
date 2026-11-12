@@ -10,9 +10,13 @@
 
     if (isset($iniciar_sesion) && $iniciar_sesion == 1) {
         try {
-            $usuario = $ubdd -> iniciar_sesion($emailinicio,$contrainicio);
+            $usuario = $ubdd -> iniciar_sesion(trim($emailinicio),trim($contrainicio));
             $_SESSION["id_usuario"] = $usuario -> id;
-            header("Location:" . URL_BASE . "/index.php");
+            $_SESSION["nombre_usuario"] = $usuario -> nombre;
+            $_SESSION["rol_usuario"] = $usuario -> rol;
+            $_SESSION["plan_usuario"] = $usuario -> plan;
+            $_SESSION["fp_usuario"] = $usuario -> fotoperfil;
+            header("Location: " . URL_BASE . "/index.php");
             exit;
         } catch (Exception $e) {
             $mensaje_error = $e -> getMessage();
