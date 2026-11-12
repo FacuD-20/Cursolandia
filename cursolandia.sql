@@ -15,7 +15,7 @@ CREATE TABLE Usuarios (
     U_Contrasena VARCHAR(255) NOT NULL,
     U_Plan ENUM('gratuito','pro') NOT NULL DEFAULT 'gratuito',
     U_Rol ENUM('usuario','admin') NOT NULL DEFAULT 'usuario',
-    U_FotoDePerfil VARCHAR(255) NOT NULL DEFAULT 'avatar_pordefecto.png',
+    U_FotoDePerfil VARCHAR(255) NOT NULL DEFAULT 'avatar_pordefecto.avif',
     PRIMARY KEY (U_ID),
     UNIQUE (U_DNI),
     UNIQUE (U_Email),
