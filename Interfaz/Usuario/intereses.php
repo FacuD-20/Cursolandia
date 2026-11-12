@@ -1,6 +1,32 @@
 <?php
-require_once __DIR__ . '/../../carga.php';
+    require_once __DIR__ . '/../../carga.php';
+    require_once RUTA_BASE . '/Persistencia/Consultas/UsuarioBD.php';
+    require_once RUTA_BASE . '/Persistencia/Consultas/EtiquetaBD.php';
+    require_once RUTA_BASE . '/Persistencia/Consultas/InteresesBD.php';
+
+    session_start();
+    extract($_POST);
+
+    $ebdd = new EtiquetaBD();
+    $ibdd = new InteresesBD();
+    $ubdd = new UsuarioBD();
+    $lista = $ebdd -> listar_etiquetas();
+
+    if (isset($finalizar) && $finalizar == 1) {
+        if (!empty($intereses)) {
+            foreach ($intereses as $e) {
+                $ibdd -> insertar_intereses($_SESSION["id_usuario_r"],$e);
+            }
+        }
+        if (!empty($antecedentes)) {
+            $ubdd -> insertar_antecedentes($_SESSION["id_usuario_r"],$antecedentes);
+        }
+        unset($_SESSION["id_usuario_r"]);
+        header("Location:" . URL_BASE . "/Interfaz/Usuario/acceder.php");
+        exit;
+    }
 ?>
+
 <!doctype html>
 <html lang="es" data-bs-theme="light">
     <head>
@@ -60,14 +86,14 @@ require_once __DIR__ . '/../../carga.php';
                                 <!-- Intereses --> 
                                 <label class="form-label fw-bold small mi-color-text mb-2">Categorías y Etiquetas</label>
                                 <div class="d-flex flex-wrap gap-2 mb-4">
-                                    <input type="checkbox" class="btn-check" name="intereses[]" id="int_prog" value="Programacion" autocomplete="off">
-                                    <label class="btn mis-btnes-sinbg rounded-pill px-3 py-1 small fw-bold" for="int_prog">
-                                        <i class="bi bi-code-slash me-1"></i> Programación
-                                    </label>
-                                    <input type="checkbox" class="btn-check" name="intereses[]" id="int_diseno" value="Diseno UI/UX" autocomplete="off">
-                                    <label class="btn mis-btnes-sinbg rounded-pill px-3 py-1 small fw-bold" for="int_diseno">
-                                        <i class="bi bi-brush me-1"></i> Diseño UI/UX
-                                    </label>
+                                    <?php foreach ($lista as $e) { echo "
+                                        <input type='checkbox' class='btn-check' name='intereses[]' id='" . $e -> id . "' 
+                                        value='" . $e -> id . "' autocomplete='off'>
+                                        <label class='btn mis-btnes-sinbg rounded-pill px-3 py-1 small fw-bold' for='" . $e -> id ."'>".
+                                            $e -> nombre
+                                        ."</label>
+                                    ";
+                                    }?>
                                 </div>
                                 <!-- Antecedentes -->
                                 <div class="mb-4">
@@ -77,13 +103,13 @@ require_once __DIR__ . '/../../carga.php';
                                     <textarea class="form-control" id="antecedentes" name="antecedentes" rows="3" placeholder="Contanos brevemente tus estudios, experiencia o conocimientos previos..."></textarea>
                                 </div>
                                 <!-- Boton Registrartse -->
-                                <button type="submit" class="btn mis-bgs-btns w-100 py-2 text-light fw-bold mb-2">
+                                <button type="submit" name="finalizar" value = "1" class="btn mis-bgs-btns w-100 py-2 text-light fw-bold mb-2">
                                     FINALIZAR REGISTRO <i class="bi bi-check-lg ms-1"></i>
                                 </button>    
                                 <!-- Boton Omitir e ir a la pag principal -->                      
                                 <div class="text-center mt-2">
-                                    <a href="<?php echo URL_BASE; ?>/index.php" class="text-muted small text-decoration-none">
-                                        Omitir por ahora e ir al inicio →
+                                    <a href="<?php echo URL_BASE; ?>/Interfaz/Usuario/acceder.php" class="text-muted small text-decoration-none">
+                                        Omitir por ahora e iniciar sesion<i class="bi bi-arrow-right-short"></i>
                                     </a>
                                 </div>
                             </form>
