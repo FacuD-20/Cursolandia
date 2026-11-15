@@ -7,8 +7,7 @@
     require_once RUTA_BASE . "/Persistencia/Consultas/EtiquetaBD.php";
     require_once RUTA_BASE . "/Persistencia/Consultas/CursoBD.php";
     require_once RUTA_BASE . "/Persistencia/Consultas/UsuarioBD.php";
-
-    //Extraemos los valores de la matriz $_POST
+    //Extraemos los valores de la matriz $_POST y iniciamos la session
     extract($_POST);
     //Instanciamos los objetos de las clases
     $cbdd = new CursoBD();
@@ -43,17 +42,33 @@
                 $materiales[] = $m;
             }
         }
+        //Verificamos si subio uno imagen
+        if (isset($_FILES["img"]) && $_FILES["img"]["name"] != "") {
+            //Colocamos el id del usuario para saber quien subio x imagen y obtenemos la extension.
+            $ext = pathinfo($_FILES["img"]["name"], PATHINFO_EXTENSION);
+            $img = $_SESSION["id_usuario"] . "_" . time() . "." . $ext;
+            $vieja_r = $_FILES["img"]["tmp_name"];
+            $nueva_r = RUTA_BASE . "/Subidos/Img/Cursos/" . $img;
+        } else {
+            //Si el usuario no subio ninguna imagen, queda la imagen por defecto
+            $img = "imgcurso_pordefecto.png";
+        }
         //Instanciamos el objeto curso.
         $c = new Curso($_SESSION["id_usuario"], $titulo, $descripcion, $fecha_inicio, $fecha_fin,
-        $costo, $cupos, $sacceso, $materiales, $list_etiquetas);
+        $img, $costo, $cupos, $sacceso, $materiales, $list_etiquetas);
         //Intentamos insertar el curso en la base de datos
         try {
             $mensaje_error_archivo = $cbdd -> crear_curso($c);
         } catch (Exception $e) {
             $mensaje_error_crear = $e -> getMessage();
         }
-        if ($mensaje_error_archivo == "" || $mensaje_error_crear == "") {
-            header("Location: aula_c.php");
+        /*Si no hay error, movemos la imagen a la carpeta /Subidos/Img/Cursos/ 
+        Y Verificamos que no sea la predefinida */
+        if ($mensaje_error_archivo == "" && $mensaje_error_crear == "") {
+            if ($img != "imgcurso_pordefecto.png"){
+                move_uploaded_file($vieja_r, $nueva_r);
+            }
+            echo "<script>window.location.href = 'aula_c.php';</script>";
             exit;
         }
     }
@@ -82,6 +97,14 @@
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                         <h4 class="fw-bold mi-color-text mb-4 border-bottom pb-2">1. Información del Curso</h4>
                         <div class="row g-3">
+                            <!-- Imagen del curso -->
+                            <div class="col-12">
+                                <label for="img_curso" class="form-label fw-bold small mi-color-text">
+                                    Imagen de Portada 
+                                    <span class="text-muted fw-normal">(Opcional)</span>
+                                </label>
+                                <input type="file" class="form-control" id="img" name="img" accept="image/*">
+                            </div>
                             <!-- Titulo -->
                             <div class="col-12">
                                 <label for="titulo" class="form-label fw-bold small mi-color-text">Título del Curso *</label>

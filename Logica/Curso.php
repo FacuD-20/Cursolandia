@@ -15,8 +15,8 @@
         private $etiquetas;
         //C
         public function __construct (
-            $id_usuario, $titulo, $descripcion, $fdinicio, $fdfin, $costo = null, $cupos = null, $acceso = "publico", 
-            $materiales = null, $etiquetas = null, $imagen = "imgcurso_pordefecto.png", $id = null
+            $id_usuario, $titulo, $descripcion, $fdinicio, $fdfin, $imagen, $costo = null, $cupos = null, 
+            $acceso = "publico", $materiales = null, $etiquetas = null, $id = null
             ) {
             $this -> id_usuario = $id_usuario;
             $this -> titulo = $titulo;
