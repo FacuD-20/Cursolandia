@@ -122,7 +122,7 @@
                         <?php if (isset($_SESSION["id_usuario"])): ?>
                             <div class="d-none d-lg-flex ms-auto align-items-center gap-3">
                                 <!-- Boton ponel de administracion solo para lo que son administradores -->
-                                <?php if ($_SESSION["rol_usuario"] == "administrador"): ?>
+                                <?php if ($_SESSION["rol_usuario"] == "admin"): ?>
                                     <a href="" class="btn btn-sm btn-outline-light">Panel de Administracion</a>
                                 <?php endif; ?>
                                 <!-- Boton de notificaciones -->

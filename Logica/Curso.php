@@ -16,20 +16,20 @@
         //C
         public function __construct (
             $id_usuario, $titulo, $descripcion, $fdinicio, $fdfin, $costo = null, $cupos = null, $acceso = "publico", 
-            $imagen = "imgcurso_pordefecto.png", $id = null
+            $materiales = null, $etiquetas = null, $imagen = "imgcurso_pordefecto.png", $id = null
             ) {
             $this -> id_usuario = $id_usuario;
             $this -> titulo = $titulo;
             $this -> descripcion = $descripcion;
             $this -> fdinicio = $fdinicio;
             $this -> fdfin = $fdfin;
-            $this -> costo = $costo;
-            $this -> cupos = $cupos;
+            $this -> costo = ($costo === "") ? 0 : $costo;
+            $this -> cupos = ($cupos === "") ? null : $cupos;
             $this -> imagen = $imagen;
             $this -> acceso = $acceso;
             $this -> id = $id;
-            $this -> materiales = array();
-            $this -> etiquetas = array();
+            $this -> materiales = $materiales;
+            $this -> etiquetas = $etiquetas;
         }
         //M
         public function __get ($var) {

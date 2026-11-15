@@ -1,6 +1,6 @@
 <?php 
-require_once __DIR__ . '/carga.php';
-include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
+    require_once __DIR__ . '/carga.php';
+    include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
 ?>
 
 <main class="flex-grow-1">
@@ -14,12 +14,12 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                     <!-- Botones en Celular -->
                     <div class="d-lg-none d-flex flex-column flex-lg-row gap-2 mt-4" style ="width: 35%">
                         <a href="<?php echo URL_BASE;?>/Interfaz/Cursos/catalogo.php" class="d-flex btn mis-bgs-btns w-auto p-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
-                        <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="d-flex btn btn-outline-light w-auto p-3">CREAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
+                        <a href="<?php if (isset($_SESSION['id_usuario'])) {echo URL_BASE . '/Interfaz/Cursos/crear_c.php'; } else {echo URL_BASE . '/Interfaz/Usuario/acceder.php'; }?>" class="d-flex btn btn-outline-light w-auto p-3">CREAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
                     </div>
                     <!-- Botones en computadora -->
                     <div class="d-none d-lg-flex flex-column flex-lg-row gap-3 mt-4 w-75">
                         <a href="<?php echo URL_BASE;?>/Interfaz/Cursos/catalogo.php" class="btn mis-bgs-btns w-100 py-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short"></i></a>
-                        <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/acceder.php" class="btn btn-outline-light w-100 py-3">CREAR CURSOS<i class="bi bi-arrow-right-short"></i></a>
+                        <a href="<?php if (isset($_SESSION['id_usuario'])) {echo URL_BASE . '/Interfaz/Cursos/crear_c.php'; } else {echo URL_BASE . '/Interfaz/Usuario/acceder.php'; }?>" class="btn btn-outline-light w-100 py-3">CREAR CURSOS<i class="bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
                 <div class="d-none d-lg-block col-6">

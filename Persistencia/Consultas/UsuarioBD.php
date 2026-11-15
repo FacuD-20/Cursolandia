@@ -56,6 +56,7 @@
             $result = mysqli_query($conexion,$qry);
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
         }
+
         public function iniciar_sesion ($email,$contra) {
 
             include RUTA_BASE . "/Persistencia/conexion.php";
@@ -76,6 +77,42 @@
 
                 return $nu;
             }
+        }
+
+        public function cantidad_cursos ($id_u) {
+            //Armamos la instruccion
+            $qry = "
+                SELECT C_ID 
+                FROM Cursos
+                WHERE U_ID_Crea = '$id_u'
+            ";
+            //Abrimos la conexion y guardamos el resultado
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $result = mysqli_query($conexion,$qry);
+            //Guardamos la cantidad de filas en una variable
+            $cantidad = mysqli_num_rows($result);
+            //Cerramos la conexion
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+            //Retornamos la variable con la cantidad de filas guardadas
+            return $cantidad;
+        }
+
+        public function datos_usuario ($id_u) {
+            //arreglo de datos para que no se pierdan
+            $datos = array();
+            $qry = "
+                SELECT U_Nom,U_Plan,U_Rol
+                FROM Usuarios
+                WHERE U_ID = '$id_u'
+            ";
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $result = mysqli_query($conexion,$qry);
+            //Guardamos los datos en el array
+            $fila = mysqli_fetch_array($result);
+            //Cerramos la conexion
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+            //retornamos el array
+            return $fila;
         }
     }
 ?>
