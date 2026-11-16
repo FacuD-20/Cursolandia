@@ -122,8 +122,7 @@
                 FROM Usuarios
                 LEFT JOIN Intereses ON U_ID = U_ID_Intereses
                 LEFT JOIN Etiquetas ON E_ID_Intereses = E_ID
-                WHERE U_ID = '$id_u' AND U_ID = U_ID_Intereses AND
-                E_ID_Intereses = E_ID
+                WHERE U_ID = '$id_u'
                 GROUP BY U_ID
             ";
             include RUTA_BASE . "/Persistencia/conexion.php";
