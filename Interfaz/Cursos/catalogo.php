@@ -1,6 +1,28 @@
 <?php 
-require_once __DIR__ . '/../../carga.php';
-include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php'; 
+    require_once __DIR__ . '/../../carga.php';
+    include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php'; 
+    require_once RUTA_BASE . '/Persistencia/Consultas/EtiquetaBD.php';
+    require_once RUTA_BASE . '/Persistencia/Consultas/CursoBD.php';
+    
+    extract($_POST);
+    //Instanciamos CursoBD y enlistamos los cursos
+    $ebdd = new EtiquetaBD();
+    $cbdd = new CursoBD();
+    //Obtenemos todos los cursos y etiquetas para los filtros
+    $lista_e = $ebdd -> listar_etiquetas();
+    //Verficamos si el usuario aplico algun filtro
+    if (isset($aplicar_f) && $aplicar_f == 1) {
+        //Guardamos los valores en variables dependiendo de la condicion
+        $f_etiquetas = isset($etiquetas) ? $etiquetas : array();
+        $f_gratis = isset($checkgratis) ? 1 : 0;
+        $f_pagos = isset($checkpagos) ? 1 : 0;
+        $f_nuevos = isset($checknuevos) ? 1 : 0;
+        $f_publicos = isset($checkpublicos) ? 1 : 0;
+        $f_privados = isset($checkprivados) ? 1 : 0;
+        $lista_c = $cbdd -> listar_cursos($f_etiquetas,$f_gratis,$f_pagos,$f_nuevos,$f_publicos,$f_privados);
+    } else {
+        $lista_c = $cbdd -> listar_cursos();
+    }
 ?>
 
 <main>
@@ -11,24 +33,41 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                 <div class="card bg-white rounded-4 border-0 shadow-sm p-4">
                     <form action="" method="POST" name="fpcfiltros">
                         <h5 class="mi-color-text fw-bold border-bottom border-secondary-subtle pb-2 mb-3">Etiquetas</h5>
-                        <div class="form-check mb-2">
-                            <input type="checkbox" class="form-check-input" name="nombreetiqueta" id="nombreetiquetapc">
-                            <label for="nombreetiquetapc">Nombre Etiqueta</label>
-                        </div>
+                        <!-- Etiquetas checkbox -->
+                        <?php foreach($lista_e as $e):?>
+                            <div class="form-check mb-2">
+                                <input type='checkbox' name='etiquetas[]' id='<?php echo "etiq_pc_{$e->id}"; ?>' class='form-check-input' value='<?php echo $e->id; ?>'>
+                                <label for='<?php echo "etiq_pc_{$e->id}"; ?>' class='form-check-label'><?php echo $e->nombre ;?></label>
+                            </div>
+                        <?php endforeach; ?>
+                        <!-- Checkboxes varios -->
                         <h5 class="mi-color-text fw-bold border-bottom border-secondary-subtle pb-2 mb-3 mt-4">Tipo</h5>
+                        <!-- Gratis -->
                         <div class="form-check mb-2">
                             <input type="checkbox" class="form-check-input" name="checkgratis" id="checkgratispc">
                             <label for="checkgratispc">Gratis</label>
                         </div>
+                        <!-- Pagos -->
                         <div class="form-check mb-2">
                             <input type="checkbox" class="form-check-input" name="checkpagos" id="checkpagospc">
                             <label for="checkpagospc">Pagos</label>
                         </div>
+                        <!-- Nuevos -->
                         <div class="form-check mb-2">
                             <input type="checkbox" class="form-check-input" name="checknuevos" id="checknuevospc">
                             <label for="checknuevospc">Nuevos</label>
                         </div>
-                        <button type="submit" class="btn mis-btnes-sinbg text-light w-100 mt-4" name="baplicar"><i class="bi bi-filter me-1"></i>Aplicar Filtros</button>
+                        <!-- Publico -->
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" name="checkpublicos" id="checkpublicospc">
+                            <label for="checkpublicospc">Publico</label>
+                        </div>
+                        <!-- Privado -->
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" name="checkprivados" id="checkprivadospc">
+                            <label for="checkprivadospc">Privado</label>
+                        </div>
+                        <button type="submit" name="aplicar_f" value="1" class="btn mis-btnes-sinbg text-light w-100 mt-4"><i class="bi bi-filter me-1"></i>Aplicar Filtros</button>
                     </form>
                 </div>
             </div>
@@ -47,51 +86,91 @@ include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
                     <div class="p-3">
                         <form action="" method="POST" name="fcelularfiltros">
                             <h5 class="mi-color-text fw-bold border-bottom border-secondary-subtle pb-2 mb-3">Etiquetas</h5>
-                            <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input" name="nombreetiqueta" id="nombreetiquetac">
-                                <label for="nombreetiquetac">Nombre Etiqueta</label>
-                            </div>
+                            <!-- Etiquetas checkbox -->
+                            <?php foreach($lista_e as $e):?>
+                                <div class="form-check mb-2">
+                                    <input type='checkbox' name='etiquetas[]' id='<?php echo "etiq_cel_{$e->id}"; ?>' class='form-check-input' value='<?php echo $e->id; ?>'>
+                                    <label for='<?php echo "etiq_cel_{$e->id}"; ?>' class='form-check-label'><?php echo $e->nombre ;?></label>
+                                </div>
+                            <?php endforeach; ?>
+                            <!-- Checkboxes varios -->
                             <h5 class="mi-color-text fw-bold border-bottom border-secondary-subtle pb-2 mb-3 mt-4">Tipo</h5>
+                            <!-- Gratis -->
                             <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input" name="checkgratis" id="checkgratisc">
-                                <label for="checkgratisc">Gratis</label>
+                                <input type="checkbox" class="form-check-input" name="checkgratis" id="checkgratiscel">
+                                <label for="checkgratiscel">Gratis</label>
                             </div>
+                            <!-- Pagos -->
                             <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input" name="checkpagos" id="checkpagosc">
-                                <label for="checkpagosc">Pagos</label>
+                                <input type="checkbox" class="form-check-input" name="checkpagos" id="checkpagoscel">
+                                <label for="checkpagoscel">Pagos</label>
                             </div>
+                            <!-- Nuevos -->
                             <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input" name="checknuevos" id="checknuevosc">
-                                <label for="checknuevosc">Nuevos</label>
+                                <input type="checkbox" class="form-check-input" name="checknuevos" id="checknuevoscel">
+                                <label for="checknuevoscel">Nuevos</label>
                             </div>
-                            <button type="submit" class="btn mis-btnes-sinbg text-light w-100 mt-4 rounded-5" name="baplicar"><i class="bi bi-filter me-1"></i>Aplicar Filtros</button>
+                            <!-- Publico -->
+                            <div class="form-check mb-2">
+                                <input type="checkbox" class="form-check-input" name="checkpublicos" id="checkpublicoscel">
+                                <label for="checkpublicoscel">Publico</label>
+                            </div>
+                            <!-- Privado -->
+                            <div class="form-check mb-2">
+                                <input type="checkbox" class="form-check-input" name="checkprivados" id="checkprivadoscel">
+                                <label for="checkprivadoscel">Privado</label>
+                            </div>
+                            <button type="submit" name="aplicar_f" value="1" class="btn mis-btnes-sinbg text-light w-100 mt-4"><i class="bi bi-filter me-1"></i>Aplicar Filtros</button>
                         </form>
                     </div>
                 </div>
                 <!-- Fila de Cursos -->
                 <div class="row g-4">
-                    <!-- Primera Tarjeta de curso -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
-                            <img src="" alt="" class="card-img-top rounded-top-4" style="height: 180px; object-fit: cover;">
-                            <div class="card-body d-flex flex-column p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="badge text-bg-light border text-muted">Etiqueta</span>
-                                    <span class="badge mi-bg-bronce">Gratis</span>
+                    <?php foreach ($lista_c as $c) :?>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <!-- Tarjeta de Curso -->
+                            <div class='card h-100 shadow-sm border-0 rounded-4'>
+                                <!-- Header de la tarjeta -->
+                                <?php if ($c["C_Img"] == "imgcurso_pordefecto.png"):?>
+                                    <img src='<?php echo URL_BASE . "/Interfaz/Activos/imgcurso_pordefecto.png"; ?>' alt='' class='card-img-top rounded-top-4' style='height: 180px; object-fit: cover;'>
+                                <?php else: ?>
+                                    <img src='<?php echo URL_BASE . "/Subidos/Img/Cursos/" . $c["C_Img"];?>' alt='' class='card-img-top rounded-top-4' style='height: 180px; object-fit: cover;'>
+                                <?php endif; ?>
+                                <!-- Cuerpo de la tarjeta -->
+                                <div class='card-body d-flex flex-column p-4'>
+                                    <div class='d-flex justify-content-between align-items-center mb-2'>
+                                        <?php
+                                            //Verificamos que el curso tenga etiquetas
+                                            if (!empty($c["Etiquetas"])) {
+                                                $lista_e = explode(", ",$c["Etiquetas"]);
+                                                //Imprimimos todas las etiquetas del curso en la tarjeta del mismo
+                                                foreach ($lista_e as $e) {
+                                                    echo "<span class='badge text-bg-light border text-muted'>{$e}</span>";
+                                                }
+                                            } else {
+                                                echo "<span class='badge text-bg-light border text-muted'>Sin Etiquetas</span>";
+                                            }
+                                        ?>
+                                        <?php if ($c["C_Costo"] > 0):?>
+                                        <span class='badge mi-bg-bronce'>Pago</span>
+                                        <?php else: ?>
+                                        <span class='badge mi-bg-bronce'>Gratis</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <h5 class='card-title fw-bold mi-color-text mb-2'><?php echo $c["C_Titulo"];?></h5>
+                                    <p class='text-muted small mb-1'>
+                                        <i class='bi bi-calendar-event me-1'></i> <?php echo $c["C_FDInicio"];?>
+                                    </p>
+                                    <p class='text-muted small mb-3'>
+                                        <i class='bi bi-calendar-check me-1'></i> <?php echo $c["C_FDFin"];?>
+                                    </p>
+                                    <a href='<?php echo URL_BASE; ?>/Interfaz/Cursos/detalles_c.php?id_c=<?php echo $c["C_ID"]; ?>' class='btn mis-btnes-sinbg rounded-pill w-100 mt-auto fw-bold'>
+                                        Detalles del Curso <i class='bi bi-arrow-right-short'></i>
+                                    </a>
                                 </div>
-                                <h5 class="card-title fw-bold mi-color-text mb-2">Nombre Curso</h5>
-                                <p class="text-muted small mb-1">
-                                    <i class="bi bi-calendar-event me-1"></i> Inicio: xx/xx/xxxx
-                                </p>
-                                <p class="text-muted small mb-3">
-                                    <i class="bi bi-calendar-check me-1"></i> Fin: xx/xx/xxxx
-                                </p>
-                                <a href="<?php echo URL_BASE; ?>/Interfaz/Cursos/detalles_c.php" class="btn mis-btnes-sinbg rounded-pill w-100 mt-auto fw-bold">
-                                    Detalles del Curso <i class="bi bi-arrow-right-short"></i>
-                                </a>
                             </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
