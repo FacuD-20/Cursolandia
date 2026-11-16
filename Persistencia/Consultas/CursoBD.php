@@ -99,9 +99,13 @@
         public function datos_curso ($id_c) {
             //Obtenemos los datos de x cursos y su creador.
             $qry = "
-                SELECT Cursos.*, U_Nom, U_Ape
-                FROM Cursos, Usuarios
-                WHERE U_ID_Crea = U_ID AND C_ID = '$id_c'
+                SELECT Cursos.*, U_Nom, U_Ape, U_FotoDePerfil,
+                GROUP_CONCAT(E_Nombre SEPARATOR ', ') AS Etiquetas
+                FROM Cursos INNER JOIN Usuarios ON U_ID_Crea = U_ID
+                LEFT JOIN Tiene ON C_ID_Tiene = C_ID
+                LEFT JOIN Etiquetas ON E_ID_Tiene = E_ID
+                WHERE C_ID = '$id_c'
+                GROUP BY Cursos.C_ID
             ";
             include RUTA_BASE . "/Persistencia/conexion.php";
             $result = mysqli_query($conexion,$qry);
