@@ -21,6 +21,7 @@
         $f_privados = isset($checkprivados) ? 1 : 0;
         $lista_c = $cbdd -> listar_cursos($f_etiquetas,$f_gratis,$f_pagos,$f_nuevos,$f_publicos,$f_privados);
     } else {
+        //Guardamos la lista de cursos en un arreglo.
         $lista_c = $cbdd -> listar_cursos();
     }
 ?>
