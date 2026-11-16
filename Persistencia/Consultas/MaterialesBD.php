@@ -32,5 +32,21 @@
             //Actualizamos el destino con move_upload_files()
             move_uploaded_file($ruta, $nueva_r);
         }
+        public function listar_archivos ($id_c) {
+            //Arreglo que guardara todas las filas de
+            $lista = array();
+            //Obtenemos todos los archivos de un curso
+            $qry = "
+                SELECT * FROM Materiales WHERE C_ID_Adjunta = '$id_c'
+            ";
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $result = mysqli_query($conexion,$qry);
+            //Llenamos el array
+            while ($fila = mysqli_fetch_array($result)) {
+                $lista[] = $fila;
+            }
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+            return $lista;
+        }
     }
 ?>

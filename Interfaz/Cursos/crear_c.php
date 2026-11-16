@@ -18,8 +18,7 @@
     //Obtenemos la cantidad de cursos y datos varios del usuario
     $cant_curs = $ubdd -> cantidad_cursos($_SESSION['id_usuario']);
     //Variable para mostrar un posible error.
-    $mensaje_error_crear = "";
-    $mensaje_error_archivo = "";
+    $mensaje_error = "";
     //Arreglo de materiales
     $materiales = array();
     //Obtenemos los datos de entrada del usuario.
@@ -58,17 +57,17 @@
         $img, $costo, $cupos, $sacceso, $materiales, $list_etiquetas);
         //Intentamos insertar el curso en la base de datos
         try {
-            $mensaje_error_archivo = $cbdd -> crear_curso($c);
+            $id_c = $cbdd -> crear_curso($c);
         } catch (Exception $e) {
-            $mensaje_error_crear = $e -> getMessage();
+            $mensaje_error = $e -> getMessage();
         }
         /*Si no hay error, movemos la imagen a la carpeta /Subidos/Img/Cursos/ 
         Y Verificamos que no sea la predefinida */
-        if ($mensaje_error_archivo == "" && $mensaje_error_crear == "") {
+        if ($mensaje_error == "") {
             if ($img != "imgcurso_pordefecto.png"){
                 move_uploaded_file($vieja_r, $nueva_r);
             }
-            echo "<script>window.location.href = 'aula_c.php';</script>";
+            echo "<script>window.location.href = 'aula_c.php?id_c={$id_c}';</script>";
             exit;
         }
     }
@@ -89,8 +88,7 @@
                         <?php endif; ?>
                     </span>
                 </div>
-                <?php if ($mensaje_error_crear != "") { echo "<p class='text-small text-danger'>{$mensaje_error_crear}</p>";}?>
-                <?php if ($mensaje_error_archivo != "") { echo "<p class='text-small text-danger'>{$mensaje_error_archivo}</p>";}?>
+                <?php if ($mensaje_error != "") { echo "<p class='text-small text-danger'>{$mensaje_error}</p>";}?>
                 <!-- Formulario -->
                 <form action="" method="POST" name="fcrearcurso" enctype="multipart/form-data" class="needs-validation" novalidate>                    
                     <!-- Informacion del Curso -->

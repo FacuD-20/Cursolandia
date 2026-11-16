@@ -21,9 +21,6 @@
             $etiq = $c -> etiquetas;
             $mat = $c -> materiales;
             
-            //Variable para un posible mensaje de error en materiales
-            $merror_mat = "";
-            
             //Instanciamos los objetos de las clases C_E_tiene y MaterialesBD
             $matbdd = new MaterialesBD();
             $cetiene = new Tiene();
@@ -53,7 +50,7 @@
                 }
             }
             
-            //Volvemos a verificamos el plan y que no supere el limite de cursos creados
+            //Verificamos el plan del usuario y que no supere el limite de cursos creados
             if ($cant >= 3 && $datos_u[1] == 'gratuito') {
                 throw new Exception ("Limite de cursos creados alcanzados, mejore su plan para crear mas.");
             }
@@ -96,8 +93,21 @@
                 }
             }
             
-            //Retornamos el mensaje de error de archivos.
-            return $merror_mat;
+            //Retornamos el id del curso recien creado.
+            return $id[0];
+        }
+        public function datos_curso ($id_c) {
+            //Obtenemos los datos de x cursos y su creador.
+            $qry = "
+                SELECT Cursos.*, U_Nom, U_Ape
+                FROM Cursos, Usuarios
+                WHERE U_ID_Crea = U_ID AND C_ID = '$id_c'
+            ";
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $result = mysqli_query($conexion,$qry);
+            $fila = mysqli_fetch_array($result);
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+            return $fila;
         }
     }
 ?>
