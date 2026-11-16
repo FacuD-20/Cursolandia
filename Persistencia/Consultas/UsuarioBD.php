@@ -78,11 +78,11 @@
                 return $nu;
             }
         }
-
         public function cantidad_cursos ($id_u) {
+            $cant_c = array();
             //Armamos la instruccion
             $qry = "
-                SELECT C_ID 
+                SELECT * 
                 FROM Cursos
                 WHERE U_ID_Crea = '$id_u'
             ";
@@ -90,20 +90,41 @@
             include RUTA_BASE . "/Persistencia/conexion.php";
             $result = mysqli_query($conexion,$qry);
             //Guardamos la cantidad de filas en una variable
-            $cantidad = mysqli_num_rows($result);
+            while ($fila = mysqli_fetch_array($result)) {
+                $cant_c[] = $fila;
+            }
             //Cerramos la conexion
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
             //Retornamos la variable con la cantidad de filas guardadas
-            return $cantidad;
+            return $cant_c;
         }
-
+        public function inscripciones_a_cursos ($id_u) {
+            $cant_ins = array();
+            $qry = "
+                SELECT Cursos.* 
+                FROM Tomo, Cursos 
+                WHERE U_ID_Tomo = '$id_u' AND C_ID_Tomo = C_ID
+            ";
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $result = mysqli_query($conexion,$qry);
+            while ($fila = mysqli_fetch_array($result)) {
+                $cant_ins[] = $fila;
+            }
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+            return $cant_ins;
+        }
         public function datos_usuario ($id_u) {
             //arreglo de datos para que no se pierdan
             $datos = array();
             $qry = "
-                SELECT U_Nom,U_Plan,U_Rol
+                SELECT Usuarios.*, 
+                GROUP_CONCAT(E_Nombre SEPARATOR ', ') AS Etiquetas
                 FROM Usuarios
-                WHERE U_ID = '$id_u'
+                LEFT JOIN Intereses ON U_ID = U_ID_Intereses
+                LEFT JOIN Etiquetas ON E_ID_Intereses = E_ID
+                WHERE U_ID = '$id_u' AND U_ID = U_ID_Intereses AND
+                E_ID_Intereses = E_ID
+                GROUP BY U_ID
             ";
             include RUTA_BASE . "/Persistencia/conexion.php";
             $result = mysqli_query($conexion,$qry);
