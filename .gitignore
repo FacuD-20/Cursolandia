@@ -1,7 +1,5 @@
 #Archivo de configuracion (Donde habitan los datos para la conexion con SQL)
 /Persistencia/configuracion.php
-#Archivos subidos por el usuario
-/Subidos/*
 
 # Archivos del editor y del sistema operativo
 .DS_Store

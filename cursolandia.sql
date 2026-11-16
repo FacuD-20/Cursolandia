@@ -164,12 +164,28 @@ CREATE TABLE Notifica (
 );
 
 -- Inserts de prueba -- 
-
 -- Etiquetas --
-INSERT INTO Etiquetas (E_Nombre) VALUES ("Programacion"), ("Base de Datos");
+INSERT INTO Etiquetas (E_Nombre) VALUES ("Diseño UI/UX"), ("Negocios"), ("Marketing"), 
+("Farmacia"), ("PHP"), ("JavaScript");
 
 -- Usuarios --
 INSERT INTO Usuarios (U_Nom,U_Ape,U_DNI,U_FDN,U_Email,U_Contrasena,U_Ant,U_Plan,U_Rol) 
 VALUES ("Facundo","Donaire","44985728","2003-04-01","f@gmail.com","123456789","Estudiante","pro","admin"),
 ("Gerardo","Ismael","12345678","2003-05-01","gi@gmail.com.ar","123456789","Licenciado en Geologia","gratuito","usuario"),
 ("Lucas","Geron","88882222","2004-05-20","ll@gmail.com","123456789","Ferroviario","pro","usuario");
+
+-- Cursos --
+INSERT INTO Cursos (C_Titulo, C_Descripcion, C_Costo, C_Cupos, C_FDInicio, C_FDFin, C_Img, C_Acceso) VALUES 
+(1, 'Desarrollo Web Full Stack con PHP y SQL', 'Aprende a construir aplicaciones web completas desde cero utilizando PHP, bases de datos relacionales y buenas prácticas de programación.', 0.00, 50, '2026-11-01', '2026-12-30', 'imgcurso_pordefecto.png', 'publico'),
+(2, 'Introducción a la Geología y Suelos', 'Curso especializado enfocado en el estudio de minerales, formaciones rocosas y análisis de suelos aplicados.', 1500.00, 20, '2026-11-15', '2026-12-15', 'imgcurso_pordefecto.png', 'publico'),
+(3, 'Fundamentos de Bases de Datos Relacionales', 'Dominá el diseño de esquemas, consultas SQL avanzadas y la administración eficiente de datos estructurados.', 0.00, 30, '2026-11-20', '2026-12-25', 'imgcurso_pordefecto.png', 'privado');
+
+-- Relacionamos cursos con etiquetas --
+-- Curso 1: Etiquetas con ID: 1, 2, 5
+INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (1, 1), (1, 2), (1, 5);
+
+-- Curso 2: Etiquetas con ID: 4
+INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (2, 4);
+
+-- Curso 3: Etiquetas con ID: 1, 2
+INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (3, 1), (3, 2);
