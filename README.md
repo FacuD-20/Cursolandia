@@ -16,6 +16,7 @@ Instalación y Configuración
     2_Configure la Base de Datos:
         Abra phpMyAdmin (http://localhost/phpmyadmin/).
         Importe el archivo SQL del proyecto ubicado en la raíz (cursolandia.sql). Esto creará automáticamente la base de datos Cursolandia con todas sus tablas, relaciones e índices.
+        Configure el archivo configuracion copy.php y reepograme el archivo conexion.php
     3_Verificar las Rutas Base:
         Asegurese de que el archivo de carga (carga.php) configure correctamente la constante RUTA_BASE y URL_BASE apuntando a su ruta local:
         Ejemplo:
