@@ -6,7 +6,7 @@
         private $fecha;
         private $estado;
         //C
-        public function __construct ($id_usuario, $id_curso, $fecha = null, $estado = "pendiente") {
+        public function __construct ($id_usuario, $id_curso, $estado = "pendiente", $fecha = null) {
             $this -> id_usuario = $id_usuario;
             $this -> id_curso = $id_curso;
             $this -> fecha = $fecha;
