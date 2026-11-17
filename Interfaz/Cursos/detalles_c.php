@@ -6,44 +6,42 @@
     require_once RUTA_BASE . "/Persistencia/Consultas/CursoBD.php";
 
     extract($_POST);
-
-    $_SESSION["id_c"] = $_GET["id_c"];
+    //Guardamos las datos de la inscripcion del al curso actual
+    $ins = null;
+    //Veroficamos que el usuario este logeado
+    if (isset($_GET["id_c"]) && isset($_SESSION["id_usuario"])) {
+        $_SESSION["id_c"] = $_GET["id_c"];
+        //Instanciamos el objeto de inscripcionesbd para verificar sus inscripciones
+        $ibdd = new InscripcionBD();
+        //Variable que nos permite saber si esta inscripto en el curso actual o no.
+        $ins = $ibdd -> obtener_inscripcion($_SESSION["id_usuario"],$_SESSION["id_c"]);
+    }
     //Instanciamos el objeto de cursodb
     $cbdd = new CursoBD();
-    $ibdd = new InscripcionBD();
-    //Obtenemos todos los detalles del curso y de las inscripciones segun el id del usuario
+    //Obtenemos todos los detalles del curso
     $datos_c = $cbdd -> datos_curso($_SESSION["id_c"]);
-    $ins = $ibdd -> obtener_inscripcion($_SESSION["id_usuario"]);
-    //Verificamos que no este vacio
-    if (empty($datos_c)) {
-        header("Location: " . URL_BASE . "/index.php");
-        exit;
-    }
+    //Variable para guardar un posible mensaje de error
     $mensaje = "";
-    $etiquetas_c = !empty($datos_c["Etiquetas"]) ? explode(", ",$datos_c["Etiquetas"]) : "";
+    //Guardamos todas las etiquetas del curso y si no tiene, solo definimos un array vacio
+    $etiquetas_c = !empty($datos_c["Etiquetas"]) ? explode(", ",$datos_c["Etiquetas"]) : array();
+    //Si el usuario quiere inscribirse
     if (isset($inscribirse) && $inscribirse == 1) {
-        //Control para que el titular no se pueda inscribir.
+        //Control para que el titular no se pueda inscribir y para definir el estado de inscripcion
         if ($datos_c["U_ID_Crea"] == $_SESSION["id_usuario"]) {
             $mensaje = "El titular del curso no puede inscribirse.";
-        }
-        if ($datos_c["C_Costo"] > 0) {
+        } elseif ($datos_c["C_Costo"] > 0) {
             $i = new Inscripcion($_SESSION["id_usuario"],$datos_c["C_ID"]);
-            try {
-                $ibdd -> ingresar_inscripcion($i);
-            } catch (Exception $e) {
-                $mensaje = $e -> getMessage();
-            }
+            $ibdd -> ingresar_inscripcion($i);
             $mensaje = "Inscripcion Completada. Le notificaremos cuando la hayan confirmado.";
         } else {
             $i = new Inscripcion($_SESSION["id_usuario"],$datos_c["C_ID"],'confirmada');
-            try {
-                $ibdd -> ingresar_inscripcion($i);
-            } catch (Exception $e) {
-                $mensaje = $e -> getMessage();
-            }
+            $ibdd -> ingresar_inscripcion($i);
             echo "<script>window.location.href = 'aula_c.php?id_c={$datos_c["C_ID"]}';</script>";
             exit;
         }
+    }
+    if (isset($inscribirsevisitante) && $inscribirsevisitante == 1) {
+        $mensaje = "Inicie sesion si quiere inscribirse a este curso.";
     }
     if (isset($aula) && $aula == 1) {
         echo "<script>window.location.href = 'aula_c.php?id_c={$datos_c["C_ID"]}';</script>";
@@ -68,10 +66,12 @@
                 </div>
                 <!-- Titulo y Etiqueta -->
                 <div class="col-12 col-md-7 col-lg-8 text-center text-md-start">
-                    <?php foreach($etiquetas_c as $e): ?>
-                        <span class="badge rounded-pill mi-bg-bronce px-3 py-2 mb-2"><?php echo $e; ?></span>
-                    <?php endforeach; ?>
-                    <h1 class="fw-bold mb-3 display-5 text-white"><?php echo $datos_c["C_Titulo"]; ?></h1>
+                    <?php if (!empty($etiquetas_c)): ?>
+                        <?php foreach($etiquetas_c as $e): ?>
+                            <span class="badge rounded-pill mi-bg-bronce px-3 py-2 mb-2"><?php echo $e; ?></span>
+                        <?php endforeach; ?>
+                        <h1 class="fw-bold mb-3 display-5 text-white"><?php echo $datos_c["C_Titulo"]; ?></h1>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -143,7 +143,6 @@
                 <div class="col-12 col-lg-4 order-lg-2">
                     <div class="bg-white shadow-sm p-4 mb-2 rounded-4 text-center border border-2 mi-border-grisazulado sticky-lg-top">
                         <!-- Header -->
-                        <?php if ($mensaje != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>
                         <p>Precio total del curso</p>
                         <?php if ($datos_c["C_Costo"] > 0): ?>
                             <h2 class="mb-4 mt-2 fw-bold"><?php echo $datos_c["C_Costo"]; ?></h2>
@@ -172,11 +171,16 @@
                                 <?php endif; ?>
                             </p>
                         </div>
+                        <?php if ($mensaje != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>
                         <form action="" method="POST" name="finscribirse">
-                            <?php if ($ins["U_ID_Tomo"] == $_SESSION["id_usuario"]): ?>
-                            <button type="submit" name="aula" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Ir al Aula</button>
+                            <?php if ($ins == null): ?>
+                                <button type="submit" name="inscribirsevisitante" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</button>
                             <?php else: ?>
-                            <button type="submit" name="inscribirse" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</button>
+                                <?php if ($ins["U_ID_Tomo"] == $_SESSION["id_usuario"]): ?>
+                                    <button type="submit" name="aula" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Ir al Aula</button>
+                                <?php else: ?>
+                                    <button type="submit" name="inscribirse" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</button>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </form>
                     </div>

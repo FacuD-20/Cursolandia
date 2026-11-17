@@ -15,15 +15,28 @@
             $result = mysqli_query($conexion,$qry);
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
         }
-        public function obtener_inscripcion ($id_u) {
+        public function obtener_inscripcion ($id_u,$id_c) {
             $qry = "
-                SELECT * FROM Tomo WHERE U_ID_Tomo = '$id_u'
+                SELECT * FROM Tomo WHERE U_ID_Tomo = '$id_u' AND C_ID_Tomo = '$id_c'
             ";
             include RUTA_BASE . "/Persistencia/conexion.php";
             $result = mysqli_query($conexion,$qry);
             $fila = mysqli_fetch_array($result);
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
             return $fila;
+        }
+        public function obtener_inscripciones ($id_u) {
+            $lista_isn = array();
+            $qry = "
+                SELECT * FROM Tomo WHERE U_ID_Tomo = '$id_u'
+            ";
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $result = mysqli_query($conexion,$qry);
+            while ($fila = mysqli_fetch_array($result)) {
+                $lista_ins[] = $fila;
+            }
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+            return $lista_ins;
         }
     }
 ?>
