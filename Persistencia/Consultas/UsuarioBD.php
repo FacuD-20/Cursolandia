@@ -50,13 +50,12 @@
 
             return $fila[0];
         }
-        public function insertar_antecedentes ($id_u,$ant) {
+        public function actualizar_columna ($id_u,$colum,$valor) {
             include RUTA_BASE . "/Persistencia/conexion.php";
-            $qry = "UPDATE Usuarios SET U_Ant = '$ant' WHERE U_ID = '$id_u'";
+            $qry = "UPDATE Usuarios SET $colum = '$valor' WHERE U_ID = '$id_u'";
             $result = mysqli_query($conexion,$qry);
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
         }
-
         public function iniciar_sesion ($email,$contra) {
 
             include RUTA_BASE . "/Persistencia/conexion.php";
@@ -101,7 +100,7 @@
         public function inscripciones_a_cursos ($id_u) {
             $cant_ins = array();
             $qry = "
-                SELECT Cursos.* 
+                SELECT Cursos.*, Estado_Tomo
                 FROM Tomo, Cursos 
                 WHERE U_ID_Tomo = '$id_u' AND C_ID_Tomo = C_ID
             ";
