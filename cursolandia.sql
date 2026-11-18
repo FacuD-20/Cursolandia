@@ -13,7 +13,7 @@ CREATE TABLE Usuarios (
     U_Ant TEXT DEFAULT NULL,
     U_Email VARCHAR(255) NOT NULL,
     U_Contrasena VARCHAR(255) NOT NULL,
-    U_Plan ENUM('gratuito','pro') NOT NULL DEFAULT 'gratuito',
+    U_Plan ENUM('Gratuito','Pro') NOT NULL DEFAULT 'Gratuito',
     U_Rol ENUM('usuario','admin') NOT NULL DEFAULT 'usuario',
     U_FotoDePerfil VARCHAR(255) NOT NULL DEFAULT 'avatar_pordefecto.avif',
     PRIMARY KEY (U_ID),
@@ -169,16 +169,16 @@ INSERT INTO Etiquetas (E_Nombre) VALUES ("Diseño UI/UX"), ("Negocios"), ("Marke
 ("Farmacia"), ("PHP"), ("JavaScript");
 
 -- Usuarios --
-INSERT INTO Usuarios (U_Nom,U_Ape,U_DNI,U_FDN,U_Email,U_Contrasena,U_Ant,U_Plan,U_Rol) 
-VALUES ("Facundo","Donaire","44985728","2003-04-01","f@gmail.com","123456789","Estudiante","pro","admin"),
-("Gerardo","Ismael","12345678","2003-05-01","gi@gmail.com.ar","123456789","Licenciado en Geologia","gratuito","usuario"),
-("Lucas","Geron","88882222","2004-05-20","ll@gmail.com","123456789","Ferroviario","pro","usuario");
+INSERT INTO Usuarios (U_ID, U_Nom, U_Ape, U_DNI, U_FDN, U_Email, U_Contrasena, U_Ant, U_Plan, U_Rol) 
+VALUES (1, "Facundo","Donaire","44985728","2003-04-01","f@gmail.com","123456789","Estudiante","pro","admin"),
+(2, "Gerardo","Ismael","12345678","2003-05-01","gi@gmail.com.ar","123456789","Licenciado en Geologia","gratuito","usuario"),
+(3, "Lucas","Geron","88882222","2004-05-20","ll@gmail.com","123456789","Ferroviario","pro","usuario");
 
 -- Cursos --
-INSERT INTO Cursos (C_Titulo, C_Descripcion, C_Costo, C_Cupos, C_FDInicio, C_FDFin, C_Img, C_Acceso) VALUES 
-(1, 'Desarrollo Web Full Stack con PHP y SQL', 'Aprende a construir aplicaciones web completas desde cero utilizando PHP, bases de datos relacionales y buenas prácticas de programación.', 0.00, 50, '2026-11-01', '2026-12-30', 'imgcurso_pordefecto.png', 'publico'),
-(2, 'Introducción a la Geología y Suelos', 'Curso especializado enfocado en el estudio de minerales, formaciones rocosas y análisis de suelos aplicados.', 1500.00, 20, '2026-11-15', '2026-12-15', 'imgcurso_pordefecto.png', 'publico'),
-(3, 'Fundamentos de Bases de Datos Relacionales', 'Dominá el diseño de esquemas, consultas SQL avanzadas y la administración eficiente de datos estructurados.', 0.00, 30, '2026-11-20', '2026-12-25', 'imgcurso_pordefecto.png', 'privado');
+INSERT INTO Cursos (C_ID, C_ID_Crea, C_Titulo, C_Descripcion, C_Costo, C_Cupos, C_FDInicio, C_FDFin, C_Img, C_Acceso) VALUES 
+(1, 1, 'Desarrollo Web Full Stack con PHP y SQL', 'Aprende a construir aplicaciones web completas desde cero utilizando PHP, bases de datos relacionales y buenas prácticas de programación.', 0.00, 50, '2026-11-01', '2026-12-30', 'imgcurso_pordefecto.png', 'publico'),
+(2, 2, 'Introducción a la Geología y Suelos', 'Curso especializado enfocado en el estudio de minerales, formaciones rocosas y análisis de suelos aplicados.', 1500.00, 20, '2026-11-15', '2026-12-15', 'imgcurso_pordefecto.png', 'publico'),
+(3, 3, 'Fundamentos de Bases de Datos Relacionales', 'Dominá el diseño de esquemas, consultas SQL avanzadas y la administración eficiente de datos estructurados.', 0.00, 30, '2026-11-20', '2026-12-25', 'imgcurso_pordefecto.png', 'privado');
 
 -- Relacionamos cursos con etiquetas --
 -- Curso 1: Etiquetas con ID: 1, 2, 5
