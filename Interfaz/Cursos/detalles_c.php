@@ -6,11 +6,14 @@
     require_once RUTA_BASE . "/Persistencia/Consultas/CursoBD.php";
 
     extract($_POST);
+    //Guardamos el id del curso dentro de la variable session
+    if (isset($_GET["id_c"])) {
+        $_SESSION["id_c"] = $_GET["id_c"];
+    }
     //Guardamos las datos de la inscripcion del al curso actual
     $ins = null;
-    //Veroficamos que el usuario este logeado
-    if (isset($_GET["id_c"]) && isset($_SESSION["id_usuario"])) {
-        $_SESSION["id_c"] = $_GET["id_c"];
+    //Verificamos si el usuario esta logeado o es visitante
+    if (isset($_SESSION["id_usuario"])) {
         //Instanciamos el objeto de inscripcionesbd para verificar sus inscripciones
         $ibdd = new InscripcionBD();
         //Variable que nos permite saber si esta inscripto en el curso actual o no.
@@ -22,22 +25,30 @@
     $datos_c = $cbdd -> datos_curso($_SESSION["id_c"]);
     //Variable para guardar un posible mensaje de error
     $mensaje = "";
+    $mensaje_c = "";
     //Guardamos todas las etiquetas del curso y si no tiene, solo definimos un array vacio
     $etiquetas_c = !empty($datos_c["Etiquetas"]) ? explode(", ",$datos_c["Etiquetas"]) : array();
     //Si el usuario quiere inscribirse
     if (isset($inscribirse) && $inscribirse == 1) {
-        //Control para que el titular no se pueda inscribir y para definir el estado de inscripcion
-        if ($datos_c["U_ID_Crea"] == $_SESSION["id_usuario"]) {
-            $mensaje = "El titular del curso no puede inscribirse.";
-        } elseif ($datos_c["C_Costo"] > 0) {
+        if ($datos_c["C_Costo"] > 0) {
             $i = new Inscripcion($_SESSION["id_usuario"],$datos_c["C_ID"]);
-            $ibdd -> ingresar_inscripcion($i);
-            $mensaje = "Inscripcion Completada. Le notificaremos cuando la hayan confirmado.";
+            try {
+                $ibdd -> ingresar_inscripcion($i,$_SESSION["plan_usuario"]);
+                $mensaje_c = "Inscripcion Completada. Le notificaremos cuando la hayan confirmado.";
+            } catch (Exception $e) {
+                $mensaje = $e -> getMessage();
+            }
+            //Obtenemos la nueva inscripcion para actualizar el dinamismo de la pag
+            $ins = $ibdd -> obtener_inscripcion($_SESSION["id_usuario"],$_SESSION["id_c"]);
         } else {
             $i = new Inscripcion($_SESSION["id_usuario"],$datos_c["C_ID"],'confirmada');
-            $ibdd -> ingresar_inscripcion($i);
-            echo "<script>window.location.href = 'aula_c.php?id_c={$datos_c["C_ID"]}';</script>";
-            exit;
+            try {
+                $ibdd -> ingresar_inscripcion($i,$_SESSION["plan_usuario"]);
+                echo "<script>window.location.href = 'aula_c.php?id_c={$datos_c["C_ID"]}';</script>";
+                exit;
+            } catch (Exception $e) {
+                $mensaje = $e -> getMessage();
+            }
         }
     }
     if (isset($inscribirsevisitante) && $inscribirsevisitante == 1) {
@@ -46,6 +57,9 @@
     if (isset($aula) && $aula == 1) {
         echo "<script>window.location.href = 'aula_c.php?id_c={$datos_c["C_ID"]}';</script>";
         exit;
+    }
+    if (isset($pendiente) && $pendiente == 1) {
+        $mensaje = "Su inscripcion esta pendiente, por favor, sea paciente.";
     }
 ?>
 
@@ -70,8 +84,8 @@
                         <?php foreach($etiquetas_c as $e): ?>
                             <span class="badge rounded-pill mi-bg-bronce px-3 py-2 mb-2"><?php echo $e; ?></span>
                         <?php endforeach; ?>
-                        <h1 class="fw-bold mb-3 display-5 text-white"><?php echo $datos_c["C_Titulo"]; ?></h1>
                     <?php endif; ?>
+                    <h1 class="fw-bold mb-3 display-5 text-white"><?php echo $datos_c["C_Titulo"]; ?></h1>
                 </div>
             </div>
         </div>
@@ -145,7 +159,7 @@
                         <!-- Header -->
                         <p>Precio total del curso</p>
                         <?php if ($datos_c["C_Costo"] > 0): ?>
-                            <h2 class="mb-4 mt-2 fw-bold"><?php echo $datos_c["C_Costo"]; ?></h2>
+                            <h2 class="mb-4 mt-2 fw-bold"><?php echo "$" . $datos_c["C_Costo"]; ?></h2>
                         <?php else: ?>
                             <h2 class="mb-4 mt-2 fw-bold">GRATIS</h2>
                         <?php endif; ?>
@@ -171,16 +185,21 @@
                                 <?php endif; ?>
                             </p>
                         </div>
+                        <?php if ($mensaje_c != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>
                         <?php if ($mensaje != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>
                         <form action="" method="POST" name="finscribirse">
-                            <?php if ($ins == null): ?>
+                            <!-- Si el usuario es visitante, coloca este boton -->
+                            <?php if (!isset($_SESSION["id_usuario"])): ?>
                                 <button type="submit" name="inscribirsevisitante" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</button>
+                            <!-- Sino si el array inscripcion no esta vacio y su inscripcion esta confirmada o es el mismo creador -->
+                            <?php elseif (!empty($ins) && $ins["Estado_Tomo"] == 'confirmada' || $datos_c["U_ID_Crea"] == $_SESSION["id_usuario"]): ?>
+                                <button type="submit" name="aula" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Ir al Aula</button>
+                            <!-- Sino si esta inscripto pero tiene un estado pendiente -->
+                            <?php elseif (!empty($ins) && $ins["Estado_Tomo"] == 'pendiente'): ?>
+                                <button type="submit" name="pendiente" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Pendiente</button>
+                            <!-- Sino, es porque esta logeado y no esta inscripto. -->
                             <?php else: ?>
-                                <?php if ($ins["U_ID_Tomo"] == $_SESSION["id_usuario"]): ?>
-                                    <button type="submit" name="aula" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Ir al Aula</button>
-                                <?php else: ?>
-                                    <button type="submit" name="inscribirse" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</button>
-                                <?php endif; ?>
+                                <button type="submit" name="inscribirse" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</button>
                             <?php endif; ?>
                         </form>
                     </div>
