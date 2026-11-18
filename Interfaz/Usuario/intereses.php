@@ -19,7 +19,7 @@
             }
         }
         if (!empty($antecedentes)) {
-            $ubdd -> insertar_antecedentes($_SESSION["id_usuario_r"],$antecedentes);
+            $ubdd -> actualizar_columna($_SESSION["id_usuario_r"],'U_Ant',$antecedentes);
         }
         unset($_SESSION["id_usuario_r"]);
         header("Location:" . URL_BASE . "/Interfaz/Usuario/acceder.php");

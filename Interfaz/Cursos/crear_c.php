@@ -82,9 +82,9 @@
                     <h2 class="fw-bold mi-color-text mb-0">Crear Nuevo Curso</h2>
                     <span class="badge mi-bg-grisazulado px-3 py-2 align-self-start align-self-sm-center">
                         <?php if ($_SESSION['plan_usuario'] == 'gratuito'): ?>
-                        Cursos activos: <?php echo $cant_curs; ?> / 3 (Plan Gratuito)
+                        Cursos activos: <?php echo count($cant_curs); ?> / 3 (Plan Gratuito)
                         <?php else: ?>
-                        Cursos activos: <?php echo $cant_curs; ?> (Plan Pro)
+                        Cursos activos: <?php echo count($cant_curs); ?> (Plan Pro)
                         <?php endif; ?>
                     </span>
                 </div>
@@ -140,16 +140,18 @@
                                     Etiquetas
                                     <span class='text-muted fw-normal'>(Opcionales)</span>
                                 </label>
-                                <?php 
-                                    foreach ($list as $e) {
-                                        echo "
-                                        <input type='checkbox' class='btn-check' name='etiquetas[]' id='{$e -> id}' value='{$e -> id}' autocomplete='off'>
-                                        <label class='btn mis-btnes-sinbg rounded-pill px-3 py-1 small fw-bold' for='{$e -> id}'>
-                                            {$e -> nombre}
-                                        </label>
-                                        ";
-                                    }
-                                ?>
+                                <div class='d-flex col-4 row g-2'>
+                                    <?php 
+                                        foreach ($list as $e) {
+                                            echo "
+                                            <input type='checkbox' class='btn-check' name='etiquetas[]' id='{$e -> id}' value='{$e -> id}' autocomplete='off'>
+                                            <label class='btn mis-btnes-sinbg rounded-pill px-3 py-1 small fw-bold' for='{$e -> id}'>
+                                                {$e -> nombre}
+                                            </label>
+                                            ";
+                                        }
+                                    ?>
+                                </div>
                             </div>
                             <div class="form-text small mt-3">
                                     <i class="bi bi-info-circle me-1"></i> 

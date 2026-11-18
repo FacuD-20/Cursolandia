@@ -6,7 +6,7 @@
         if ($_SESSION["fp_usuario"] == "avatar_pordefecto.avif") {
             $rutafp = URL_BASE . "/Interfaz/Activos/" . $_SESSION["fp_usuario"];
         } else {
-            $rutafp = URL_BASE . "/Subidos/" . $_SESSION["fp_usuario"];
+            $rutafp = URL_BASE . "/Subidos/Img/Usuarios/" . $_SESSION["fp_usuario"];
         }
     }
 ?>
