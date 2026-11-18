@@ -3,10 +3,15 @@
     require_once RUTA_BASE . "/Logica/Inscripcion.php";
     class InscripcionBD {
         //M
-        public function ingresar_inscripcion (Inscripcion $i) {
+        public function ingresar_inscripcion (Inscripcion $i, $plan_u) {
             $id_u = $i -> id_usuario;
             $id_c = $i -> id_curso;
             $estado = $i -> estado;
+            //Verificar plan del usuario y que no exceda el limite
+            $cant_ins = $this -> obtener_inscripciones($id_u);
+            if (count($cant_ins) >= 3 && $plan_u == 'gratuito') {
+                throw new Exception ("Usted ya alcanzo el limite de inscripciones (3).");
+            }
             $qry = "
                 INSERT INTO Tomo (U_ID_Tomo,C_ID_Tomo,Estado_Tomo)
                 VALUES ('$id_u','$id_c','$estado')
