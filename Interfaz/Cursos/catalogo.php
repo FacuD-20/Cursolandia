@@ -5,13 +5,26 @@
     require_once RUTA_BASE . '/Persistencia/Consultas/CursoBD.php';
     
     extract($_POST);
+    extract($_GET);
     //Instanciamos CursoBD y enlistamos los cursos
     $ebdd = new EtiquetaBD();
     $cbdd = new CursoBD();
     //Obtenemos todos los cursos y etiquetas para los filtros
     $lista_e = $ebdd -> listar_etiquetas();
-    //Verficamos si el usuario aplico algun filtro
-    if (isset($aplicar_f) && $aplicar_f == 1) {
+    //Mensaje de elementos.
+    $mensaje_e = "";
+    //Verificamos si el usuario Busco un curso, sino que enliste todos de manera normal.
+    if (isset($buscar) && $buscar != "") {
+        //Enlistamos los cursos resultantes.
+        $lista_c = $cbdd -> buscar_curso($buscar);
+        //Si no hay ningun elemento con esa palabra buscada
+        if (count($lista_c) == 0) {
+            $mensaje_e = "No se encontro ningun elemento con esa palabra ingresada."; 
+        } else {
+            $mensaje_e = "Elementos encontrados: " . count($lista_c);
+        }
+      //Verficamos si el usuario aplico algun filtro
+    } elseif (isset($aplicar_f) && $aplicar_f == 1) {
         //Guardamos los valores en variables dependiendo de la condicion
         $f_etiquetas = isset($etiquetas) ? $etiquetas : array();
         $f_gratis = isset($checkgratis) ? 1 : 0;
@@ -20,6 +33,11 @@
         $f_publicos = isset($checkpublicos) ? 1 : 0;
         $f_privados = isset($checkprivados) ? 1 : 0;
         $lista_c = $cbdd -> listar_cursos($f_etiquetas,$f_gratis,$f_pagos,$f_nuevos,$f_publicos,$f_privados);
+        if (count($lista_c) == 0) {
+            $mensaje_e = "No se encontro ningun elemento con esa etiqueta o tipo."; 
+        } else {
+            $mensaje_e = "Elementos encontrados: " . count($lista_c);
+        }
     } else {
         //Guardamos la lista de cursos en un arreglo.
         $lista_c = $cbdd -> listar_cursos();
@@ -126,6 +144,7 @@
                     </div>
                 </div>
                 <!-- Fila de Cursos -->
+                <?php if ($mensaje_e != "") { echo "<p class='text-small text-dark'>{$mensaje_e}</p>"; }?>
                 <div class="row g-4">
                     <?php foreach ($lista_c as $c) :?>
                         <div class="col-12 col-md-6 col-lg-4">

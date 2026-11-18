@@ -158,5 +158,31 @@
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
             return $lista;
         }
+        public function buscar_curso ($palabra) {
+            //Array que contiene la lista de cursos encontrados con x palabra
+            $lista_c = array();
+            $qry = "
+                SELECT Cursos.*, GROUP_CONCAT(E_Nombre SEPARATOR ', ') AS Etiquetas 
+                FROM Cursos 
+                LEFT JOIN Tiene ON C_ID = C_ID_Tiene
+                LEFT JOIN Etiquetas ON E_ID_Tiene = E_ID
+                WHERE C_Acceso = 'publico'
+            ";
+            //Verificamos que la palabra no este vacia y que el titulo y/o descripcion tengan dicha palabra.
+            if (!empty($palabra)) {
+                $qry .= " AND (C_Titulo LIKE '%$palabra%' OR C_Descripcion LIKE '%$palabra%' OR E_Nombre LIKE '%$palabra%')";
+            }
+            //Terminamos de armar la qry
+            $qry .= " GROUP BY C_ID";
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $result = mysqli_query($conexion,$qry);
+            //Llenamos la lista con los cursos obtenidos
+            while ($fila = mysqli_fetch_array($result)) {
+                $lista_c[] = $fila;
+            }
+            //Cerramos conexion
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+            return $lista_c;
+        }
     }
 ?>

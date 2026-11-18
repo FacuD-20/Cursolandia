@@ -184,6 +184,11 @@
                                     <span class="text-muted"><?php echo $datos_c["C_Cupos"]; ?></span>
                                 <?php endif; ?>
                             </p>
+                            <!-- Acceso -->
+                            <p class="border-bottom pb-2 d-flex justify-content-between">
+                                <span class="fw-bold mi-color-text">Acceso</span>
+                                <span class="text-muted"><?php echo $datos_c["C_Acceso"]; ?></span>
+                            </p>
                         </div>
                         <?php if ($mensaje_c != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>
                         <?php if ($mensaje != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>

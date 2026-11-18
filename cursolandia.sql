@@ -51,7 +51,7 @@ CREATE TABLE Cursos (
     C_FDInicio DATE NOT NULL,
     C_FDFin DATE NOT NULL,
     C_Img VARCHAR(255) DEFAULT 'imgcurso_pordefecto.png',
-    C_Acceso ENUM('publico','privado') NOT NULL DEFAULT 'publico',
+    C_Acceso ENUM('Publico','Privado') NOT NULL DEFAULT 'Publico',
     PRIMARY KEY (C_ID),
     CONSTRAINT FK_U_ID_Crea FOREIGN KEY (U_ID_Crea) REFERENCES Usuarios(U_ID) ON DELETE CASCADE,
     CONSTRAINT chk_C_Costo CHECK (C_Costo IS NULL OR C_Costo >= 0),

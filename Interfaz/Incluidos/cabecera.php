@@ -112,9 +112,10 @@
                             </li>
                         </ul>
                         <!-- Barra de busqueda para Pantallas >= lg -->
-                        <form class="d-none d-lg-flex flex-grow-1 mx-3" role="search">
+                        <form action="<?php echo URL_BASE . "/Interfaz/Cursos/catalogo.php"; ?>" method="GET" class="d-none d-lg-flex flex-grow-1 mx-3" role="search">
                             <div class="input-group">
-                                <input class="form-control" type="search" placeholder="Buscar por título o etiqueta..." aria-label="Buscar"/>
+                                <input name="buscar" value="<?php echo (isset($_GET["buscar"])) ? htmlspecialchars($_GET["buscar"]) : ""; ?>" 
+                                class="form-control" type="search" placeholder="Buscar por título o etiqueta..." aria-label="Buscar"/>
                                 <button class="btn btn-light me-2" type="submit"><i class="bi bi-search"></i></button>
                             </div>
                         </form>
