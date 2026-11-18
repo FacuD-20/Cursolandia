@@ -116,6 +116,11 @@
                             <div class="list-group list-group-flush">
                                 <?php
                                     foreach ($lista_a as $archivo) {
+                                        if ($archivo["M_Tamano"] > 1 * 1024 * 1024) {
+                                            $tam = round($archivo["M_Tamano"] / 1024 / 1024, 2) . " MB";
+                                        } else {
+                                            $tam = round($archivo["M_Tamano"] / 1024, 1) . " KB";
+                                        }
                                         echo "
                                             <!-- Item -->
                                             <a href='' class='list-group-item list-group-item-action d-flex 
@@ -125,7 +130,7 @@
                                                     <span class='small fw-semibold'>{$archivo["M_Nombre"]}</span>
                                                 </div>
                                                 <span class='badge bg-light text-muted border'>
-                                                    {$archivo["M_Tamano"]}<i class='bi bi-download ms-1'></i>
+                                                    {$tam}<i class='bi bi-download ms-1'></i>
                                                 </span>
                                             </a>
                                         ";
@@ -212,7 +217,7 @@
                                     if ($p['U_FotoDePerfil'] == "avatar_pordefecto.avif") {
                                         $avatar_u = URL_BASE . "/Interfaz/Activos/avatar_pordefecto.avif";
                                     } else {
-                                        $avatar_u = URL_BASE . "/Subidos/" . $p['U_FotoDePerfil'];
+                                        $avatar_u = URL_BASE . "/Subidos/Img/Usuarios/" . $p['U_FotoDePerfil'];
                                     }
                                     //Utilizamos el operador "?"
                                     $cartel_des = ($p["P_Destacada"] == 1) ? "<span class='badge mi-bg-bronce'><i class='bi bi-pin-angle-fill me-1'></i>Destacada</span>" : "";
