@@ -23,8 +23,7 @@
 
             if (mysqli_num_rows($result) > 0) {
                 include RUTA_BASE . "/Persistencia/cerrar_c.php";
-                throw new Exception ("ERRO: Ya hay una cuenta con este DNI y/o email.");
-                exit;
+                throw new Exception ("ERROR: Ya hay una cuenta con este DNI y/o email.");
             }
             //Insertamos el nuevo usuario a la base de datos.
             $qry = "INSERT INTO Usuarios (U_Nom, U_Ape, U_DNI, U_FDN, U_Email, U_Contrasena,
@@ -52,8 +51,14 @@
         }
         public function actualizar_columna ($id_u,$colum,$valor) {
             include RUTA_BASE . "/Persistencia/conexion.php";
-            $qry = "UPDATE Usuarios SET $colum = '$valor' WHERE U_ID = '$id_u'";
-            $result = mysqli_query($conexion,$qry);
+            //Obtenemos el valor seguro, impidiendo que caracteres especiales cierren la cadena de $valor
+            $valor_seg = mysqli_real_escape_string($conexion, $valor);
+            $qry = "UPDATE Usuarios SET $colum = '$valor_seg' WHERE U_ID = '$id_u'";
+            try {
+                $result = mysqli_query($conexion,$qry);
+            } catch (Exceptcion $e) {
+                throw new Exceptcion ("El email ingresado ya fue utilizado.");
+            }
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
         }
         public function iniciar_sesion ($email,$contra) {
@@ -103,6 +108,7 @@
                 SELECT Cursos.*, Estado_Tomo
                 FROM Tomo, Cursos 
                 WHERE U_ID_Tomo = '$id_u' AND C_ID_Tomo = C_ID
+                AND Estado_Tomo != 'rechazada'
             ";
             include RUTA_BASE . "/Persistencia/conexion.php";
             $result = mysqli_query($conexion,$qry);
@@ -113,8 +119,6 @@
             return $cant_ins;
         }
         public function datos_usuario ($id_u) {
-            //arreglo de datos para que no se pierdan
-            $datos = array();
             $qry = "
                 SELECT Usuarios.*, 
                 GROUP_CONCAT(E_Nombre SEPARATOR ', ') AS Etiquetas
@@ -130,7 +134,7 @@
             $fila = mysqli_fetch_array($result);
             //Cerramos la conexion
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
-            //retornamos el array
+            //retornamos la fila del usuario resultante
             return $fila;
         }
     }

@@ -29,6 +29,7 @@
                 SELECT Preguntas.*, U_Nom, U_Ape, U_FotoDePerfil
                 FROM Preguntas, Usuarios
                 WHERE U_ID_Inicia = U_ID AND C_ID_Contiene = '$id_c'
+                ORDER BY P_Destacada DESC, P_FDCreacion DESC
             ";
             include RUTA_BASE . "/Persistencia/conexion.php";
             $result = mysqli_query($conexion,$qry);
@@ -38,6 +39,22 @@
             }
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
             return $lista;
+        }
+        public function destacar_pregunta($id_p) {
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $qry = "UPDATE Preguntas SET P_Destacada = IF(P_Destacada = 1, 0, 1) WHERE P_ID = '$id_p'";
+            mysqli_query($conexion, $qry);
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
+        }
+        public function eliminar_pregunta($id_p) {
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            // Borramos primero las respuestas asociadas a la pregunta
+            $qry_r = "DELETE FROM Respuestas WHERE P_ID_Pertenece = '$id_p'";
+            mysqli_query($conexion, $qry_r);
+            // Ahora borramos la pregunta
+            $qry_p = "DELETE FROM Preguntas WHERE P_ID = '$id_p'";
+            mysqli_query($conexion, $qry_p);
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
         }
     }
 ?>
