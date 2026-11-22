@@ -165,8 +165,8 @@ CREATE TABLE Notifica (
 
 -- Inserts de prueba -- 
 -- Etiquetas --
-INSERT INTO Etiquetas (E_Nombre) VALUES ("Diseño UI/UX"), ("Negocios"), ("Marketing"), 
-("Farmacia"), ("PHP"), ("JavaScript"), ("Geologia"), ("Ferrocarril");
+INSERT INTO Etiquetas (E_ID,E_Nombre) VALUES (1,"Diseño UI/UX"), (2,"Negocios"), (3,"Marketing"), 
+(4,"Farmacia"), (5,"PHP"), (6,"JavaScript"), (7,"Geologia"), (8,"Ferrocarril");
 
 -- Usuarios --
 INSERT INTO Usuarios (U_ID, U_Nom, U_Ape, U_DNI, U_FDN, U_Email, U_Contrasena, U_Ant, U_Plan, U_Rol) 
@@ -184,7 +184,7 @@ INSERT INTO Cursos (C_ID, U_ID_Crea, C_Titulo, C_Descripcion, C_Costo, C_Cupos, 
 
 -- Relacionamos cursos con etiquetas --
 -- Curso 1: Etiquetas con ID: 1, 2, 5
-INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (1, 1), (1, 2), (1, 5);
+INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (1, 1), (1, 6), (1, 5);
 
 -- Curso 2: Etiquetas con ID: 7
 INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (2, 7);
@@ -192,5 +192,5 @@ INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (2, 7);
 -- Curso 3: Etiquetas con ID: 7
 INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (3, 7);
 
--- Curso 3: Etiquetas con ID: 8
+-- Curso 4: Etiquetas con ID: 8
 INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (4, 8);
