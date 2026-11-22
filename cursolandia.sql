@@ -170,9 +170,10 @@ INSERT INTO Etiquetas (E_Nombre) VALUES ("Diseño UI/UX"), ("Negocios"), ("Marke
 
 -- Usuarios --
 INSERT INTO Usuarios (U_ID, U_Nom, U_Ape, U_DNI, U_FDN, U_Email, U_Contrasena, U_Ant, U_Plan, U_Rol) 
-VALUES (1, "Facundo","Donaire","44985728","2003-04-01","f@gmail.com","123456789","Estudiante","pro","admin"),
+VALUES (1, "Facundo","Donaire","44985728","2003-04-01","f@gmail.com","/*gerardocursolandia.*/","Estudiante","pro","admin"),
 (2, "Gerardo","Ismael","12345678","2003-05-01","gi@gmail.com.ar","123456789","Licenciado en Geologia","gratuito","usuario"),
 (3, "Lucas","Geron","88882222","2004-05-20","ll@gmail.com","123456789","Ferroviario","pro","usuario");
+(4, "Mateo","Sosa","88882222","2004-05-20","ms@gmail.com","123456789","Ingeniero","pro","admin");
 
 -- Cursos --
 INSERT INTO Cursos (C_ID, U_ID_Crea, C_Titulo, C_Descripcion, C_Costo, C_Cupos, C_FDInicio, C_FDFin, C_Img, C_Acceso) VALUES 
