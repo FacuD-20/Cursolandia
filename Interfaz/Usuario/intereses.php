@@ -3,10 +3,10 @@
     require_once RUTA_BASE . '/Persistencia/Consultas/UsuarioBD.php';
     require_once RUTA_BASE . '/Persistencia/Consultas/EtiquetaBD.php';
     require_once RUTA_BASE . '/Persistencia/Consultas/InteresesBD.php';
-
+    
     session_start();
     extract($_POST);
-
+    
     $ebdd = new EtiquetaBD();
     $ibdd = new InteresesBD();
     $ubdd = new UsuarioBD();
@@ -108,7 +108,7 @@
                                 </button>    
                                 <!-- Boton Omitir e ir a la pag principal -->                      
                                 <div class="text-center mt-2">
-                                    <a href="<?php echo URL_BASE; ?>/Interfaz/Usuario/acceder.php" class="text-muted small text-decoration-none">
+                                    <a href="<?php echo URL_BASE; ?>/Interfaz/Usuario/acceder.php" name="finalizar" value="1" class="text-muted small text-decoration-none">
                                         Omitir por ahora e iniciar sesion<i class="bi bi-arrow-right-short"></i>
                                     </a>
                                 </div>

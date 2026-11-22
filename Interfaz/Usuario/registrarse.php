@@ -6,6 +6,12 @@
     session_start();
     extract($_POST);
 
+    //Si el usuario ya creo la cuenta y esta en la pag de intereses, lo devolvemos a intereses.php
+    if (isset($_SESSION["id_usuario_r"])) {
+        header("Location: intereses.php");
+        exit;
+    }
+
     $mensaje_error = "";
     
     if (isset($registrarse) && $registrarse == 1) {
@@ -121,7 +127,7 @@
                                 <!-- Documento -->
                                 <div class="col-12 col-md-6">
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="documento" name ="documento" placeholder="" required>
+                                        <input type="number" class="form-control" id="documento" name ="documento" placeholder="" min="1000000" max="99999999" required>
                                         <label for="documento" class="text-dark">N°Documento</label>
                                         <div class="invalid-feedback">
                                             Ingrese su numero de documento.

@@ -3,6 +3,7 @@
     require_once RUTA_BASE . "/Persistencia/Consultas/UsuarioBD.php";
 
     session_start();
+    unset($_SESSION["id_usuario_r"]);
     extract($_POST);
     $ubdd = new UsuarioBD();
 
@@ -13,6 +14,7 @@
             $usuario = $ubdd -> iniciar_sesion(trim($emailinicio),trim($contrainicio));
             $_SESSION["id_usuario"] = $usuario -> id;
             $_SESSION["nombre_usuario"] = $usuario -> nombre;
+            $_SESSION["apellido_usuario"] = $usuario -> apellido;
             $_SESSION["rol_usuario"] = $usuario -> rol;
             $_SESSION["plan_usuario"] = $usuario -> plan;
             $_SESSION["fp_usuario"] = $usuario -> fotoperfil;
@@ -89,12 +91,12 @@
                             <!-- Email -->
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="emailinicio" name ="emailinicio" 
-                                placeholder="">
+                                placeholder="" required>
                                 <label for="emailinicio" class="text-dark">Email</label>
                             </div>
                             <!-- Contrasena -->
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="contrainicio" name="contrainicio" placeholder="">
+                                <input type="password" class="form-control" id="contrainicio" name="contrainicio" placeholder="" required>
                                 <label for="contrainicio" class="text-dark">Contraseña</label>
                             </div>
                             <!-- Olvidaste tu contraseña? -->
