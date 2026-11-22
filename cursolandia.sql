@@ -193,4 +193,4 @@ INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (2, 7);
 INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (3, 7);
 
 -- Curso 3: Etiquetas con ID: 8
-INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (3, 8);
+INSERT INTO Tiene (C_ID_Tiene, E_ID_Tiene) VALUES (4, 8);
