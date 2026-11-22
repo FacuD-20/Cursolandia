@@ -2,9 +2,18 @@
     require_once __DIR__ . '/carga.php';
     include RUTA_BASE . '/Interfaz/Incluidos/cabecera.php';
     require_once RUTA_BASE . '/Persistencia/Consultas/CursoBD.php';
+    require_once RUTA_BASE . '/Persistencia/Consultas/EtiquetaBD.php';
 
     $cbdd = new CursoBD();
-    $lista_c = $cbdd -> listar_cursos();
+    $ebdd = new EtiquetaBD();
+    $lista_cp = $cbdd -> listar_populares();
+    $lista_cd = $cbdd -> listar_destacados_pro();
+    $lista_e = $ebdd -> listar_etiquetas();
+    //Buscamos los recomendados si el usuario inicio sesion.
+    $lista_ci = array();
+    if (isset($_SESSION['id_usuario'])) {
+        $lista_ci = $cbdd -> listar_recomendados($_SESSION['id_usuario']);
+    }
 ?>
 
 <main class="flex-grow-1">
@@ -12,11 +21,11 @@
     <section class="mb-4">
         <div class="container-fluid px-4 py-5 mi-bg-banner mb-3">
             <div class="row aling-items-center">
-                <div class="col-12 col-lg-6 text-light text-start text-lg-start my-auto">
+                <div class="col-12 col-lg-6 text-light text-start my-auto">
                     <h1>Aprende y crea sin limites, en cualquier lugar y/o momento</h1>
                     <h5 class ="my-3">Aprende de los mejores profesionales — y conviértete en uno tú mismo.</h5>
                     <!-- Botones en Celular -->
-                    <div class="d-lg-none d-flex flex-column flex-lg-row gap-2 mt-4" style ="width: 35%">
+                    <div class="d-lg-none d-flex flex-column flex-lg-row gap-2 mt-4" style ="width: 70%">
                         <a href="<?php echo URL_BASE;?>/Interfaz/Cursos/catalogo.php" class="d-flex btn mis-bgs-btns w-auto p-3 text-light">EXPLORAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
                         <a href="<?php if (isset($_SESSION['id_usuario'])) {echo URL_BASE . '/Interfaz/Cursos/crear_c.php'; } else {echo URL_BASE . '/Interfaz/Usuario/acceder.php'; }?>" class="d-flex btn btn-outline-light w-auto p-3">CREAR CURSOS <i class="bi bi-arrow-right-short ms-auto"></i></a>
                     </div>
@@ -136,7 +145,7 @@
     </section>
     <!-- Cursos Populares -->
     <section class="container my-5">
-        <div class="d-flex justify-content-between aling-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mi-color-text">Cursos Populares</h2>
             <a href="<?php echo URL_BASE . "/Interfaz/Cursos/catalogo.php";?>" class="text-center btn mis-btnes-sinbg rounded-pill px-4 fw-bold">Ver Más</a>
         </div>
@@ -144,12 +153,12 @@
         <div class="row g-4 flex-nowrap overflow-x-auto sin-scrollbar d-lg-flex flex-lg-wrap pb-4">
             <!-- Verificamos que no este vacio -->
             <?php 
-                $cursos = array_slice($lista_c, 0, 4);
-                if (empty($cursos)):
+                $cursos_populares = array_slice($lista_cp, 0, 4);
+                if (empty($cursos_populares)):
             ?>
                 <div class="col-12 text-center text-muted py-3">No hay cursos disponibles por el momento.</div>
             <?php else: ?>
-                <?php foreach ($cursos as $c): ?>
+                <?php foreach ($cursos_populares as $c): ?>
                     <?php 
                         if ($c["C_Img"] == "imgcurso_pordefecto.png") {
                             $img_c = URL_BASE . "/Interfaz/Activos/imgcurso_pordefecto.png";
@@ -157,7 +166,58 @@
                             $img_c = URL_BASE . "/Subidos/Img/Cursos/" . $c["C_Img"];
                         }
                     ?>
-                    <div class="col-6 col-md-6 col-lg-3">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0 rounded-4">
+                            <img src="<?php echo $img_c; ?>" alt="" class="card-img-top rounded-top-4" style="height: 160px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column p-3">
+                                <!-- Etiqueta -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge text-bg-light border text-muted text-truncate" style="max-width: 100px;">
+                                        <?php echo !empty($c["Etiquetas"]) ? explode(", ", $c["Etiquetas"])[0] : "General"; ?>
+                                    </span>
+                                    <?php if ($c["C_Costo"] > 0):?>
+                                        <span class="fw-bold small mi-color-text">Pago</span>
+                                    <?php else: ?>
+                                        <span class="fw-bold small text-success">Gratis</span>
+                                    <?php endif; ?>
+                                </div>
+                                <h5 class="card-title fw-bold mi-color-text mb-1 text-truncate"><?php echo $c["C_Titulo"];?></h5>
+                                <p class="text-muted small mb-2">Por: <?php echo $c["U_Nom"] . " " . $c["U_Ape"]; ?> </p>
+                                <p class="text-muted small mb-1"><i class="bi bi-people me-1"></i><?php echo $c["cant_inscriptos"]; ?> inscriptos</p>
+                                <p class="text-muted small mb-3"><i class="bi bi-calendar-event me-1"></i><?php echo $c["C_FDInicio"];?></p>
+                                <div class="mt-auto">
+                                    <a href="<?php echo URL_BASE; ?>/Interfaz/Cursos/detalles_c.php?id_c=<?php echo $c["C_ID"]; ?>" class="btn btn-sm mis-btnes-sinbg rounded-pill w-100 py-2 fw-bold">
+                                        Detalles del Curso <i class="bi bi-arrow-right-short"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>            
+        </div>
+    </section>
+    <!-- Cursos Destacados -->
+    <section class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mi-color-text">Cursos Destacados</h2>
+            <a href="<?php echo URL_BASE . "/Interfaz/Cursos/catalogo.php";?>" class="text-center btn mis-btnes-sinbg rounded-pill px-4 fw-bold">Ver Más</a>
+        </div>
+        <!-- Carrusel de los cursos destacados -->
+        <div class="row g-4 flex-nowrap overflow-x-auto sin-scrollbar d-lg-flex flex-lg-wrap pb-4">
+            <!-- Verificamos que no este vacio -->
+            <?php if (empty($lista_cd)): ?>
+                <div class="col-12 text-center text-muted py-3">No hay cursos disponibles por el momento.</div>
+            <?php else: ?>
+                <?php foreach ($lista_cd as $c): ?>
+                    <?php 
+                        if ($c["C_Img"] == "imgcurso_pordefecto.png") {
+                            $img_c = URL_BASE . "/Interfaz/Activos/imgcurso_pordefecto.png";
+                        } else {
+                            $img_c = URL_BASE . "/Subidos/Img/Cursos/" . $c["C_Img"];
+                        }
+                    ?>
+                    <div class="col-12 col-md-6 col-lg-3">
                         <div class="card h-100 shadow-sm border-0 rounded-4">
                             <img src="<?php echo $img_c; ?>" alt="" class="card-img-top rounded-top-4" style="height: 160px; object-fit: cover;">
                             <div class="card-body d-flex flex-column p-3">
@@ -187,78 +247,97 @@
             <?php endif; ?>            
         </div>
     </section>
+    <!-- Cursos de Interes -->
+    <!-- Verificamos que el usuario tenga la sesion iniciada -->
+    <?php if (isset($_SESSION["id_usuario"]) && !empty($lista_ci)): ?>
+        <section class="container my-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mi-color-text">Cursos que te pueden Interesar</h2>
+                <a href="<?php echo URL_BASE . "/Interfaz/Cursos/catalogo.php";?>" class="text-center btn mis-btnes-sinbg rounded-pill px-4 fw-bold">Ver Más</a>
+            </div>
+            <!-- Carrusel de los cursos de Interes -->
+            <div class="row g-4 flex-nowrap overflow-x-auto sin-scrollbar d-lg-flex flex-lg-wrap pb-4">
+                <?php foreach ($lista_ci as $c): ?>
+                    <?php 
+                        if ($c["C_Img"] == "imgcurso_pordefecto.png") {
+                            $img_c = URL_BASE . "/Interfaz/Activos/imgcurso_pordefecto.png";
+                        } else {
+                            $img_c = URL_BASE . "/Subidos/Img/Cursos/" . $c["C_Img"];
+                        }
+                    ?>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0 rounded-4">
+                            <img src="<?php echo $img_c; ?>" alt="" class="card-img-top rounded-top-4" style="height: 160px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column p-3">
+                                <!-- Etiqueta -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge text-bg-light border text-muted text-truncate" style="max-width: 100px;">
+                                        <?php echo !empty($c["Etiquetas"]) ? explode(", ", $c["Etiquetas"])[0] : "General"; ?>
+                                    </span>
+                                    <?php if ($c["C_Costo"] > 0):?>
+                                        <span class="fw-bold small mi-color-text">Pago</span>
+                                    <?php else: ?>
+                                        <span class="fw-bold small text-success">Gratis</span>
+                                    <?php endif; ?>
+                                </div>
+                                <h5 class="card-title fw-bold mi-color-text mb-1 text-truncate"><?php echo $c["C_Titulo"];?></h5>
+                                <p class="text-muted small mb-2">Por: <?php echo $c["U_Nom"] . " " . $c["U_Ape"]; ?> </p>
+                                <p class="text-muted small mb-3"><i class="bi bi-calendar-event me-1"></i><?php echo $c["C_FDInicio"];?></p>
+                                <div class="mt-auto">
+                                    <a href="<?php echo URL_BASE; ?>/Interfaz/Cursos/detalles_c.php?id_c=<?php echo $c["C_ID"]; ?>" class="btn btn-sm mis-btnes-sinbg rounded-pill w-100 py-2 fw-bold">
+                                        Detalles del Curso <i class="bi bi-arrow-right-short"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
     <!-- Etiquetas -->
     <section class="container bg-light rounded-4 px-4 py-5 my-5">
-        <div class="text-center mb-5">
+        <div class="text-center mb-4">
             <h2 class="fw-bold mi-color-text">Buscar por Etiquetas</h2>
             <p class="text-muted">Ecuentra tus cursos segun tus intereses</p>
         </div>
         <!-- Fila de Etiquetas -->
+        <!-- Etiquetas -->
         <div class="row g-4 justify-content-center">
-            <!-- Primera Etiqueta -->
-            <div class="col-6 col-md-4 col-lg-2 text-center">
-                <a href="" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm h-100 p-4 rounded-4 mis-btnes-sinbg">
-                        <i class="bi bi-code-slash fs-1 mi-color-icono mb-2"></i>
-                        <h6 class="fw-bold mb-0">Programacion</h6>
+            <?php if (empty($lista_e)): ?>
+                <div class="col-12 text-center text-muted">No hay etiquetas disponibles.</div>
+            <?php else: ?>
+                <?php foreach ($lista_e as $e): ?>
+                    <div class="col-6 col-md-4 col-lg-2 text-center">
+                        <!-- Linkeamos las etiquetas al catalogo simulando la funcion buscar y 
+                        pasandole el nombre codificado para mas seguridad -->
+                        <a href="<?php echo URL_BASE . '/Interfaz/Cursos/catalogo.php?buscar=' . urlencode($e -> nombre); ?>" class="text-decoration-none">
+                            <div class="card border-0 shadow-sm h-100 p-4 rounded-4 mis-btnes-sinbg">
+                                <i class="bi bi-tag fs-1 mi-color-icono mb-2"></i>
+                                <h6 class="fw-bold mb-0"><?php echo htmlspecialchars($e -> nombre); ?></h6>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-            <!-- Segunda Etiqueta -->
-            <div class="col-6 col-md-4 col-lg-2 text-center">
-                <a href="" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm h-100 p-4 rounded-4 mis-btnes-sinbg">
-                        <i class="bi bi-brush fs-1 mi-color-icono mb-2"></i>
-                        <h6 class="fw-bold mb-0">Diseño UI/UX</h6>
-                    </div>
-                </a>
-            </div>
-            <!-- Tercera Etiqueta -->
-            <div class="col-6 col-md-4 col-lg-2 text-center">
-                <a href="" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm h-100 p-4 rounded-4 mis-btnes-sinbg">
-                        <i class="bi bi-graph-up fs-1 mi-color-icono mb-2"></i>
-                        <h6 class="fw-bold mb-0">Negocios</h6>
-                    </div>
-                </a>
-            </div>
-            <!-- Cuarta Etiqueta -->
-            <div class="col-6 col-md-4 col-lg-2 text-center">
-                <a href="" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm h-100 p-4 rounded-4 mis-btnes-sinbg">
-                        <i class="bi bi-megaphone fs-1 mi-color-icono mb-2"></i>
-                        <h6 class="fw-bold mb-0">Marketing</h6>
-                    </div>
-                </a>
-            </div>
-            <!-- Quinta Etiqueta -->
-            <div class="col-6 col-md-4 col-lg-2 text-center">
-                <a href="" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm h-100 p-4 rounded-4 mis-btnes-sinbg">
-                        <i class="bi bi-database fs-1 mi-color-icono mb-2"></i>
-                        <h6 class="fw-bold mb-0">Base de Datos</h6>
-                    </div>
-                </a>
-            </div>
-            <!-- Sexta Etiqueta -->
-            <div class="col-6 col-md-4 col-lg-2 text-center">
-                <a href="" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm h-100 p-4 rounded-4 mis-btnes-sinbg">
-                        <i class="bi bi-capsule fs-1 mi-color-icono mb-2"></i>
-                        <h6 class="fw-bold mb-0">Farmacia</h6>
-                    </div>
-                </a>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </section>
     <!-- Elegir Plan -->
     <section class="my-5 container">
-        <h2 class="mi-color-text mb-5 text-center">Eligí tu Plan</h2>
+        <?php if (!isset($_SESSION["id_usuario"])):?>
+        <h2 class="mi-color-text mb-5 text-center">Elegí tu Plan</h2>
+        <?php elseif (isset($_SESSION["id_usuario"]) && $_SESSION["plan_usuario"] == "Pro"): ?>
+        <h2 class="mi-color-text mb-5 text-center">¡Ya eres Pro!</h2>
+        <?php else: ?>
+        <h2 class="mi-color-text mb-5 text-center">¡Actualiza tu Plan!</h2>
+        <?php endif; ?>
         <div class="row g-4 justify-content-center">
+            <!-- Plan Gratuito -->
+            <?php if (!isset($_SESSION["id_usuario"])): ?>
             <div class="col-12 col-lg-4">
                 <div class="card text-center p-4 shadow-sm h-100">
                     <h5>Plan Gratuito</h5>
-                    <h3>$O</h3>
+                    <h3>$0</h3>
                     <div class="card-body text-start">
                         <ul class="list-unstyled">
                             <li class="mb-4"><i class="bi bi-check-circle-fill text-success"></i> Maximo de 3 Cursos Inscriptos a la vez.</li>
@@ -269,6 +348,8 @@
                     <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/registrarse.php" class="btn mis-bgs-btns-G mt-auto">Registrarse Gratis</a>
                 </div>
             </div>
+            <?php endif; ?>
+            <!-- Plan Pro -->
             <div class="col-12 col-lg-4">
                 <div class="card text-center p-4 mi-border-color-pro shadow-lg h-100">
                     <h5>Plan Pro</h5>
@@ -280,7 +361,13 @@
                             <li class="mb-4"><i class="bi bi-check-circle-fill text-success"></i> Tamaño de Subida de Archivos Ilimitados.</li>
                         </ul>                        
                     </div>
-                    <a href="#" class="btn mis-bgs-btns-pro mt-auto">Quiero ser Pro</a>
+                    <?php if (isset($_SESSION["id_usuario"]) && $_SESSION["plan_usuario"] == "Pro"):?>
+                        <a href="<?php echo URL_BASE . "/Interfaz/Usuario/perfil.php"; ?>" class="btn mis-bgs-btns-pro mt-auto">Visita tu perfil</a>
+                    <?php elseif(isset($_SESSION["id_usuario"]) ): ?>
+                        <a href="<?php echo URL_BASE . "/Interfaz/Usuario/perfil.php#plan_pro"; ?>" class="btn mis-bgs-btns-pro mt-auto">Quiero ser Pro</a>
+                    <?php else: ?>
+                        <a href="<?php echo URL_BASE . "/Interfaz/Usuario/acceder.php"; ?>" class="btn mis-bgs-btns-pro mt-auto">Quiero ser Pro</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
