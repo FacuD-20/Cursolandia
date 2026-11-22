@@ -50,7 +50,7 @@
             <!-- Apartado del Menu de filtros en PC -->
             <div class="d-none d-lg-block col-lg-3 bg-light py-5">
                 <div class="card bg-white rounded-4 border-0 shadow-sm p-4">
-                    <form action="" method="POST" name="fpcfiltros">
+                    <form action="catalogo.php" method="POST" name="fpcfiltros">
                         <h5 class="mi-color-text fw-bold border-bottom border-secondary-subtle pb-2 mb-3">Etiquetas</h5>
                         <!-- Etiquetas checkbox -->
                         <?php foreach($lista_e as $e):?>
@@ -98,12 +98,12 @@
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="filtrosdelcelular">
                     <!-- Cabecera del offcanvas -->
                     <div class="offcanvas-header border-bottom">
-                        <h4 class="onffcanvas-title fw-bold mi-color-text">Filtros</h4>
+                        <h4 class="offcanvas-title fw-bold mi-color-text">Filtros</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
                     </div>
                     <!-- Formulario de Filtros -->
                     <div class="p-3">
-                        <form action="" method="POST" name="fcelularfiltros">
+                        <form action="catalogo.php" method="POST" name="fcelularfiltros">
                             <h5 class="mi-color-text fw-bold border-bottom border-secondary-subtle pb-2 mb-3">Etiquetas</h5>
                             <!-- Etiquetas checkbox -->
                             <?php foreach($lista_e as $e):?>
@@ -159,18 +159,20 @@
                                 <!-- Cuerpo de la tarjeta -->
                                 <div class='card-body d-flex flex-column p-4'>
                                     <div class='d-flex justify-content-between align-items-center mb-2'>
-                                        <?php
-                                            //Verificamos que el curso tenga etiquetas
-                                            if (!empty($c["Etiquetas"])) {
-                                                $lista_e = explode(", ",$c["Etiquetas"]);
-                                                //Imprimimos todas las etiquetas del curso en la tarjeta del mismo
-                                                foreach ($lista_e as $e) {
-                                                    echo "<span class='badge text-bg-light border text-muted'>{$e}</span>";
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <?php
+                                                //Verificamos que el curso tenga etiquetas
+                                                if (!empty($c["Etiquetas"])) {
+                                                    $lista_e = explode(", ",$c["Etiquetas"]);
+                                                    //Imprimimos todas las etiquetas del curso en la tarjeta del mismo
+                                                    foreach ($lista_e as $e) {
+                                                        echo "<span class='badge text-bg-light border text-muted'>{$e}</span>";
+                                                    }
+                                                } else {
+                                                    echo "<span class='badge text-bg-light border text-muted'>Sin Etiquetas</span>";
                                                 }
-                                            } else {
-                                                echo "<span class='badge text-bg-light border text-muted'>Sin Etiquetas</span>";
-                                            }
-                                        ?>
+                                            ?>
+                                        </div>
                                         <?php if ($c["C_Costo"] > 0):?>
                                         <span class='badge mi-bg-bronce'>Pago</span>
                                         <?php else: ?>

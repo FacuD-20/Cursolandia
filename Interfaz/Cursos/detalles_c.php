@@ -173,7 +173,7 @@
                             <!-- FDFin -->
                             <p class="border-bottom pb-2 mb-2 d-flex justify-content-between">
                                 <span class="fw-bold mi-color-text">Cierre</span>
-                                <span class="text muted"><?php echo $datos_c["C_FDFin"]; ?></span>
+                                <span class="text-muted"><?php echo $datos_c["C_FDFin"]; ?></span>
                             </p>
                             <!-- Cupos -->
                             <p class="border-bottom pb-2 d-flex justify-content-between">
@@ -190,8 +190,8 @@
                                 <span class="text-muted"><?php echo $datos_c["C_Acceso"]; ?></span>
                             </p>
                         </div>
-                        <?php if ($mensaje_c != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>
-                        <?php if ($mensaje != "") { echo "<p class='text-small text-danger'>". $mensaje . "</p>";}?>
+                        <?php if ($mensaje_c != "") { echo "<p class='small text-success fw-bold'>". $mensaje_c . "</p>"; } ?>
+                        <?php if ($mensaje != "") { echo "<p class='small text-danger'>". $mensaje . "</p>"; } ?>
                         <form action="" method="POST" name="finscribirse">
                             <!-- Si el usuario es visitante, coloca este boton -->
                             <?php if (!isset($_SESSION["id_usuario"])): ?>
@@ -202,6 +202,9 @@
                             <!-- Sino si esta inscripto pero tiene un estado pendiente -->
                             <?php elseif (!empty($ins) && $ins["Estado_Tomo"] == 'pendiente'): ?>
                                 <button type="submit" name="pendiente" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Pendiente</button>
+                            <!-- Si ya se inscribio y fue rechazado -->
+                            <?php elseif (!empty($ins) && $ins["Estado_Tomo"] == 'rechazada'): ?>
+                                <button type="button" class="btn w-100 btn-secondary mt-auto" disabled>Inscripción Rechazada</button>
                             <!-- Sino, es porque esta logeado y no esta inscripto. -->
                             <?php else: ?>
                                 <button type="submit" name="inscribirse" value="1" class="btn w-100 mis-bgs-btns mt-auto text-light">Inscribirse</button>
@@ -225,10 +228,10 @@
                             <?php if ($datos_c["U_FotoDePerfil"] == "avatar_pordefecto.avif"): ?>
                                 <img src="<?php echo URL_BASE . "/Interfaz/Activos/avatar_pordefecto.avif"?>" alt="" class="rounded-circle me-3" style="width: 64px; height: 64px; object-fit: cover">
                             <?php else: ?>
-                                <img src="<?php echo URL_BASE . "/Subidos/Img/Usuario/" . $datos_c["U_FotoDePerfil"]; ?>" alt="" class="rounded-circle me-3" style="width: 64px; height: 64px; object-fit: cover">
+                                <img src="<?php echo URL_BASE . "/Subidos/Img/Usuarios/" . $datos_c["U_FotoDePerfil"]; ?>" alt="" class="rounded-circle me-3" style="width: 64px; height: 64px; object-fit: cover">
                             <?php endif; ?>
                             <div>
-                                <h6 class="fw-bold mb-0 mi-color-text"><?php echo $datos_c["U_Nom"]; ?></h6>
+                                <h6 class="fw-bold mb-0 mi-color-text"><?php echo $datos_c["U_Nom"] . " " . $datos_c["U_Ape"]; ?></h6>
                                 <small class="text-muted">Docente</small>
                             </div>
                         </div>

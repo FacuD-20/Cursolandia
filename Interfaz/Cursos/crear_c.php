@@ -19,6 +19,9 @@
     $cant_curs = $ubdd -> cantidad_cursos($_SESSION['id_usuario']);
     //Variable para mostrar un posible error.
     $mensaje_error = "";
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($_POST) && empty($_FILES) && $_SERVER["CONTENT_LENGTH"] > 0) {
+        $mensaje_error = "Los archivos superan el tamaño máximo permitido por el servidor.";
+    }
     //Arreglo de materiales
     $materiales = array();
     //Obtenemos los datos de entrada del usuario.
@@ -29,16 +32,19 @@
         if (!empty($_FILES["materiales"]["name"][0])) {
             //Obtenemos el numero de archivos.
             $long = count($_FILES["materiales"]["name"]);
-            //Bucle for para instanciar todos los materiles y agregarlos en el arreglo materiales.
+            /*Bucle for para instanciar todos los materiles y agregarlos en el arreglo materiales y 
+            Verificamos que ese archivo no tenga ningun error.*/
             for ($i = 0; $i < $long; $i ++) {
-                $nom_a = $_FILES["materiales"]["name"][$i];
-                $tipo_a = $_FILES["materiales"]["type"][$i];
-                $tam_a = $_FILES["materiales"]["size"][$i];
-                $rutatmp_a = $_FILES["materiales"]["tmp_name"][$i];
-                //Instanciamos
-                $m = new Material($nom_a,$tipo_a,$tam_a,$rutatmp_a);
-                //Agregamos el nuevo objeto al array
-                $materiales[] = $m;
+                if ($_FILES["materiales"]["error"][$i] === 0) {
+                    $nom_a = $_FILES["materiales"]["name"][$i];
+                    $tipo_a = $_FILES["materiales"]["type"][$i];
+                    $tam_a = $_FILES["materiales"]["size"][$i];
+                    $rutatmp_a = $_FILES["materiales"]["tmp_name"][$i];
+                    //Instanciamos
+                    $m = new Material($nom_a,$tipo_a,$tam_a,$rutatmp_a);
+                    //Agregamos el nuevo objeto al array
+                    $materiales[] = $m;
+                }
             }
         }
         //Verificamos si subio uno imagen
@@ -52,14 +58,21 @@
             //Si el usuario no subio ninguna imagen, queda la imagen por defecto
             $img = "imgcurso_pordefecto.png";
         }
-        //Instanciamos el objeto curso.
-        $c = new Curso($_SESSION["id_usuario"], $titulo, $descripcion, $fecha_inicio, $fecha_fin,
-        $img, $costo, $cupos, $sacceso, $materiales, $list_etiquetas);
-        //Intentamos insertar el curso en la base de datos
-        try {
-            $id_c = $cbdd -> crear_curso($c);
-        } catch (Exception $e) {
-            $mensaje_error = $e -> getMessage();
+        //Verificamos que la fechas coincidan.
+        if ($fecha_inicio > $fecha_fin) {
+            $mensaje_error = "La fecha de inicio no puede ser posterior a la fecha de fin.";
+        }
+        //Agreamos el curso solo si no hay ningun error previo
+        if ($mensaje_error == "") {
+            //Instanciamos el objeto curso.
+            $c = new Curso($_SESSION["id_usuario"], $titulo, $descripcion, $fecha_inicio, $fecha_fin,
+            $img, $costo, $cupos, $sacceso, $materiales, $list_etiquetas);
+            //Intentamos insertar el curso en la base de datos
+            try {
+                $id_c = $cbdd -> crear_curso($c);
+            } catch (Exception $e) {
+                $mensaje_error = $e -> getMessage();
+            }
         }
         /*Si no hay error, movemos la imagen a la carpeta /Subidos/Img/Cursos/ 
         Y Verificamos que no sea la predefinida */
@@ -81,7 +94,7 @@
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-4 gap-2">
                     <h2 class="fw-bold mi-color-text mb-0">Crear Nuevo Curso</h2>
                     <span class="badge mi-bg-grisazulado px-3 py-2 align-self-start align-self-sm-center">
-                        <?php if ($_SESSION['plan_usuario'] == 'gratuito'): ?>
+                        <?php if ($_SESSION['plan_usuario'] == 'Gratuito'): ?>
                         Cursos activos: <?php echo count($cant_curs); ?> / 3 (Plan Gratuito)
                         <?php else: ?>
                         Cursos activos: <?php echo count($cant_curs); ?> (Plan Pro)
@@ -97,7 +110,7 @@
                         <div class="row g-3">
                             <!-- Imagen del curso -->
                             <div class="col-12">
-                                <label for="img_curso" class="form-label fw-bold small mi-color-text">
+                                <label for="img" class="form-label fw-bold small mi-color-text">
                                     Imagen de Portada 
                                     <span class="text-muted fw-normal">(Opcional)</span>
                                 </label>
@@ -140,7 +153,7 @@
                                     Etiquetas
                                     <span class='text-muted fw-normal'>(Opcionales)</span>
                                 </label>
-                                <div class='d-flex col-4 row g-2'>
+                                <div class='d-flex flex-wrap gap-2'>
                                     <?php 
                                         foreach ($list as $e) {
                                             echo "
