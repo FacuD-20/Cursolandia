@@ -19,7 +19,7 @@
             //Ingresamos los datos del archivo
             $qry = "
                 INSERT INTO Materiales (C_ID_Adjunta,M_Nombre,M_Tipo,M_Tamano,M_Ruta)
-                VALUE ('$id_c','$nombre','$tipo','$tam','$nom_archguardado')
+                VALUES ('$id_c','$nombre','$tipo','$tam','$nom_archguardado')
             ";
             
             //Abrimos conexion
@@ -47,6 +47,15 @@
             }
             include RUTA_BASE . "/Persistencia/cerrar_c.php";
             return $lista;
+        }
+        public function agregar_archivo($id_c, $nombre, $ruta, $tipo, $tamano) {
+            include RUTA_BASE . "/Persistencia/conexion.php";
+            $qry = "
+                INSERT INTO Materiales (C_ID_Adjunta, M_Nombre, M_Ruta, M_Tipo, M_Tamano)
+                VALUES ('$id_c', '$nombre', '$ruta', '$tipo', '$tamano')
+            ";
+            mysqli_query($conexion, $qry);
+            include RUTA_BASE . "/Persistencia/cerrar_c.php";
         }
     }
 ?>
