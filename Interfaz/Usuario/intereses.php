@@ -58,7 +58,7 @@
                 <!-- Columna de titulo, imagen, logo, etc. -->
                 <div class="col-lg-6 d-none d-lg-flex mi-bg-grisazulado flex-column justify-content-start align-items-center">
                     <div class="w-100 px-5 mt-4 mb-5 text-start">
-                        <img src="<?php echo URL_BASE; ?>/Interfaz/Activos/Logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
+                        <img src="<?php echo URL_BASE; ?>/Interfaz/Activos/logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
                         <span class="text-white fw-bold ms-2 fs-4 align-middle">Cursolandia</span>
                     </div>
                     <div class="w-75 mt-3 text-center">
