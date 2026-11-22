@@ -6,6 +6,7 @@
     require_once RUTA_BASE . "/Persistencia/Consultas/RespuestaBD.php";
     require_once RUTA_BASE . "/Persistencia/Consultas/CursoBD.php";
     require_once RUTA_BASE . "/Persistencia/Consultas/MaterialesBD.php";
+    require_once RUTA_BASE . "/Persistencia/Consultas/InscripcionBD.php";
     //Iniciamos sesion y extraemos los nombres y los convertimos en variables
     session_start();
     extract($_POST);
@@ -20,6 +21,7 @@
     $rbdd = new RespuestaBD();
     $cbdd = new CursoBD();
     $mbdd = new MaterialesBD();
+    $ibdd = new InscripcionBD();
     //Verificamos que el usuario haya manadado el formulario
     if (isset($publicar_p) && $publicar_p == 1) {
         $p = new Pregunta($_SESSION["id_usuario"],$id_c,$titulo_p,$texto_p);
@@ -34,10 +36,67 @@
         header("Location: aula_c.php?id_c=" . $id_c);
         exit;
     }
-    //Listas y datos del curso
+    //Verificar si el usuario subio un nuevo material-
+    if (isset($subir_material) && $subir_material == 1) {
+        //Verificamos que no haya ningun error con respecto al archivo subido.
+        if (isset($_FILES["nuevo_archivo"]) && $_FILES["nuevo_archivo"]["error"] === 0) {
+            $nueva_r = RUTA_BASE . "/Subidos/Arch_c/";
+            $nombre = $_FILES["nuevo_archivo"]["name"];
+            $tipo = $_FILES["nuevo_archivo"]["type"];
+            $tamano = $_FILES["nuevo_archivo"]["size"];
+            $nuevo_nom = "curso_" . $id_c . "_" . time() . "_" . $nombre;
+            //Movemos el archivo para que no se borre.
+            if (move_uploaded_file($_FILES["nuevo_archivo"]["tmp_name"], $nueva_r . $nuevo_nom)) {
+                $mbdd -> agregar_archivo($id_c, $nombre, $nuevo_nom, $tipo, $tamano);
+            }
+        }
+        //Forzamos la actualizacion de la pag.
+        header("Location: aula_c.php?id_c=" . $id_c);
+        exit;
+    }
+    //Verificamos si el usuario acepto o rechazo inscripciones.
+    if (isset($actualizar_ins) && $actualizar_ins == 1) {
+        if ($estado_ins == 'confirmada' || $estado_ins == 'rechazada') {
+            $ibdd -> cambiar_estado($id_u_ins, $id_c, $estado_ins);
+        }
+        header("Location: aula_c.php?id_c=" . $id_c);
+        exit;
+    }
+    //Verificamos si el creador y docente destaco una pregunta
+    if (isset($destacar_p) && $destacar_p == 1) {
+        $pbdd -> destacar_pregunta($id_p);
+        header("Location: aula_c.php?id_c={$id_c}");
+        exit;
+    }
+    //Verificamos si el creador de una respuesta la edito
+    if (isset($guardar_edicion) && $guardar_edicion == 1) {
+        $rbdd -> editar_respuesta($id_r, $nuevo_texto);
+        header("Location: aula_c.php?id_c=" . $id_c);
+        exit;
+    }
+    //Accion para eliminar pregunta
+    if (isset($eliminar_p) && $eliminar_p == 1) {
+        $pbdd -> eliminar_pregunta($id_p);
+        header("Location: aula_c.php?id_c=" . $id_c);
+        exit;
+    }
+    // Marcar respuesta como aceptada y cerrar el tema
+    if (isset($aceptar_r) && $aceptar_r == 1) {
+        $rbdd -> marcar_aceptada($id_r, $id_p);
+        header("Location: aula_c.php?id_c=" . $id_c);
+        exit;
+    }
+    //Listas y datos del curso y creador
     $datos_c = $cbdd -> datos_curso($id_c);
     $lista_p = $pbdd -> listar_preguntas($id_c);
     $lista_a = $mbdd -> listar_archivos($id_c);
+    //Verificamos que el usuario sea el docente del curso
+    if ($datos_c["U_ID_Crea"] == $_SESSION["id_usuario"]) {
+        $es_docente = true;
+    } else {
+        $es_docente = false;
+    }
+    $lista_ip = $es_docente ? $ibdd -> inscripciones_pendientes_curso($id_c) : array();
 ?>
 
 <!doctype html>
@@ -88,7 +147,7 @@
                         <div>
                             <!-- Info del curso activo/inactivo -->
                             <div class="mb-2">
-                                <?php if ($datos_c["C_FDInicio"] < $datos_c["C_FDFin"]): ?>
+                                <?php if ($datos_c["C_FDFin"] >= date('Y-m-d')): ?>
                                 <span class="badge rounded-pill mi-bg-bronce">Curso Activo</span>
                                 <?php else: ?>
                                 <span class="badge rounded-pill mi-bg-bronce">Curso Inactivo</span>
@@ -100,6 +159,10 @@
                                 <i class="bi bi-calendar-range ms-2 me-1"></i>
                                 Activo: <?php echo "{$datos_c['C_FDInicio']} al {$datos_c['C_FDFin']}";?>
                             </p>
+                            <p class="text-muted small mb-0">
+                                <i class="bi bi-person-fill ms-2 me-1"></i>
+                                Creado Por: <?php echo "{$datos_c['U_Nom']} {$datos_c["U_Ape"]}";?>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -107,37 +170,92 @@
                 <div class="row g-4">
                     <!-- Card de Materiales adjuntos del curso -->
                     <div class="col-12 col-lg-3 d-none d-lg-block">
+                        <!-- Material -->
                         <div class="card border-0 shadow-sm rounded-4 p-4">
                             <!-- Encabezado -->
-                            <h5 class="fw-bold mi-color-text mb-3 border-bottom pb-2">
+                            <h5 class="fw-bold mi-color-text mb-1 border-bottom pb-2">
                                 <i class="bi bi-folder2-open me-2"></i>Material del Curso
                             </h5>
                             <!-- Lista de Archivos -->
-                            <div class="list-group list-group-flush">
-                                <?php
-                                    foreach ($lista_a as $archivo) {
-                                        if ($archivo["M_Tamano"] > 1 * 1024 * 1024) {
-                                            $tam = round($archivo["M_Tamano"] / 1024 / 1024, 2) . " MB";
-                                        } else {
-                                            $tam = round($archivo["M_Tamano"] / 1024, 1) . " KB";
-                                        }
-                                        echo "
+                            <?php if (empty($lista_a)):?>
+                                <p class="small text-muted mt-2 mb-0"> No se ha cargado ningun archivo.</p>
+                            <?php else: ?>
+                                <div class="list-group list-group-flush">
+                                    <?php
+                                        foreach ($lista_a as $a) {
+                                            if ($a["M_Tamano"] > 1 * 1024 * 1024) {
+                                                $tam = round($a["M_Tamano"] / 1024 / 1024, 2) . " MB";
+                                            } else {
+                                                $tam = round($a["M_Tamano"] / 1024, 1) . " KB";
+                                            }
+                                            $ruta_descarga = URL_BASE . "/Subidos/Arch_c/" . $a["M_Ruta"];
+                                            echo "
                                             <!-- Item -->
-                                            <a href='' class='list-group-item list-group-item-action d-flex 
-                                            justify-content-between align-items-center px-0 py-2 border-bottom'>
+                                            <a href='{$ruta_descarga}' download class='list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0 py-2'>
                                                 <div class='text-truncate me-2'>
                                                     <i class='bi bi-file-earmark-pdf text-danger me-2'></i>
-                                                    <span class='small fw-semibold'>{$archivo["M_Nombre"]}</span>
+                                                    <span class='small fw-semibold'>{$a["M_Nombre"]}</span>
                                                 </div>
-                                                <span class='badge bg-light text-muted border'>
+                                                <span class='badge bg-light text-muted border flex-shrink-0'>
                                                     {$tam}<i class='bi bi-download ms-1'></i>
                                                 </span>
                                             </a>
                                         ";
-                                    }
-                                ?>
-                            </div>
+                                        }
+                                    ?>
+                                </div>
+                            <?php endif; ?>
+                            <!-- Formulario para subir un nuevo archivo -->
+                            <?php if ($es_docente): ?>
+                                <form action="" method="POST" enctype="multipart/form-data" class="mt-3 pt-3 border-top">
+                                    <label for="nuevo_archivo" class="form-label small fw-bold mi-color-text mb-1">
+                                        <i class="bi bi-cloud-upload me-1"></i>Agregar Material
+                                    </label>
+                                    <input type="file" name="nuevo_archivo" id="nuevo_archivo" class="form-control form-control-sm mb-2" required>
+                                    <button type="submit" name="subir_material" value="1" class="btn btn-sm mis-bgs-btns text-light w-100 fw-bold">
+                                        Subir Archivo
+                                    </button>
+                                </form>
+                            <?php endif; ?>
                         </div>
+                        <!-- Panel de Inscripciones Pendientes -->
+                        <?php if ($es_docente && $datos_c["C_Costo"] > 0): ?>
+                            <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+                                <h5 class="fw-bold mi-color-text mb-3 border-bottom pb-2">
+                                    <i class="bi bi-person-check me-2"></i>Inscripciones Pendientes
+                                </h5>
+                                <?php if (empty($lista_ip)): ?>
+                                    <p class="text-muted small mb-0">No hay solicitudes pendientes en este curso.</p>
+                                <?php else: ?>
+                                    <div class="d-flex flex-column gap-3">
+                                        <?php foreach ($lista_ip as $ins): ?>
+                                            <div class="border rounded-3 p-3 bg-light">
+                                                <div class="fw-bold small mi-color-text">
+                                                    <?php echo htmlspecialchars($ins["U_Nom"] . " " . $ins["U_Ape"]); ?>
+                                                </div>
+                                                <div class="text-muted text-truncate mb-1" style="font-size: 0.78rem;">
+                                                    <?php echo htmlspecialchars($ins["U_Email"]); ?>
+                                                </div>
+                                                <div class="text-muted mb-2" style="font-size: 0.75rem;">
+                                                    <i class="bi bi-clock me-1"></i><?php echo $ins["Fecha_Tomo"]; ?>
+                                                </div>
+                                                <form action="" method="POST" class="d-flex gap-2">
+                                                    <input type="hidden" name="id_u_ins" value="<?php echo $ins["U_ID_Tomo"]; ?>">
+                                                    <select name="estado_ins" class="form-select form-select-sm">
+                                                        <option value="pendiente" selected>Pendiente</option>
+                                                        <option value="confirmada">Aceptar</option>
+                                                        <option value="rechazada">Rechazar</option>
+                                                    </select>
+                                                    <button type="submit" name="actualizar_ins" value="1" class="btn btn-sm mis-bgs-btns text-light fw-bold">
+                                                        Ok
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <!-- Contenido -->
                     <div class="col-12 col-lg-9 mb-4">
@@ -160,25 +278,46 @@
                                 <div class="list-group list-group-flush">
                                     <p class="text-muted small mb-3">Archivos disponibles para descargar:</p>
                                     <!-- Lista de Archivos -->
-                                    <div class="list-group list-group-flush">
-                                        <?php
-                                            foreach ($lista_a as $archivo) {
-                                                echo "
+                                    <?php if (empty($lista_a)):?>
+                                        <p class="small text-muted mt-2 mb-0"> No se ha cargado ningun archivo.</p>
+                                    <?php else: ?>
+                                        <div class="list-group list-group-flush">
+                                            <?php
+                                                foreach ($lista_a as $a) {
+                                                    if ($a["M_Tamano"] > 1 * 1024 * 1024) {
+                                                        $tam = round($a["M_Tamano"] / 1024 / 1024, 2) . " MB";
+                                                    } else {
+                                                        $tam = round($a["M_Tamano"] / 1024, 1) . " KB";
+                                                    }
+                                                    $ruta_descarga = URL_BASE . "/Subidos/Arch_c/" . $a["M_Ruta"];
+                                                    echo "
                                                     <!-- Item -->
-                                                    <a href='' class='list-group-item list-group-item-action d-flex 
-                                                    justify-content-between align-items-center px-0 py-2 border-bottom'>
+                                                    <a href='{$ruta_descarga}' download class='list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0 py-2'>
                                                         <div class='text-truncate me-2'>
                                                             <i class='bi bi-file-earmark-pdf text-danger me-2'></i>
-                                                            <span class='small fw-semibold'>{$archivo["M_Nombre"]}</span>
+                                                            <span class='small fw-semibold'>{$a["M_Nombre"]}</span>
                                                         </div>
-                                                        <span class='badge bg-light text-muted border'>
-                                                            {$archivo["M_Tamano"]}<i class='bi bi-download ms-1'></i>
+                                                        <span class='badge bg-light text-muted border flex-shrink-0'>
+                                                            {$tam}<i class='bi bi-download ms-1'></i>
                                                         </span>
                                                     </a>
                                                 ";
-                                            }
-                                        ?>
-                                    </div>                                
+                                                }
+                                            ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <!-- Formulario para subir un nuevo archivo -->
+                                    <?php if ($es_docente): ?>
+                                        <form action="" method="POST" enctype="multipart/form-data" class="mt-3 pt-3 border-top">
+                                            <label for="nuevo_archivo" class="form-label small fw-bold mi-color-text mb-1">
+                                                <i class="bi bi-cloud-upload me-1"></i>Agregar Material
+                                            </label>
+                                            <input type="file" name="nuevo_archivo" id="nuevo_archivo" class="form-control form-control-sm mb-2" required>
+                                            <button type="submit" name="subir_material" value="1" class="btn btn-sm mis-bgs-btns text-light w-100 fw-bold">
+                                                Subir Archivo
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>           
                                 </div>
                             </div>
                         </div>
@@ -222,6 +361,25 @@
                                     //Utilizamos el operador "?"
                                     $cartel_des = ($p["P_Destacada"] == 1) ? "<span class='badge mi-bg-bronce'><i class='bi bi-pin-angle-fill me-1'></i>Destacada</span>" : "";
                                     $cartel_cerr = ($p["P_Cerrada"] == 1) ? "<span class='badge bg-secondary'><i class='bi bi-lock-fill me-1'></i>Cerrada</span>" : "";
+                                    $bton_destacar = "";
+                                    $bton_eliminar = "";
+                                    if ($es_docente) {
+                                        $text_destacar = ($p["P_Destacada"] == 1) ? "Quitar destacado" : "Destacar";
+                                        $bton_destacar = "
+                                        <form action='' method='POST' class='d-inline'>
+                                            <input type='hidden' name='id_p' value='{$p['P_ID']}'>
+                                            <button type='submit' name='destacar_p' value='1' class='btn btn-sm btn-outline-success py-0' style='font-size: 0.75rem;'>
+                                                <i class='bi bi-pin-angle me-1'></i>{$text_destacar}
+                                            </button>
+                                        </form>";
+                                        $bton_eliminar = "
+                                        <form action='' method='POST' class='d-inline' onsubmit=\"return confirm('¿Seguro que querés eliminar esta pregunta?');\">
+                                            <input type='hidden' name='id_p' value='{$p['P_ID']}'>
+                                            <button type='submit' name='eliminar_p' value='1' class='btn btn-sm btn-outline-danger py-0' style='font-size: 0.75rem;'>
+                                                <i class='bi bi-trash me-1'></i>Eliminar
+                                            </button>
+                                        </form>";
+                                    }
                                     //imprimimos todas las preguntas
                                     echo "
                                     <!-- Pregunta -->
@@ -240,6 +398,8 @@
                                             <div class='d-flex gap-1'>
                                                 {$cartel_des}
                                                 {$cartel_cerr}
+                                                {$bton_destacar}
+                                                {$bton_eliminar}
                                             </div>
                                         </div>
                                         <!-- Consulta -->
@@ -256,16 +416,36 @@
                                                     Respuesta Aceptada
                                                 </span>" : "";
                                                 $borde_acep  = ($r["R_Aceptada"] == 1) ? "border-start border-4 border-success" : "";
-                                                //Boton para el dueño de la pregunta la marque como aceptada
-                                                $marcar_acep = ($p["U_ID_Inicia"] == $_SESSION["id_usuario"] && $p["P_Cerrada"] != 1) ?
-                                                "<button type='button' class='btn btn-sm btn-outline-success py-0' style='font-size: 0.75rem;'>
-                                                    Marcar como Aceptada
-                                                </button>" : "";
+                                                /*Boton para el dueño de la pregunta la marque como aceptada, se envien los id de respuesta y pregunta 
+                                                */
+                                                $marcar_acep = (($p["U_ID_Inicia"] == $_SESSION["id_usuario"] || $es_docente) && $p["P_Cerrada"] != 1) ?
+                                                "<form action='' method='POST' class='d-inline'>
+                                                    <input type='hidden' name='id_r' value='{$r['R_ID']}'>
+                                                    <input type='hidden' name='id_p' value='{$p['P_ID']}'>
+                                                    <button type='submit' name='aceptar_r' value='1' class='btn btn-sm btn-outline-success py-0' style='font-size: 0.75rem;'>
+                                                        <i class='bi bi-check2-circle me-1'></i>Marcar como Aceptada
+                                                    </button>
+                                                </form>" : "";
                                                 //Boton para que el dueño de la respuesta la pueda editar
-                                                $editar_r = ($r["U_ID_Realiza"] == $_SESSION["id_usuario"]) ?
-                                                "<button type='button' class='btn btn-sm btn-outline-secondary py-0' style='font-size: 0.75rem;'>
-                                                    <i class='bi bi-pencil me-1'></i>Editar mi respuesta
-                                                </button>" : "";
+                                                $editar_r = "";
+                                                $form_editar = "";
+                                                if ($r["U_ID_Realiza"] == $_SESSION["id_usuario"] && $p["P_Cerrada"] != 1) {
+                                                    $texto_seguro = htmlspecialchars($r["R_Texto"], ENT_QUOTES);
+                                                    $editar_r = "
+                                                    <button type='button' class='btn btn-sm btn-outline-secondary py-0' style='font-size: 0.75rem;' data-bs-toggle='collapse' data-bs-target='#edit_{$r['R_ID']}'>
+                                                        <i class='bi bi-pencil me-1'></i>Editar mi respuesta
+                                                    </button>";
+                                                    $form_editar = "
+                                                    <div class='collapse mt-2' id='edit_{$r['R_ID']}'>
+                                                        <form action='' method='POST'>
+                                                            <div class='input-group input-group-sm'>
+                                                                <input type='hidden' name='id_r' value='{$r['R_ID']}'>
+                                                                <input type='text' name='nuevo_texto' class='form-control' value='{$texto_seguro}' required>
+                                                                <button type='submit' name='guardar_edicion' value='1' class='btn mis-bgs-btns text-light fw-bold'>Guardar</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>";
+                                                }
                                                 //Imprimir las respuestas con todas las variables cargadas segun que pregunta y que usuario
                                                 echo "
                                                 <!-- Respuesta -->
@@ -282,20 +462,30 @@
                                                         {$marcar_acep}
                                                         {$editar_r}
                                                     </div>
+                                                    {$form_editar}
                                                 </div>";
                                             }
-                                echo    "</div>
-                                        <!-- Formulario para responder una consulta -->
-                                        <form action='' method='POST' name='frespuesta' class='needs-validation' novalidate>
-                                            <div class='input-group input-group-sm'>
-                                                <input type='hidden' name='id_p' value='{$p["P_ID"]}'>
-                                                <input type='text' name='respuesta' class='form-control' placeholder='Escribir una respuesta...' required>
-                                                <button name='publicar_r' value='1' class='btn mis-btns-bg-bronce text-light fw-bold px-3' type='submit'>
-                                                    Responder
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>";
+                                echo   "</div>";
+                                        //Formulario para responder una consulta 
+                                        //Obtenemos la ultima respuesta y coomparamos si el usuario logeado la realizo.
+                                        $ultima_r = !empty($lista_r) ? end($lista_r) : null;
+                                        $fue_ultimo = ($ultima_r && $ultima_r["U_ID_Realiza"] == $_SESSION["id_usuario"]);
+                                        //Si la pregunta fue cerrada, mostramos un cartel que lo indique
+                                        if ($p["P_Cerrada"] == 1) {
+                                            echo "<div class='small text-muted fst-italic'><i class='bi bi-lock-fill me-1'></i>Este tema fue cerrado con una respuesta aceptada.</div>";
+                                        } elseif ($fue_ultimo) { //Sino si el usuario logeado fue el ultimo en realizar la respuesta, no lo deja responder devuelta.
+                                            echo "<div class='small text-muted fst-italic'><i class='bi bi-info-circle me-1'></i>Ya enviaste la última respuesta. Podés editarla o esperar otra participación.</div>";
+                                        } else { //Sino habilitamos el formulario para que le usuario pueda responder.
+                                            echo "
+                                            <form action='' method='POST' name='frespuesta' class='needs-validation' novalidate>
+                                                <div class='input-group input-group-sm'>
+                                                    <input type='hidden' name='id_p' value='{$p["P_ID"]}'>
+                                                    <input type='text' name='respuesta' class='form-control' placeholder='Escribir una respuesta...' required>
+                                                    <button name='publicar_r' value='1' class='btn mis-btns-bg-bronce text-light fw-bold px-3' type='submit'>Responder</button>
+                                                </div>
+                                            </form>";
+                                        }
+                                echo "</div>";
                                 }
                             }
                         ?>  
