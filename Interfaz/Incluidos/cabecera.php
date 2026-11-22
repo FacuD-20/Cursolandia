@@ -61,8 +61,6 @@
                                         <h6 class="mb-0 fw-bold">¡Hola, <?php echo $_SESSION["nombre_usuario"]; ?>!</h6>
                                         <span class="badge mi-bg-bronce text-light text-uppercase"><?php echo $_SESSION["rol_usuario"];?></span>
                                     </div>
-                                    <!-- Boton de notificaciones -->
-                                    <a href="#" class="text-light ms-auto fs-4"><i class="bi bi-bell"></i></a>
                                 </div>
                                 <div class="d-flex gap-2 mb-2">
                                     <!-- Botones de Mi perfil y Salir -->
@@ -118,10 +116,6 @@
                                 <?php if ($_SESSION["rol_usuario"] == "admin"): ?>
                                     <a href="<?php echo URL_BASE . "/Interfaz/Usuario/panel_admin.php" ;?>" class="btn btn-sm btn-outline-light">Panel de Administracion</a>
                                 <?php endif; ?>
-                                <!-- Boton de notificaciones -->
-                                <a href="#" class="text-light fs-5 position-relative">
-                                    <i class="bi bi-bell"></i>
-                                </a>
                                 <!-- Dropdwon del perfil del usuario con su nombre y foto -->
                                 <div class="dropdown me-2">
                                     <a class="d-flex align-items-center text-light text-decoration-none dropdown-toggle me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
