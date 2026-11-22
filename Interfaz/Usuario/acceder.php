@@ -78,7 +78,7 @@
                     <!-- header para celular -->
                     <div class="d-lg-none position-absolute top-0 start-0 w-100 p-3 mi-bg-grisazulado shadow-sm d-flex align-items-center">
                         <a href="<?php echo URL_BASE;?>/index.php" class="navbar-brand">
-                            <img src="<?php echo URL_BASE; ?>/Interfaz/Activos/logo cursolandia.png" alt="Logo" style="max-height: 40px;">
+                            <img src="<?php echo URL_BASE; ?>/Interfaz/Activos/logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
                             <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
                         </a>
                     </div>

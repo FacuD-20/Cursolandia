@@ -1,7 +1,7 @@
 <?php
     require_once __DIR__ . "/../../carga.php";
     require_once RUTA_BASE . "/Logica/Curso.php";
-    require_once RUTA_BASE . "/Persistencia/Consultas/C_E_Tiene.php";
+    require_once RUTA_BASE . "/Persistencia/Consultas/C_E_tiene.php";
     require_once RUTA_BASE . "/Persistencia/Consultas/MaterialesBD.php";
     require_once RUTA_BASE . "/Persistencia/Consultas/UsuarioBD.php";
 
