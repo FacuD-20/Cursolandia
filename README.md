@@ -19,6 +19,7 @@ Instalación y Configuración
         Verifique las credenciales de acceso a su base de datos en `Persistencia/conexion.php`.
     3_Verificar las Rutas Base:
         El archivo `carga.php` detecta automáticamente si el sistema corre en entorno local (`/Cursolandia`) o en servidor de producción, utilizando `__DIR__` para `RUTA_BASE`. Si en su equipo usa otro nombre de carpeta, ajuste la constante `URL_BASE` en `carga.php`.
+        Tambien, en configuracion copy.php elimine el copy (queda asi: configuracion.php) y configure las consutantes con los datos de su phpmyadmin.
     4_Iniciar el servidor:
         Encienda los servicios de Apache y MySQL desde el panel de control de XAMPP.
         Ingrese a su navegador en: http://localhost/Cursolandia/index.php.
