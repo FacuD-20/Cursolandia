@@ -46,14 +46,6 @@
                         <img src="<?php echo URL_BASE; ?>/Interfaz/Activos/logo Cursolandia.png" alt="Logo" style="max-height: 40px;">
                         <span class="text-white fw-bold ms-2 fs-5">Cursolandia</span>
                     </a>
-                    <!-- Pantalla para celular -->
-                    <!-- Buscador -->
-                    <form class="d-lg-none d-flex flex-grow-1 mx-2" role="search">
-                        <div class="input-group">
-                            <input class="form-control" type="search" placeholder="Buscar por título o etiqueta..." aria-label="Buscar"/>
-                            <button class="btn btn-light me-2" type="submit"><i class="bi bi-search"></i></button>
-                        </div>
-                    </form>
                     <!--Boton Hamburgesa-->
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -72,11 +64,15 @@
                                     <!-- Boton de notificaciones -->
                                     <a href="#" class="text-light ms-auto fs-4"><i class="bi bi-bell"></i></a>
                                 </div>
-                                <div class="d-flex gap-2">
+                                <div class="d-flex gap-2 mb-2">
                                     <!-- Botones de Mi perfil y Salir -->
                                     <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/perfil.php" class="btn mi-btn-i w-50">Mi Perfil</a>
                                     <a href="<?php echo URL_BASE;?>/Logica/cerrar_s.php" class="btn mi-btn-r w-50">Cerrar Sesion</a>
                                 </div>
+                                <!-- Boton para administrador -->
+                                <?php if ($_SESSION["rol_usuario"] == "admin"): ?>
+                                    <a href="<?php echo URL_BASE . "/Interfaz/Usuario/panel_admin.php" ;?>" class="btn btn-sm btn-outline-light">Panel de Administracion</a>
+                                <?php endif; ?>
                             </div>
                         <!-- Apartado para los usuarios visitantes Celular -->
                         <?php else: ?>
@@ -101,15 +97,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="<?php echo URL_BASE;?>/Interfaz/Cursos/catalogo.php"><i class="bi bi-book me-2"></i>Cursos</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Categorías
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Programación</a></li>
-                                    <li><a class="dropdown-item" href="#">Diseño Grafico</a></li>
-                                </ul>
-                            </li>
+                            <?php if (isset($_SESSION["id_usuario"])): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo URL_BASE;?>/Interfaz/Cursos/crear_c.php"><i class="bi bi-patch-plus me-2"></i></i>Crear Cursos</a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                         <!-- Barra de busqueda para Pantallas >= lg -->
                         <form action="<?php echo URL_BASE . "/Interfaz/Cursos/catalogo.php"; ?>" method="GET" class="d-none d-lg-flex flex-grow-1 mx-3" role="search">
@@ -124,7 +116,7 @@
                             <div class="d-none d-lg-flex ms-auto align-items-center gap-3">
                                 <!-- Boton ponel de administracion solo para lo que son administradores -->
                                 <?php if ($_SESSION["rol_usuario"] == "admin"): ?>
-                                    <a href="" class="btn btn-sm btn-outline-light">Panel de Administracion</a>
+                                    <a href="<?php echo URL_BASE . "/Interfaz/Usuario/panel_admin.php" ;?>" class="btn btn-sm btn-outline-light">Panel de Administracion</a>
                                 <?php endif; ?>
                                 <!-- Boton de notificaciones -->
                                 <a href="#" class="text-light fs-5 position-relative">
@@ -136,7 +128,6 @@
                                         <span><?php echo $_SESSION["nombre_usuario"]?></span>
                                         <img src="<?php echo $rutafp?>" alt="Avatar" class="rounded-circle ms-2" style="width: 35px; height: 35px; object-fit: cover;">
                                     </a>
-
                                     <ul class="dropdown-menu dropdown-menu-end me-1">
                                         <li><a class="dropdown-item" href="<?php echo URL_BASE; ?>/Interfaz/Usuario/perfil.php">Mi Perfil</a></li>
                                         <li><hr class="dropdown-divider"></li>
@@ -151,6 +142,15 @@
                                 <a href="<?php echo URL_BASE;?>/Interfaz/Usuario/registrarse.php" class="btn mi-btn-r">Registrarse</a>
                             </div>
                         <?php endif; ?>
+                        <!-- Pantalla para celular -->
+                        <!-- Buscador -->
+                        <form action="<?php echo URL_BASE . "/Interfaz/Cursos/catalogo.php"; ?>" method="GET" class="d-lg-none d-flex flex-grow-1 mt-2 m-2" role="search">
+                            <div class="input-group">
+                                <input name="buscar" value="<?php echo (isset($_GET["buscar"])) ? htmlspecialchars($_GET["buscar"]) : ""; ?>" 
+                                class="form-control" type="search" placeholder="Buscar por título o etiqueta..." aria-label="Buscar"/>
+                                <button class="btn btn-light me-2" type="submit"><i class="bi bi-search"></i></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </nav>
