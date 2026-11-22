@@ -1,6 +1,6 @@
 #Archivo de configuracion (Donde habitan los datos para la conexion con SQL)
 /Persistencia/configuracion.php
-
+cursolandia web.sql
 # Archivos del editor y del sistema operativo
 .DS_Store
 Thumbs.db
